@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>עורך תוכן (דמוי אתר) - עם פאנלי עיצוב</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="./lib/short.js"></script>
+    <!--script src="./load.js"></script-->
+</head>
+
+<body>
+
+    <div id="main-nav" class="main-nav"></div>
+
+    <div id="toolbar" class="toolbar"></div>
+
+    <div class="main-area">
+
+        <div class="editor-container">
+            <div id="editor" class="document-page" contenteditable="true" spellcheck="true">
+                <h1>כותרת האתר/מסמך שלך</h1>
+                <p>כעת תפריט "עיצוב" פותח הגדרות מתקדמות בסרגל הצד.</p>
+                <hr>
+                <p>נסו לבחור טקסט ולפתוח את פאנל "צבעים וגופנים" בתפריט עיצוב.</p>
+            </div>
+        </div>
+
+        <div id="sidebarLeft" class="sidebar-left-complex">
+
+            <div
+                style="display: flex; justify-content: left; align-items: center; padding-bottom: 5px; margin-bottom: 10px;">
+                <!--h3>סרגל צד (הגדרות)</h3-->
+                <button id="toggleTree" style="background: #f5f5f5; font-size: larger; border: none; cursor: pointer;"
+                    title="פתח עץ אלמנטים">
+                    &#127795;
+                </button>
+            </div>
+
+            <div id="treeContainer"
+                style="display: none; padding: 5px; background: #fff; border: 1px solid #eee; min-height: 200px; overflow-y: auto;">
+                <h4>מבנה האלמנטים ($`Body`$)</h4>
+            </div>
+            <div id="edit-panel">
+                <div id="panel-default" class="design-panel" style="display: block;">
+                    <p style="font-size: 13px; color: #777;">בחר אפשרות מתוך תפריט "עיצוב" כדי לטעון הגדרות כאן.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./consts.js"></script>
+    <script src="./servises.js"></script>
+    <script src="./nav/nav_maneger.js"></script>
+    <script src="./toolbar/toolbar_maneger.js"></script>
+    <script src="./panels/tree/tree_maneger.js"></script>
+    <script src="./panels/colors_and_fonts/design_maneger.js"></script>
+    <script src="./panels/borders/borders_maneger.js"></script>
+    <script src="./panels/view_and_position/view_maneger.js"></script>
+    <script src="./script.js"></script>
+    <script src="./panels/panel_maneger.js"></script>
+</body>
+
+</html>
