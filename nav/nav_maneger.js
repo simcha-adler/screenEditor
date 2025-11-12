@@ -45,8 +45,11 @@ const htmlNav = `
 <div class="nav-item" id="design-nav">
     <button class="nav-button">עיצוב</button>
     <div class="dropdown-menu" id="design-menu-items">
-        <div class="dropdown-item" data-panel="colors">צבעים וגופנים</div>
+        <div class="dropdown-item" data-panel="design">צבעים וגופנים</div>
         <div class="dropdown-item" data-panel="borders">גבולות ורווחים(Borders)</div>
+        <div class="dropdown-item" data-panel="position">גודל ומיקום</div>
+        <div class="dropdown-item" data-panel="view">תצוגה</div>
+        <div class="dropdown-item" data-panel="layout">פריסה</div>
     </div>
 </div>`
 
@@ -55,26 +58,27 @@ const navItems = $$('.nav-item');
 
 
 function closeNavs() {
-    navItems.forEach(item => {
-        item.removeClass('active');
-    });
+    if (openedMenu)
+        openedMenu.removeClass('active');
+    openedMenu = null;
 };
 
 
 navItems.forEach(item => {
-    const button = item.querySelector('.nav-button');
+    const button = item.$1('.nav-button');
     button.whenClick((event) => {
-        const wasActive = item.classList.contains('active');
-        closeNavs();
-        if (!wasActive) {
+        const opened = item === openedMenu;
+        closeNavs()
+        if (!opened) {
             item.addClass('active');
+            openedMenu = item;
         }
         event.stopPropagation();
     });
 });
 
 // --- לוגיקה של תפריט "עריכה" ---
-$('#edit-menu-items').whenClick((e) => {
+$('edit-menu-items').whenClick((e) => {
     const action = e.target.dataset.action;
     if (action) {
         applyEditorCommand(action);
@@ -82,7 +86,7 @@ $('#edit-menu-items').whenClick((e) => {
 });
 
 // --- לוגיקה של תפריט "אלמנטים" ---
-$('#elements-menu-items').whenClick((e) => {
+$('elements-menu-items').whenClick((e) => {
     const action = e.target.id || e.target.dataset.action;
     editor.focus();
     switch (action) {
@@ -122,20 +126,26 @@ $('#elements-menu-items').whenClick((e) => {
 });
 
 // --- לוגיקה של תפריט "קובץ" ---
-$('#newDoc').whenClick(() => {
+$('newDoc').whenClick(() => {
     if (confirm('האם אתה בטוח שברצונך להתחיל מסמך חדש? השינויים הנוכחיים לא יישמרו.')) {
         editor.innerHTML = '<h1>מסמך חדש</h1><p>התחל לכתוב...</p>';
     }
 });
-$('#saveDoc').whenClick(() => {
+$('saveDoc').whenClick(() => {
     alert('המסמך נשמר מקומית בדפדפן (פונקציונליות LocalStorage דורשת הטמעה).');
 });
-$('#downloadHTML').whenClick(() => {
+$('downloadHTML').whenClick(() => {
     const htmlContent = editor.outerHTML;
     const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
-    const link = document.createElement('a');
+    const link = createElement('a', {
+        attrs: {
+            href: URL.createObjectURL(blob),
+            download: 'המסמך_שלי.html'
+        }
+    })
+    /*const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = 'המסמך_שלי.html';
+    link.download = 'המסמך_שלי.html';*/
     link.click();
     URL.revokeObjectURL(link.href);
     alert('המסמך הורד כקובץ HTML.');
@@ -143,10 +153,10 @@ $('#downloadHTML').whenClick(() => {
 
 
 // --- לוגיקה של תפריט "תצוגה" ---
-$('#toggleToolbar').whenClick(() => {
+$('toggleToolbar').whenClick(() => {
     toolbar.style.display = toolbar.style.display === 'none' ? 'flex' : 'none';
 });
-$('#fullscreen').whenClick(() => {
+$('fullscreen').whenClick(() => {
     if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen().catch(err => {
             alert(`שגיאה במעבר למסך מלא: ${err.message}`);
@@ -155,7 +165,7 @@ $('#fullscreen').whenClick(() => {
         document.exitFullscreen();
     }
 });
-$('#toggleSidebar').whenClick(() => {
+$('toggleSidebar').whenClick(() => {
     sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';
 });
 

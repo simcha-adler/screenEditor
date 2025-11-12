@@ -1,25 +1,26 @@
-function replacePanel(panelId) {
-    treeContainer.style.display = 'none';
-    toggleTree.innerHTML = '&#127795;';
-    updateSelectedElement();
+function loadPanel(panelName) {
 
-    if (panelId === 'panel-borders')
-        borderPanel();
-    if (panelId === 'panel-colors')
-        designPanel();
+    if (panelName === 'panel-borders') {
+        loadBorderPanel();
+    } else if (panelName === 'panel-design') {
+        loadDesignPanel();
+    } else {
+        return false;
+    }
+    return true;
 }
 
-function restartPanel(panelId) {
-    if (panelId === 'panel-borders')
+function restartPanel(panelName) {
+    if (!panelName) return;
+
+    if (panelName === 'panel-borders')
         fillCorrectBorders();
-    if (panelId === 'panel-colors')
+    else if (panelName === 'panel-design')
         fillCorrectDesign();
 }
 
-
-$('#design-menu-items').whenClick((e) => {
-    const panelId = "panel-" + e.target.dataset.panel;
-    if (panelId) {
-        replacePanel(panelId);
-    }
-});
+function loadDefaultPanel() {
+    editPanel.innerHTML = `<div id="panel-default" class="design-panel" style="display: block;">
+        <p style="font-size: 13px; color: #777;">בחר אפשרות מתוך תפריט "עיצוב" כדי לטעון כאן הגדרות.</p>
+        </div>`;
+}

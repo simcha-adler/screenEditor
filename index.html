@@ -15,16 +15,18 @@
 
     <div id="main-nav" class="main-nav"></div>
 
+
     <div id="toolbar" class="toolbar"></div>
+
 
     <div class="main-area">
 
         <div class="editor-container">
-            <div id="editor" class="document-page" contenteditable="true" spellcheck="true">
-                <h1>כותרת האתר/מסמך שלך</h1>
-                <p>כעת תפריט "עיצוב" פותח הגדרות מתקדמות בסרגל הצד.</p>
+            <div id="דף הבסיס" class="document-page" contenteditable="true" spellcheck="false">
+                <h1 id="כותרת לדוגמא">כותרת האתר/מסמך שלך</h1>
+                <p id="פסקה לדוגמא 1">כעת תפריט "עיצוב" פותח הגדרות מתקדמות בסרגל הצד.</p>
                 <hr>
-                <p>נסו לבחור טקסט ולפתוח את פאנל "צבעים וגופנים" בתפריט עיצוב.</p>
+                <p id="פסקה לדוגמא 2">נסו לבחור טקסט ולפתוח את פאנל "צבעים וגופנים" בתפריט עיצוב.</p>
             </div>
         </div>
 
@@ -33,6 +35,22 @@
             <div
                 style="display: flex; justify-content: left; align-items: center; padding-bottom: 5px; margin-bottom: 10px;">
                 <!--h3>סרגל צד (הגדרות)</h3-->
+                <div class="" id="selectedElement">
+                    <label for="selectedElement">
+                        <span>האלמנט הנבחר</span>
+                        <input type="text" name="theElement" id="theElement" placeholder="">
+                    </label>
+                </div>
+                <div class="" id="edit-to-state">
+                    <label for="edit-to-state">
+                        <span>עריכה למצב:</span>
+                        <select name="dropdown-states" id="dropdown-states">
+                            <option value="">בסיסי</option>
+                            <option value="hover">מעבר עכבר</option>
+                            <option value="focus">מיקוד</option>
+                        </select>
+                    </label>
+                </div>
                 <button id="toggleTree" style="background: #f5f5f5; font-size: larger; border: none; cursor: pointer;"
                     title="פתח עץ אלמנטים">
                     &#127795;
@@ -43,11 +61,11 @@
                 style="display: none; padding: 5px; background: #fff; border: 1px solid #eee; min-height: 200px; overflow-y: auto;">
                 <h4>מבנה האלמנטים ($`Body`$)</h4>
             </div>
-            <div id="edit-panel">
-                <div id="panel-default" class="design-panel" style="display: block;">
-                    <p style="font-size: 13px; color: #777;">בחר אפשרות מתוך תפריט "עיצוב" כדי לטעון הגדרות כאן.</p>
-                </div>
-            </div>
+
+
+            <div id="edit-panel"></div>
+
+
         </div>
     </div>
 
@@ -59,8 +77,10 @@
     <script src="./panels/colors_and_fonts/design_maneger.js"></script>
     <script src="./panels/borders/borders_maneger.js"></script>
     <script src="./panels/view_and_position/view_maneger.js"></script>
-    <script src="./script.js"></script>
     <script src="./panels/panel_maneger.js"></script>
+    <script src="./listeners.js"></script>
+    <script src="./script.js"></script>
+    <script src="./threds.js"></script>
 </body>
 
 </html>

@@ -37,7 +37,7 @@ body {
     display: none;
     position: absolute;
     top: 100%;
-    right: 0;
+    right: -4px;
     background-color: #ffffff;
     border: 1px solid #ccc;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -45,10 +45,12 @@ body {
     padding: 5px 0;
     min-width: 180px;
     text-align: right;
+    border-radius: 3px;
 }
 
 .nav-item.active .dropdown-menu {
     display: block;
+    /* transition: display 10s; */
 }
 
 .dropdown-item {
@@ -95,6 +97,13 @@ body {
 
 .toolbar button:hover {
     background-color: #e6e6e6;
+}
+
+
+.toolbar button.active {
+    background-color: #dbdbdb;
+    border-color: #ccc;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /* --- סוף Nav Bar & Toolbar --- */

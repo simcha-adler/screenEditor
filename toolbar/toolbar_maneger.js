@@ -15,43 +15,64 @@ const htmlToolbar = `<button data-action="bold" title="מודגש"><b>B</b></but
 </select>`
 
 toolbar.innerHTML = htmlToolbar;
-//alert(toolbar);
 
 toolbar.whenClick((e) => {
     const button = e.target.closest('button');
     if (!button) return;
     const action = button.dataset.action;
     if (!action) return;
+
     editor.focus();
 
-    switch (action) {
-        case 'bold':
-            wrapSelection('b', 'fontWeight', 'bold');
-            break;
-        case 'italic':
-            wrapSelection('i', 'fontStyle', 'italic');
-            break;
-        case 'underline':
-            wrapSelection('u', 'textDecoration', 'underline');
-            break;
+    // שימוש בפקודה המובנית שיודעת לטפל ב-Toggle (הוספה/הסרה)
+    applyEditorCommand(action);
 
-        case 'justifyRight':
-        case 'justifyCenter':
-        case 'justifyLeft':
-            // עדיין משתמש ב-execCommand. נוכל לשדרג את זה בהמשך.
-            applyEditorCommand(action);
-            updateSelectedElement(getSelectedElement());
-            break;
-
-        case 'insertUnorderedList':
-        case 'insertOrderedList':
-            applyEditorCommand(action);
-            break;
-    }
+    // עדכון מיידי של מצב הכפתורים לאחר הלחיצה
+    updateToolbarButtonStates();
 });
 
 // --- לוגיקה של סרגל הכלים (Toolbar) ---
 
-$('#formatBlock').when('change', (e) => {
+$('formatBlock').when('change', (e) => {
     changeBlockTag(e.target.value);
 });
+
+/**
+ * פונקציה חדשה שבודקת את מצב העורך ומדגישה/מבטלת הדגשה
+ * של כפתורי סרגל הכלים.
+ */
+function updateToolbarButtonStates() {
+    // רשימת הפקודות שברצוננו לבדוק
+    const commands = [
+        'bold',
+        'italic',
+        'underline',
+        'justifyRight',
+        'justifyCenter',
+        'justifyLeft',
+        'insertUnorderedList',
+        'insertOrderedList'
+    ];
+
+    commands.forEach(command => {
+        const button = $1(`#toolbar button[data-action="${command}"]`);
+        if (button) {
+            try {
+                // document.queryCommandState בודק אם הפקודה פעילה כרגע במיקום הסמן
+                const isActive = document.queryCommandState(command);
+                button.classList.toggle('active', isActive);
+            } catch (error) {
+                console.error(`Error querying state for command: ${command}`, error);
+            }
+        }
+    });
+
+    // טיפול מיוחד ב-formatBlock (רשימת ה-select)
+    const formatSelect = $('formatBlock');
+    if (formatSelect) {
+        // queryCommandValue מחזיר את סוג הבלוק הנוכחי (למשל 'h1', 'p')
+        let blockTag = document.queryCommandValue('formatBlock').toLowerCase();
+        if (blockTag === 'div' || blockTag === '') blockTag = 'p'; // Normalization
+        formatSelect.value = blockTag;
+    }
+}

@@ -41,38 +41,30 @@ const htmlDesign = `<div id="panel-colors" class="design-panel" style="display: 
     </div>
 </div>`;
 
-function designPanel() {
+function loadDesignPanel() {
     editPanel.innerHTML = htmlDesign;
-    $('#gradientBtn').whenClick(toggleGradient);
     fillCorrectDesign();
 }
 
 function fillCorrectDesign() {
     // --- 1. עדכון פאנל צבע וטיפוגרפיה ---
-    const colorInput = $('#colorInput');
-    const bgColorInput = $('#bgColorInput');
-    const fontSizeInput = $('#fontSizeInput');
-    const fontFamilyInput = $('#fontFamilyInput');
+    const colorInput = $('colorInput');
+    const bgColorInput = $('bgColorInput');
+    const fontSizeInput = $('fontSizeInput');
+    const fontFamilyInput = $('fontFamilyInput');
 
-    if (colorInput) colorInput.value = rgbToHex(styles.color);
-    if (bgColorInput) bgColorInput.value = rgbToHex(styles.backgroundColor);
-    if (fontSizeInput) fontSizeInput.value = parseInt(styles.fontSize, 10);
+    if (colorInput) colorInput.value = rgbToHex(theStyles.color);
+    if (bgColorInput) bgColorInput.value = rgbToHex(theStyles.backgroundColor);
+    if (fontSizeInput) fontSizeInput.value = parseInt(theStyles.fontSize, 10);
     if (fontFamilyInput) {
-        const mainFont = styles.fontFamily.split(',')[0].replace(/"/g, '').trim();
+        const mainFont = theStyles.fontFamily.split(',')[0].replace(/"/g, '').trim();
         let found = Array.from(fontFamilyInput.options).find(opt => opt.value.includes(mainFont));
         fontFamilyInput.value = found ? found.value : 'Arial, sans-serif';
     }
 }
 
 function toggleGradient() {
-    const gradient = $('#gradientDiv')
-    if (gradient.style.display === 'block')
-        gradient.style.display = 'none';
-    else {
-        gradient.style.display = 'block';
-        gradient.when('input', () => {
-            const gr = `linear-gradient(90deg, ${$('#gradient1').value}, ${$('#gradient2').value})`;
-            currentlyElement.style.background = gr;
-        })
-    }
+    const gradientDisplay = $('gradientDiv').style.display;
+    $('gradientDiv').style.display = gradientDisplay === 'block' ? 'none' : 'block';
 }
+

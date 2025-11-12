@@ -46,42 +46,42 @@ let htmlBorders = `<div id="panel-borders" class="design-panel" style="display: 
     </div>
 </div>`
 
-function borderPanel() {
+function loadBorderPanel() {
     editPanel.innerHTML = htmlBorders;
     fillCorrectBorders();
 }
 
 function fillCorrectBorders() {
     // --- 2. עדכון פאנל גבולות (חדש) ---
-    const borderWidthInput = $('#borderWidthInput');
-    const borderStyleInput = $('#borderStyleInput');
-    const borderColorInput = $('#borderColorInput');
-    const borderRadiusInput = $('#borderRadiusInput');
+    const borderWidthInput = $('borderWidthInput');
+    const borderStyleInput = $('borderStyleInput');
+    const borderColorInput = $('borderColorInput');
+    const borderRadiusInput = $('borderRadiusInput');
 
-    if (borderWidthInput) borderWidthInput.value = parseInt(styles.borderWidth, 10) || 0;
-    if (borderStyleInput) borderStyleInput.value = styles.borderStyle;
-    if (borderColorInput) borderColorInput.value = rgbToHex(styles.borderColor);
-    if (borderRadiusInput) borderRadiusInput.value = parseInt(styles.borderRadius, 10) || 0;
+    if (borderWidthInput) borderWidthInput.value = parseInt(theStyles.borderWidth, 10) || 0;
+    if (borderStyleInput) borderStyleInput.value = theStyles.borderStyle;
+    if (borderColorInput) borderColorInput.value = rgbToHex(theStyles.borderColor);
+    if (borderRadiusInput) borderRadiusInput.value = parseInt(theStyles.borderRadius, 10) || 0;
 
     // --- 3. עדכון פאנל פריסה (חדש) ---
     // (אנו משתמשים ב-querySelector כדי למצוא לפי data-style-prop)
-    const paddingTopInput = $(`#panel-layout [data-style-prop="paddingTop"]`);
-    const paddingRightInput = $(`#panel-layout [data-style-prop="paddingRight"]`);
-    const paddingBottomInput = $(`#panel-layout [data-style-prop="paddingBottom"]`);
-    const paddingLeftInput = $(`#panel-layout [data-style-prop="paddingLeft"]`);
+    const paddingTopInput = $1(`#panel-layout [data-style-prop="paddingTop"]`);
+    const paddingRightInput = $1(`#panel-layout [data-style-prop="paddingRight"]`);
+    const paddingBottomInput = $1(`#panel-layout [data-style-prop="paddingBottom"]`);
+    const paddingLeftInput = $1(`#panel-layout [data-style-prop="paddingLeft"]`);
 
-    if (paddingTopInput) paddingTopInput.value = parseInt(styles.paddingTop, 10) || 0;
-    if (paddingRightInput) paddingRightInput.value = parseInt(styles.paddingRight, 10) || 0;
-    if (paddingBottomInput) paddingBottomInput.value = parseInt(styles.paddingBottom, 10) || 0;
-    if (paddingLeftInput) paddingLeftInput.value = parseInt(styles.paddingLeft, 10) || 0;
+    if (paddingTopInput) paddingTopInput.value = parseInt(theStyles.paddingTop, 10) || 0;
+    if (paddingRightInput) paddingRightInput.value = parseInt(theStyles.paddingRight, 10) || 0;
+    if (paddingBottomInput) paddingBottomInput.value = parseInt(theStyles.paddingBottom, 10) || 0;
+    if (paddingLeftInput) paddingLeftInput.value = parseInt(theStyles.paddingLeft, 10) || 0;
 
-    const marginTopInput = $(`#panel-layout [data-style-prop="marginTop"]`);
-    const marginRightInput = $(`#panel-layout [data-style-prop="marginRight"]`);
-    const marginBottomInput = $(`#panel-layout [data-style-prop="marginBottom"]`);
-    const marginLeftInput = $(`#panel-layout [data-style-prop="marginLeft"]`);
+    const marginTopInput = $1(`#panel-layout [data-style-prop="marginTop"]`);
+    const marginRightInput = $1(`#panel-layout [data-style-prop="marginRight"]`);
+    const marginBottomInput = $1(`#panel-layout [data-style-prop="marginBottom"]`);
+    const marginLeftInput = $1(`#panel-layout [data-style-prop="marginLeft"]`);
 
-    if (marginTopInput) marginTopInput.value = parseInt(styles.marginTop, 10) || 0;
-    if (marginRightInput) marginRightInput.value = parseInt(styles.marginRight, 10) || 0;
-    if (marginBottomInput) marginBottomInput.value = parseInt(styles.marginBottom, 10) || 0;
-    if (marginLeftInput) marginLeftInput.value = parseInt(styles.marginLeft, 10) || 0;
+    if (marginTopInput) marginTopInput.value = parseInt(theStyles.marginTop, 10) || 0;
+    if (marginRightInput) marginRightInput.value = parseInt(theStyles.marginRight, 10) || 0;
+    if (marginBottomInput) marginBottomInput.value = parseInt(theStyles.marginBottom, 10) || 0;
+    if (marginLeftInput) marginLeftInput.value = parseInt(theStyles.marginLeft, 10) || 0;
 }

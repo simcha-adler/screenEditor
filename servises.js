@@ -1,5 +1,5 @@
 // ------------------------------------
-// 2. פונקציות עזר (צבע ו-Selection)
+// 2. פונקציות עזר
 // ------------------------------------
 
 function rgbToHex(rgb) {
@@ -19,44 +19,32 @@ function rgbToHex(rgb) {
     return "#" + hex(match[1]) + hex(match[2]) + hex(match[3]);
 }
 
+
 function getSelectedElement() {
     const selection = window.getSelection();
+
+    // 1. אם אין בחירה, החזר את העורך
     if (selection.rangeCount === 0) {
         return editor;
     }
+
     const range = selection.getRangeAt(0);
     let element = range.startContainer;
 
+    // 2. אם התחלנו מצומת טקסט, עלה להורה שלו (האלמנט)
     if (element.nodeType === Node.TEXT_NODE) {
         element = element.parentNode;
     }
 
-    if (!editor.contains(element) || element === editor) {
-        let block = range.startContainer.closest('p, h1, h2, h3, pre, div');
-        return (block && editor.contains(block)) ? block : editor;
+    // 3. בדיקת אבטחה פשוטה: אם האלמנט מחוץ לעורך, החזר את העורך
+    if (!editor.contains(element)) {
+        return editor;
     }
 
-    if (range.collapsed) {
-        return element;
-    }
-
-    if (element.tagName === 'SPAN' && element.closest('#editor')) {
-        return element;
-    }
-
-    let blockParent = element.closest('p, h1, h2, h3, pre, div');
-    return (blockParent && editor.contains(blockParent)) ? blockParent : editor;
+    // 4. החזר את האלמנט הספציפי שהסמן התחיל בו.
+    return element;
 }
 
-/**
- * מעדכן את המשתנים הרלוונטיים על זהות האלמנט הנבחר ותכונותיו
- */
-function updateSelectedElement() {
-    const element = getSelectedElement();
-    if (!element) return;
-    currentlyElement = element;
-    styles = window.getComputedStyle(element);
-}
 
 function applyEditorCommand(command, value = null) {
     editor.focus();
