@@ -36,6 +36,12 @@ function getSelectedElement() {
         element = element.parentNode;
     }
 
+    let tag = element.tagName;
+    while (tag === 'B' || tag === 'I' || tag === 'U') {
+        element = element.parentNode;
+        tag = element.tagName;
+    }
+
     // 3. בדיקת אבטחה פשוטה: אם האלמנט מחוץ לעורך, החזר את העורך
     if (!editor.contains(element)) {
         return editor;
