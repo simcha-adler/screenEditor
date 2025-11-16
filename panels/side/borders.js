@@ -1,4 +1,5 @@
-let htmlBorders = `<div id="panel-borders" class="design-panel" style="display: block;">
+let htmlBorders =  /* html */ `
+<div id="panel-borders" class="design-panel" style="display: block;">
     <h4>גבולות (Borders)</h4>
     <label for="borderWidthInput" class="design-control">
         <span>עובי (px)</span>

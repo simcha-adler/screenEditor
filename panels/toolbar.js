@@ -1,4 +1,5 @@
-const htmlToolbar = `<button data-action="bold" title="מודגש"><b>B</b></button>
+const htmlToolbar =  /* html */ `
+<button data-action="bold" title="מודגש"><b>B</b></button>
 <button data-action="italic" title="נטוי"><i>I</i></button>
 <button data-action="underline" title="קו תחתון"><u>U</u></button>
 <button data-action="justifyRight" title="יישור לימין">➡</button>

@@ -4,11 +4,12 @@
 
 const nav = $('main-nav');
 const toolbar = $('toolbar');
-const editor = $('דף הבסיס');
+const editor = $('דף-הבסיס');
 const sidebar = $('sidebarLeft');
 const treeContainer = $('treeContainer');
 const toggleTree = $('toggleTree');
 const editPanel = $('edit-panel');
+const sheet = $('styles').sheet;
 let theElement = null;
 let theStyles = null;
 let thePanel = '';

@@ -1,0 +1,70 @@
+.tree-toggle-button {
+    font-size: 20px;
+    /* הגדלת האייקון */
+    background: none;
+    border: none;
+    cursor: pointer;
+    /* padding: 0 5px; */
+    color: #333;
+    align-self: flex-end;
+    /* יישור לחלק התחתון של הפלקס */
+    margin-right: auto;
+    /* דחיפה שמאלה (RTL) */
+}
+
+.tree-toggle-button:hover {
+    color: #007bff;
+}
+
+#elementTreeContainer h4 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    text-align: right;
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 5px;
+}
+
+.tree-node {
+    padding: 2px 0;
+    cursor: pointer;
+    font-size: 13px;
+    user-select: none;
+    line-height: 1.5;
+    padding-right: 5px;
+    /* שינוי ברירת מחדל */
+    list-style: none;
+}
+
+.tree-node:hover {
+    background-color: #e6e6e6;
+}
+
+.tree-node.selected {
+    background-color: #cceeff;
+    font-weight: bold;
+}
+
+.tree-node-content {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.tree-toggle {
+    display: inline-block;
+    width: 15px;
+    text-align: center;
+    margin-left: 5px;
+    /* אייקון חץ */
+}
+
+.tree-children {
+    /* הזחה של ילדים */
+    padding-left: 15px;
+    margin: 0;
+    display: none;
+    /* מוסתר כברירת מחדל */
+}
+
+.tree-node.open>.tree-children {
+    display: block;
+}

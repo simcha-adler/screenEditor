@@ -25,27 +25,29 @@ function updatePanel(panelName) {
 /**
  * מעדכן את המשתנים הרלוונטיים על זהות האלמנט הנבחר ותכונותיו
 */
-function updateSelectedElement(element = null) {
+function updateSelectedElement(newElement = null) {
     // כשהאלמנט נבחר מהעורך, לא נשלח ערך ומופעלת פונקציית מיקוד
-    if (!element)
-        element = getSelectedElement();
+    if (!newElement)
+        newElement = getSelectedElement();
     // אם האלמנט לא השתנה או שהוא מחוץ לעורך, חזור
-    if (theElement === element ||
-        (element !== 'editor' && !editor.contains(element))) return;
+    if (theElement === newElement ||
+        (newElement !== 'editor' && !editor.contains(newElement))) return;
+    // מחזיר id. אם אין, יוצר ומחזיר.
+    const Id = ensureElementId(newElement);
     // אם לא התבצעה עריכה של הגבול, אחזר לאלמנט הנבחר הקודם את הגבול שהיה לו לפני סימון האלמנט   
     if (theElement) {
-        if (theElement.style.border === '1px solid black')
-            theElement.style.border = borderElement;
+        if (getStyle(`#${theElement.id}`, 'border') === '1px solid black')
+            updateStyle(`#${theElement.id}`, 'border', borderElement);
     }
     // עדכן את כל התוכנית שהאלמנט השתנה
-    theElement = element;
-    theStyles = window.getComputedStyle(element);
+    theElement = newElement;
+    theStyles = window.getComputedStyle(newElement);
     restartPanel(thePanel);
     updateToolbarButtonStates();
-    $('theElement').value = theElement.id;
+    $('theElement').value = Id;
     // סמן את האלמנט הנבחר
-    borderElement = theElement.style.border;
-    theElement.style.border = '1px solid black';
+    borderElement = getStyle(`#${Id}`, 'border');
+    updateStyle(`#${Id}`, 'border', '1px solid black');
 }
 
 function loadPage() {

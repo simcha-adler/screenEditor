@@ -1,4 +1,4 @@
-const htmlNav = `
+const htmlNav = /* html */  `
 
 <!--=======תפריט קובץ=========-->
 <div class="nav-item" id="file-nav">
@@ -135,17 +135,18 @@ $('saveDoc').whenClick(() => {
     alert('המסמך נשמר מקומית בדפדפן (פונקציונליות LocalStorage דורשת הטמעה).');
 });
 $('downloadHTML').whenClick(() => {
-    const htmlContent = editor.outerHTML;
-    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+    //const css = $('styles').outerHTML;
+    //const css = sheet.outerHTML;
+    const html = editor.outerHTML;
+    const content = editor.outerHTML;
+    //const content = '<html><head>' + css + '</head><body>' + html + '</body></html>';
+    const blob = new Blob([content], { type: 'text/html;charset=utf-8' });
     const link = createElement('a', {
         attrs: {
             href: URL.createObjectURL(blob),
             download: 'המסמך_שלי.html'
         }
     })
-    /*const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'המסמך_שלי.html';*/
     link.click();
     URL.revokeObjectURL(link.href);
     alert('המסמך הורד כקובץ HTML.');

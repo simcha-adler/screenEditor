@@ -1,12 +1,30 @@
 function loadPanel(panelName) {
 
-    if (panelName === 'panel-borders') {
-        loadBorderPanel();
-    } else if (panelName === 'panel-design') {
-        loadDesignPanel();
-    } else {
-        return false;
+    switch (panelName) {
+        case 'panel-borders':
+            loadBorderPanel();
+            break;
+
+        case 'panel-design':
+            loadDesignPanel();
+            break;
+
+        case 'panel-view':
+            loadViewPanel();
+            break;
+
+        case 'panel-position':
+            loadPositionPanel();
+            break;
+
+        case 'panel-layout':
+            loadLayoutPanel();
+            break;
+
+        default:
+            return false;
     }
+
     return true;
 }
 

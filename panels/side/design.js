@@ -1,4 +1,5 @@
-const htmlDesign = `<div id="panel-colors" class="design-panel" style="display: block;">
+const htmlDesign = /* html */ `
+<div id="panel-colors" class="design-panel" style="display: block;">
     <h4>צבע וטיפוגרפיה</h4>
 
     <label for="fontFamilyInput" class="design-control">
