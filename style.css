@@ -5,135 +5,64 @@ body {
     direction: rtl;
 }
 
-
-
 /* --- שינויים למבנה דמוי אתר --- */
 .main-area {
     display: flex;
     padding: 0;
     min-height: calc(100vh - 80px);
+    z-index: 5;
 }
 
-.editor-container {
-    width: calc(100vw - 300px);
+.main-content {
     flex-grow: 1;
-    padding: 20px;
+    padding: 10px;
     box-sizing: border-box;
     background-color: #f0f0f0;
-    z-index: 1000;
+    overflow: scroll;
+    display: block;
+    z-index: 1;
+}
+
+.editor-view {
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    outline: 1px solid #ddd;
+    outline-offset: -1px;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    min-width: 100%;
+    min-height: 100%;
+    display: flex;
+}
+
+.editor-downloader {
+    min-width: 100%;
+    min-height: 100%;
+    flex-grow: 1;
+    box-sizing: border-box;
+    /* הטריק "לכליאת" אלמנטים עם position: fixed */
+    transform: translate(0);
+}
+
+.editor-downloader:focus-visible,
+.document-page:focus-visible {
+    outline: none;
 }
 
 .document-page {
-    background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ddd;
-    outline: none;
-    overflow: scroll;
+    line-height: 1.6;
+    text-align: right;
+    padding: 40px;
 }
 
-.sidebar-left-complex {
-    width: 300px;
-    min-height: calc(100vh - 80px);
-    background-color: #f5f5f5;
-    border-left: 1px solid #ddd;
-    padding: 15px;
-    box-sizing: border-box;
-    z-index: 1000;
+/* סימון אלמנט נבחר - ללא פגיעה ב-Border המקורי */
+.selected-element {
+    outline: 1px solid black !important;
+    outline-offset: -1px;
+    /* כדי שהקו יהיה בתוך האלמנט ולא יגדיל אותו */
+    z-index: 9999;
+    /* שיהיה תמיד מעל */
 }
 
-.sidebar-left-complex h3 {
-    margin-top: 0;
-    font-size: 16px;
-    color: #555;
-    text-align: center;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-}
-
-/* CSS חדש לניהול פאנלים */
-.design-panel {
-    margin-top: 15px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    background-color: #ffffff;
-    border-radius: 4px;
-}
-
-.design-panel h4 {
-    margin-top: 0;
-    border-bottom: 1px dashed #eee;
-    padding-bottom: 5px;
-}
-
-
-
-/* הוסף לקובץ st5.css */
-.design-control-grid-4 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    font-size: 13px;
-}
-
-.design-control-grid-4 input {
-    width: 40px;
-    margin-top: 4px;
-}
-
-
-/* ========== עיצוב ראש סרגל צד ========== */
-/* css */
-.sidebar-header {
-    display: flex;
-    flex-wrap: wrap;
-    /* אפשר גלישה למסכים צרים */
-    align-items: center;
-    gap: 10px;
-    /* רווח בין הפריטים */
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 15px;
-    background-color: #f0f0f0;
-    /* רקע עדין */
-}
-
-.header-control-group {
-    display: flex;
-    flex-direction: column;
-    /* כותרת מעל הפקד */
-}
-
-.header-control-group label {
-    font-size: 11px;
-    color: #555;
-    margin-bottom: 3px;
-    font-weight: bold;
-}
-
-.header-control-group select,
-.header-control-group input {
-    font-size: 13px;
-    padding: 4px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    background-color: #fff;
-}
-
-/* הגדרות ספציפיות */
-.element-selector-group {
-    flex-grow: 1;
-    /* תן לקבוצת האלמנטים לתפוס מקום */
-}
-
-#theElement {
-    min-width: 100px;
-    background-color: #f9f9f9;
-    /* רקע אפרפר לאינפוט קריאה בלבד */
-    color: #333;
-}
-
-.state-selector-group select {
-    width: 80px;
-    /* רוחב קבוע למצבים */
-}
+/*=============================*/

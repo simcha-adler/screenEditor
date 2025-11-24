@@ -12,17 +12,7 @@
     <link rel="stylesheet" href="./styles/sidebar_style.css">
     <link rel="stylesheet" href="./styles/tree_style.css">
     <link rel="stylesheet" href="./styles/panels_style.css">
-    <style id="styles">
-        .document-page {
-            min-width: 100%;
-            min-height: 100%;
-            padding: 40px;
-            line-height: 1.6;
-            text-align: right;
-            margin: 0;
-            box-sizing: border-box;
-        }
-    </style>
+    <style id="styles"></style>
     <script src="./lib/short.js"></script>
     <!--script src="./load.js"></script-->
 </head>
@@ -37,16 +27,10 @@
 
     <div class="main-area">
 
-        <div class="editor-container">
-            <div id="דף-הבסיס" class="document-page" contenteditable="true" spellcheck="false">
-                <h1 id="כותרת-לדוגמא">כותרת האתר/מסמך שלך</h1>
-                <p id="פסקה-לדוגמא-1">כעת תפריט "עיצוב" פותח הגדרות מתקדמות בסרגל הצד.</p>
-                <hr>
-                <p id="פסקה-לדוגמא-2">נסו לבחור טקסט ולפתוח את פאנל "צבעים וגופנים" בתפריט עיצוב.</p>
-            </div>
-        </div>
+        <div id="activity-bar" class="activity-bar"></div>
 
-        <div id="sidebarLeft" class="sidebar-left-complex">
+        <div id="side-panel" class="side-panel">
+
 
             <div class="sidebar-header" id="sidebarHeader">
 
@@ -63,35 +47,40 @@
                         <option value=":focus">פוקוס</option>
                     </select>
                 </div>
-
-                <button id="toggleTree" class="tree-toggle-button" title="פתח עץ אלמנטים">
-                    &#127793; </button>
-
             </div>
-
-
-            <div id="treeContainer"
-                style="display: none; padding: 5px; background: #fff; border: 1px solid #eee; min-height: 200px; overflow-y: auto;">
-                <h4>מבנה האלמנטים ($`Body`$)</h4>
-            </div>
-
 
             <div id="edit-panel"></div>
+            <div id="tree-container"></div>
 
+        </div>
+
+        <div class="main-content">
+            <div class="editor-view">
+                <div id="editor-downloader" class="editor-downloader">
+                    <div id="דף-הבסיס" class="document-page" contenteditable="true" spellcheck="false">
+                        <h1 id="כותרת-לדוגמא">כותרת האתר שלך</h1>
+                        <p id="פסקה-לדוגמא-1">כעת תפריט "עיצוב" פותח הגדרות מתקדמות בסרגל הצד.</p>
+                        <hr>
+                        <p id="פסקה-לדוגמא-2">נסו לבחור טקסט ולפתוח את פאנל "צבעים וגופנים" בתפריט עיצוב.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script src="./consts.js"></script>
+    <script src="./data_center.js"></script>
     <script src="./servises.js"></script>
     <script src="./panels/nav.js"></script>
     <script src="./panels/toolbar.js"></script>
+    <script src="./panels/sidebar.js"></script>
     <script src="./panels/tree.js"></script>
     <script src="./panels/side/design.js"></script>
     <script src="./panels/side/borders.js"></script>
     <script src="./panels/side/view.js"></script>
     <script src="./panels/side/layout.js"></script>
     <script src="./panels/side/position.js"></script>
-    <script src="./panels/panel.js"></script>
+    <script src="./panels/side/addElement.js"></script>
+    <script src="./panels/panelManeger.js"></script>
     <script src="./listeners.js"></script>
     <script src="./maneger.js"></script>
 </body>

@@ -3,7 +3,7 @@
     padding: 4px 15px;
     display: flex;
     user-select: none;
-    z-index: 1000;
+    z-index: 10;
 }
 
 .nav-item {

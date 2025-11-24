@@ -52,43 +52,35 @@ function getSelectedElement() {
 }
 
 function getStyle(selector, prop) {
-    let theRule;
-    for (const rule of sheet.cssRules) {
-        if (rule.selectorText === selector) {
-            theRule = rule; // מצאנו! החזר את החוק הקיים
-        }
+    if (styleState[selector] && styleState[selector][prop]) {
+        return styleState[selector][prop];
     }
-    if (!theRule)
-        return '';
-    return theRule.style[prop];
+    return ''; // לא קיים ב-State
 }
 
+
 function updateStyle(selector, prop, value) {
-    // קבל את החוק (הקיים או החדש)
-    const rule = getOrCreateRule(selector);
+    // --- 1. עדכון ה-State ---
+    // אם אין עדיין חוק כזה, צור אותו ב-state ובתגית הסטייל, וקשר אותם.
+    if (!styleState[selector]) {
+        styleState[selector] = { 'rule': createRule(selector) };
+    }
+    // עדכן את הערך ב-State
+    styleState[selector][prop] = value;
+
+    // --- 2. עדכון ה-Sheet (המראה ב-DOM) ---
+    let rule = styleState[selector]['rule'];
 
     if (rule) {
-        // שנה את הסגנון של החוק!
-        // אנו משתמשים ב- bracket notation כי 'prop' הוא משתנה
+        // שנה את הסגנון של החוק
         rule.style[prop] = value;
     }
 }
 
 /**
- * מקבל סלקטור (כמו '#my-id:hover')
- * ומחזיר את אובייקט ה-CSSRule התואם.
- * אם החוק לא קיים, יוצר אותו ומחזיר אותו.
+ * מקבל סלקטור, יוצר אוביקט CSSRule תואם, ומחזיר אותו.
  */
-function getOrCreateRule(selector) {
-
-    // 1. חפש חוק קיים
-    for (const rule of sheet.cssRules) {
-        if (rule.selectorText === selector) {
-            return rule; // מצאנו! החזר את החוק הקיים
-        }
-    }
-
-    // 2. אם הלולאה הסתיימה, החוק לא קיים. צור חוק חדש (וריק).
+function createRule(selector) {
     try {
         // '0' מוסיף את החוק להתחלה (חשוב לעדיפות)
         sheet.insertRule(`${selector} {}`, 0);
@@ -107,13 +99,8 @@ function ensureElementId(element) {
     if (element.id) {
         return element.id;
     }
-    // אם האלמנט הוא העורך עצמו (שורש)
-    if (element === editor) {
-        element.id = 'editor-root'; // או כל ID קבוע אחר לשורש
-        return element.id;
-    }
     // יצירת ID ייחודי
-    const newId = 'editor-el-' + Math.random().toString(36).substring(2, 9);
+    const newId = 'auto-' + element.tagName + '-' + Math.random().toString(36).substring(2, 9);
     element.id = newId;
     return newId;
 }
@@ -127,6 +114,8 @@ function applyEditorCommand(command, value = null) {
     }
 }
 
+
+// שריד לגירסאות ישנות. לבדוק אם צריך בכלל, ולבנות בהתאם לארכיטקטורה החדשה
 function changeBlockTag(newTag) {
     const element = getSelectedElement();
     const blockElement = element.closest('p, h1, h2, h3, h4, h5, h6, pre, div');

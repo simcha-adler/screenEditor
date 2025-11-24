@@ -1,3 +1,7 @@
+#edit-panel {
+    z-index: 10;
+}
+
 .design-control {
     display: flex;
     justify-content: space-between;
@@ -5,4 +9,169 @@
     padding: 8px 15px;
     font-size: 14px;
     cursor: default;
+}
+
+/* CSS חדש לניהול פאנלים */
+.design-panel {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #ffffff;
+    border-radius: 4px;
+}
+
+.design-panel h4 {
+    margin-top: 0;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 5px;
+}
+
+
+
+/* הוסף לקובץ st5.css */
+.design-control-grid-4 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.design-control-grid-4 input {
+    width: 40px;
+    margin-top: 4px;
+}
+
+
+/* ========== עיצוב ראש סרגל צד ========== */
+/* css */
+.sidebar-header {
+    display: flex;
+    flex-wrap: wrap;
+    /* אפשר גלישה למסכים צרים */
+    align-items: center;
+    gap: 10px;
+    /* רווח בין הפריטים */
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 15px;
+    background-color: #f0f0f0;
+    /* רקע עדין */
+}
+
+.header-control-group {
+    display: flex;
+    flex-direction: column;
+    /* כותרת מעל הפקד */
+}
+
+.header-control-group label {
+    font-size: 11px;
+    color: #555;
+    margin-bottom: 3px;
+    font-weight: bold;
+}
+
+.header-control-group select,
+.header-control-group input {
+    font-size: 13px;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #fff;
+}
+
+/* הגדרות ספציפיות */
+.element-selector-group {
+    flex-grow: 1;
+    /* תן לקבוצת האלמנטים לתפוס מקום */
+}
+
+#theElement {
+    min-width: 100px;
+    background-color: #f9f9f9;
+    /* רקע אפרפר לאינפוט קריאה בלבד */
+    color: #333;
+}
+
+.state-selector-group select {
+    width: 80px;
+    /* רוחב קבוע למצבים */
+}
+
+/* === עיצוב אלמנטים בתוך הפאנלים === */
+
+/* כותרות פאנלים */
+.design-panel h4 {
+    margin: 0 0 15px 0;
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+/* שורות שליטה (Label + Input) */
+.design-control {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #444;
+}
+
+.design-control input,
+.design-control select {
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 13px;
+    background-color: #fff;
+}
+
+/* רשת של 4 פריטים (למשל Margin/Padding) */
+.design-control-grid-4 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.design-control-grid-4 label {
+    display: flex;
+    flex-direction: column;
+    font-size: 11px;
+    color: #666;
+}
+
+.design-control-grid-4 input {
+    margin-top: 2px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* --- 2. פאנל הצד הנפתח (אמצעי) --- */
+.side-panel {
+    width: 300px;
+    background-color: #f8f8f8;
+    /* אפור בהיר מאוד */
+    border-left: 1px solid #ddd;
+    display: none;
+    /* מוסתר כברירת מחדל */
+    flex-direction: column;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.side-panel.open {
+    display: flex;
+    transform: display 0.2s;
+}
+
+/* כותרות בתוך הפאנל */
+.sidebar-header {
+    padding: 15px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #e5e5e5;
 }

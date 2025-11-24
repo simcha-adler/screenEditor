@@ -1,0 +1,71 @@
+.sidebar-left-complex {
+    width: 300px;
+    min-height: calc(100vh - 80px);
+    background-color: #f5f5f5;
+    border-left: 1px solid #ddd;
+    padding: 15px;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.sidebar-left-complex h3 {
+    margin-top: 0;
+    font-size: 16px;
+    color: #555;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+/* --- 1. סרגל הפעילות (הכי ימני) --- */
+.activity-bar {
+    width: 50px;
+    background-color: #F2F2f2;
+    /* רקע לבן */
+    border-left: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    z-index: 100;
+    flex-shrink: 0;
+}
+
+.activity-btn {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+/* צבע האייקונים (SVG) */
+.activity-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: #757575;
+    /* אפור כהה */
+}
+
+.activity-btn:hover {
+    background-color: #dddddd;
+}
+
+.activity-btn:hover svg {
+    fill: #333;
+}
+
+.activity-btn.active {
+    background-color: #eff6fc;
+    /* כחול בהיר מאוד */
+}
+
+.activity-btn.active svg {
+    fill: #f99ee4;
+    /* כחול VS Code */
+}

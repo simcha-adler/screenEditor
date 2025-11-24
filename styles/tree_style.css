@@ -68,3 +68,66 @@
 .tree-node.open>.tree-children {
     display: block;
 }
+
+/*=====גרירה ושחרור========*/
+
+
+
+/* === תפריט קליק ימני (Context Menu) === */
+#tree-context-menu {
+    position: fixed;
+    z-index: 10000;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 5px 0;
+    display: none;
+    /* מוסתר ברירת מחדל */
+    min-width: 150px;
+}
+
+.ctx-menu-item {
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.1s;
+}
+
+.ctx-menu-item:hover {
+    background-color: #f0f0f0;
+    color: #0078d4;
+}
+
+.ctx-menu-item span {
+    font-size: 16px;
+    /* גודל האייקון */
+}
+
+/* === מצבי גרירה בעץ === */
+
+/* אלמנט שמוכן לגרירה (אחרי שלחצו על 'הזזה') */
+.tree-node.ready-to-drag .tree-node-content {
+    background-color: #fffecd;
+    /* צהוב בהיר */
+    border: 1px dashed #ffc107;
+    cursor: grab;
+}
+
+/* האלמנט בזמן שהוא נגרר בפועל */
+.tree-node.dragging .tree-node-content {
+    opacity: 0.5;
+    background-color: #e0e0e0;
+}
+
+/* היעד שאנחנו מרחפים מעליו (Drop Target) */
+.tree-node.drag-over .tree-node-content {
+    background-color: #d1e8ff;
+    /* כחול בהיר */
+    border-top: 2px solid #0078d4;
+    /* סימון איפה זה ייכנס */
+}

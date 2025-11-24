@@ -57,10 +57,11 @@ nav.innerHTML = htmlNav;
 const navItems = $$('.nav-item');
 
 
-function closeNavs() {
-    if (openedMenu)
+function closeOpenedNav() {
+    if (openedMenu) {
         openedMenu.removeClass('active');
-    openedMenu = null;
+        openedMenu = null;
+    }
 };
 
 
@@ -68,7 +69,7 @@ navItems.forEach(item => {
     const button = item.$1('.nav-button');
     button.whenClick((event) => {
         const opened = item === openedMenu;
-        closeNavs()
+        closeOpenedNav()
         if (!opened) {
             item.addClass('active');
             openedMenu = item;
@@ -137,8 +138,7 @@ $('saveDoc').whenClick(() => {
 $('downloadHTML').whenClick(() => {
     //const css = $('styles').outerHTML;
     //const css = sheet.outerHTML;
-    const html = editor.outerHTML;
-    const content = editor.outerHTML;
+    const content = $('editor-downloader').outerHTML;
     //const content = '<html><head>' + css + '</head><body>' + html + '</body></html>';
     const blob = new Blob([content], { type: 'text/html;charset=utf-8' });
     const link = createElement('a', {

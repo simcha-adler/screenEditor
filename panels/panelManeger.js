@@ -21,6 +21,10 @@ function loadPanel(panelName) {
             loadLayoutPanel();
             break;
 
+        case 'panel-add':
+            loadAddElementPanel();
+            break;
+
         default:
             return false;
     }
@@ -28,17 +32,31 @@ function loadPanel(panelName) {
     return true;
 }
 
+
 function restartPanel(panelName) {
-    if (!panelName) return;
 
-    if (panelName === 'panel-borders')
-        fillCorrectBorders();
-    else if (panelName === 'panel-design')
-        fillCorrectDesign();
-}
+    switch (panelName) {
+        case 'panel-borders':
+            fillCorrectBorders();
+            break;
 
-function loadDefaultPanel() {
-    editPanel.innerHTML = `<div id="panel-default" class="design-panel" style="display: block;">
-        <p style="font-size: 13px; color: #777;">בחר אפשרות מתוך תפריט "עיצוב" כדי לטעון כאן הגדרות.</p>
-        </div>`;
+        case 'panel-design':
+            fillCorrectDesign();
+            break;
+
+        case 'panel-view':
+            fillCorrectView();
+            break;
+
+        case 'panel-position':
+            fillCorrectPosition();
+            break;
+
+        case 'panel-layout':
+            fillCorrectLayout();
+            break;
+
+        default:
+            break;
+    }
 }
