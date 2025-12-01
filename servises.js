@@ -52,27 +52,22 @@ function getSelectedElement() {
 }
 
 function getStyle(selector, prop) {
-    if (styleState[selector] && styleState[selector][prop]) {
-        return styleState[selector][prop];
+    // אם אין סלקטור כזה בסטייט, אין מה להחזיר
+    if (!styleState[selector] || !styleState[selector].rule) {
+        return '';
     }
-    return ''; // לא קיים ב-State
+    // קריאה ישירה מהחוק החי
+    return styleState[selector].rule.style[prop];
 }
 
-
 function updateStyle(selector, prop, value) {
-    // --- 1. עדכון ה-State ---
     // אם אין עדיין חוק כזה, צור אותו ב-state ובתגית הסטייל, וקשר אותם.
     if (!styleState[selector]) {
-        styleState[selector] = { 'rule': createRule(selector) };
+        createRefRule(selector);
     }
-    // עדכן את הערך ב-State
-    styleState[selector][prop] = value;
 
-    // --- 2. עדכון ה-Sheet (המראה ב-DOM) ---
     let rule = styleState[selector]['rule'];
-
     if (rule) {
-        // שנה את הסגנון של החוק
         rule.style[prop] = value;
     }
 }

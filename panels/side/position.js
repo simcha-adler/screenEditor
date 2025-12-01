@@ -5,7 +5,7 @@ const htmlPosition =  /* html */ `
     <h4>מיקום (Position)</h4>
     <label class="design-control">
         <span>סוג מיקום</span>
-        <select data-style-prop="position">
+        <select id="position" data-property="position">
             <option value="static">סטטי (ברירת מחדל)</option>
             <option value="relative">יחסי</option>
             <option value="absolute">מוחלט</option>
@@ -14,22 +14,22 @@ const htmlPosition =  /* html */ `
         </select>
     </label>
     <div class="design-control-grid-4">
-        <label>למעלה <input type="text" data-style-prop="top" data-offset="v" data-unit="px"></label>
-        <label>ימין <input type="text" data-style-prop="right" data-offset="h" data-unit="px"></label>
-        <label>למטה <input type="text" data-style-prop="bottom" data-offset="v" data-unit="px"></label>
-        <label>שמאל <input type="text" data-style-prop="left" data-offset="h" data-unit="px"></label>
+        <label>למעלה<input type="text" id="top" data-property="top" data-offset="v" data-unit="px"></label>
+        <label>ימין <input type="text" id="right" data-property="right" data-offset="h" data-unit="px"></label>
+        <label>למטה <input type="text" id="bottom" data-property="bottom" data-offset="v" data-unit="px"></label>
+        <label>שמאל <input type="text" id="left" data-property="left" data-offset="h" data-unit="px"></label>
     </div>
     <label class="design-control">
         <span>Z-Index</span>
-        <input type="number" data-style-prop="zIndex" style="width: 60px;">
+        <input type="number" id="zIndex" data-property="zIndex" style="width: 60px;">
     </label>
 
     <h4 style="margin-top: 15px;">גודל (Size)</h4>
     <div class="design-control-grid-4">
-        <label>רוחב <input type="text" data-style-prop="width"></label>
-        <label>גובה <input type="text" data-style-prop="height"></label>
-        <label>רוחב מינ' <input type="text" data-style-prop="minWidth"></label>
-        <label>גובה מינ' <input type="text" data-style-prop="minHeight"></label>
+        <label>רוחב <input type="text" id="width" data-property="width"></label>
+        <label>גובה <input type="text" id="height" data-property="height"></label>
+        <label>רוחב מינ' <input type="text" id="minWidth" data-property="minWidth"></label>
+        <label>גובה מינ' <input type="text" id="minHeight" data-property="minHeight"></label>
     </div>
 </div>
 `;
@@ -45,17 +45,17 @@ function fillCorrectPosition() {
     const panel = $('panel-position');
     if (!panel) return;
 
-    panel.$1('[data-style-prop="position"]').value = theStyles.position;
-    panel.$1('[data-style-prop="top"]').value = theStyles.top;
-    panel.$1('[data-style-prop="right"]').value = theStyles.right;
-    panel.$1('[data-style-prop="bottom"]').value = theStyles.bottom;
-    panel.$1('[data-style-prop="left"]').value = theStyles.left;
-    panel.$1('[data-style-prop="zIndex"]').value = theStyles.zIndex;
+    panel.$('position').value = theStyles.position;
+    panel.$('top').value = theStyles.top;
+    panel.$('right').value = theStyles.right;
+    panel.$('bottom').value = theStyles.bottom;
+    panel.$('left').value = theStyles.left;
+    panel.$('zIndex').value = theStyles.zIndex;
 
-    panel.$1('[data-style-prop="width"]').value = theStyles.width;
-    panel.$1('[data-style-prop="height"]').value = theStyles.height;
-    panel.$1('[data-style-prop="minWidth"]').value = theStyles.minWidth;
-    panel.$1('[data-style-prop="minHeight"]').value = theStyles.minHeight;
+    panel.$('width').value = theStyles.width;
+    panel.$('height').value = theStyles.height;
+    panel.$('minWidth').value = theStyles.minWidth;
+    panel.$('minHeight').value = theStyles.minHeight;
 }
 
 

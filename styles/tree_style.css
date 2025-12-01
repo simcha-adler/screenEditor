@@ -1,5 +1,10 @@
-.tree-toggle-button {
-    font-size: 20px;
+/*=======================
+       העץ עצמו
+=========================*/
+
+
+.tree-node-toggle {
+    font-size: 14px;
     /* הגדלת האייקון */
     background: none;
     border: none;
@@ -12,16 +17,22 @@
     /* דחיפה שמאלה (RTL) */
 }
 
-.tree-toggle-button:hover {
-    color: #007bff;
+.tree-node-toggle:hover {
+    color: #01264e;
 }
 
-#elementTreeContainer h4 {
-    margin: 0 0 10px 0;
+.tree-header {
     font-size: 14px;
-    text-align: right;
     border-bottom: 1px dotted #ccc;
-    padding-bottom: 5px;
+    padding: 10px;
+    margin: 0;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .tree-node {
@@ -30,26 +41,26 @@
     font-size: 13px;
     user-select: none;
     line-height: 1.5;
-    padding-right: 5px;
     /* שינוי ברירת מחדל */
     list-style: none;
+    display: block;
 }
 
-.tree-node:hover {
-    background-color: #e6e6e6;
-}
 
-.tree-node.selected {
-    background-color: #cceeff;
+.tree-life.selected {
+    background-color: #ffffff;
     font-weight: bold;
 }
 
 .tree-node-content {
+    min-width: 120px;
     display: inline-block;
-    margin-right: 5px;
+    flex-grow: 1;
+    padding: 0 14px 0 5px;
+    border-radius: 10px;
 }
 
-.tree-toggle {
+.tree-node-toggle {
     display: inline-block;
     width: 15px;
     text-align: center;
@@ -59,22 +70,61 @@
 
 .tree-children {
     /* הזחה של ילדים */
-    padding-left: 15px;
     margin: 0;
+    padding: 0;
+    margin-right: 7px;
+    padding-right: 7px;
     display: none;
     /* מוסתר כברירת מחדל */
+    border-right: 1px solid #ddd;
+
 }
 
 .tree-node.open>.tree-children {
     display: block;
 }
 
-/*=====גרירה ושחרור========*/
+/* כפתור תפריט (3 נקודות) */
+.tree-node-menu-btn {
+    display: inline-block;
+    cursor: pointer;
+    padding: 0 15px;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 1;
+    color: #555;
+    /* דוחף את עצמו לצד השני (ב-RTL זה לשמאל) */
+    border-radius: 10px;
+}
+
+.tree-node-menu-btn:hover {
+    color: #000;
+    border-right: 3px solid #f8f8f8;
+    box-shadow: 2px 2px 5px rgba(248, 248, 248, 0.1);
+    transition: border-width 0.1s;
+}
+
+.tree-life {
+    display: inline-flex;
+    margin-left: 0;
+    border-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tree-life:hover {
+    background-color: #d4d4d4;
+}
 
 
 
-/* === תפריט קליק ימני (Context Menu) === */
-#tree-context-menu {
+/*===============================
+         תפריט קליק ימני 
+================================ */
+
+
+
+#tree-menu {
     position: fixed;
     z-index: 10000;
     background: #fff;
@@ -87,7 +137,7 @@
     min-width: 150px;
 }
 
-.ctx-menu-item {
+.tree-menu-item {
     padding: 8px 15px;
     cursor: pointer;
     font-size: 13px;
@@ -95,28 +145,111 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: background 0.1s;
+    transition: background-color 0.1s;
 }
 
-.ctx-menu-item:hover {
+.tree-menu-item:hover {
     background-color: #f0f0f0;
     color: #0078d4;
 }
 
-.ctx-menu-item span {
+.tree-menu-item span {
     font-size: 16px;
     /* גודל האייקון */
 }
 
+
+
+
+
+
+
+/*==========================
+       מתג ויזואלי
+===========================*/
+
+
+
+
+.toggle-input {
+    display: none;
+}
+
+/* 2. מעצבים את ה-label שיראה כמו "מסילה" */
+.toggle-switch {
+    cursor: pointer;
+    display: inline-block;
+
+    width: 36px;
+    /* רוחב המפסק */
+    height: 18px;
+    /* גובה המפסק */
+
+    background-color: #ccc;
+    /* צבע כשהוא כבוי */
+    border-radius: 9px;
+    /* חצי מהגובה, כדי שיהיה מעוגל */
+
+    position: relative;
+    /* חשוב כדי למקם את העיגול הפנימי */
+    transition: background-color 0.2s;
+    /* אנימציה נחמדה לצבע */
+}
+
+/* 3. מעצבים את "הכפתור העגול" שזז */
+.toggle-switch::before {
+    content: "";
+    position: absolute;
+
+    width: 12px;
+    /* גודל העיגול */
+    height: 12px;
+    border-radius: 50%;
+    /* עיגול מושלם */
+    background-color: white;
+
+    /* מיקום התחלתי (כבוי) */
+    top: 3px;
+    left: 3px;
+
+    /* אנימציה נחמדה לתנועה */
+    transition: transform 0.1s;
+}
+
+
+.toggle-switch:hover {
+    background-color: #bbb;
+}
+
+/* 4. הקסם: מה קורה כשהצ'קבוקס "מסומן" (checked) */
+
+/* כשהאינפוט מסומן, שנה את צבע הרקע של ה-label שלידו */
+.toggle-input:checked+.toggle-switch {
+    background-color: #493cff;
+}
+
+.toggle-input:checked+.toggle-switch:hover {
+    background-color: #0000e0;
+}
+
+/* כשהאינפוט מסומן, הזז את הכפתור העגול ימינה */
+.toggle-input:checked+.toggle-switch::before {
+    /* הרוחב הכולל הוא 50, הכפתור 22, המרווח 2.
+     אז 50 פחות 22 פחות 2 = 26px 
+  */
+    transform: translateX(18px);
+}
+
+
+
+/*================================
+   --- עיצוב מצב גרירה בעץ --- 
+=================================*/
+
+
+
 /* === מצבי גרירה בעץ === */
 
-/* אלמנט שמוכן לגרירה (אחרי שלחצו על 'הזזה') */
-.tree-node.ready-to-drag .tree-node-content {
-    background-color: #fffecd;
-    /* צהוב בהיר */
-    border: 1px dashed #ffc107;
-    cursor: grab;
-}
 
 /* האלמנט בזמן שהוא נגרר בפועל */
 .tree-node.dragging .tree-node-content {
@@ -130,4 +263,44 @@
     /* כחול בהיר */
     border-top: 2px solid #0078d4;
     /* סימון איפה זה ייכנס */
+}
+
+
+/*========  חדש  ============*/
+
+
+/* כשהעץ במצב גרירה, השורות יקבלו מסגרת וסמן הזזה */
+#tree-container.drag-mode .tree-node-content {
+    cursor: move;
+    /* סמן של הזזה */
+    border: 1px dashed #ccc;
+    /* מסגרת מקווקוות */
+    background-color: #f0f0f0;
+    /* רקע בהיר שונה */
+    padding: 2px 5px;
+    border-radius: 4px;
+    margin-bottom: 2px;
+    transition: all 0.2s;
+}
+
+/* אפקט בריחוף מעל שורה בזמן מצב גרירה */
+#tree-container.drag-mode .tree-node-content:not(.document-page):hover {
+    background-color: #c5c5c5;
+    border-color: #999999;
+    transform: translateX(-2px);
+    /* תזוזה קטנה לתחושת "ציפה" */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#tree-container.drag-mode .tree-life:hover {
+    background-color: #f8f8f8;
+}
+
+#tree-container.drag-mode .tree-life.selected {
+    background: none;
+}
+
+#tree-container.drag-mode .tree-node-menu-btn:hover {
+    box-shadow: none;
+    border-right: 2px solid #f8f8f8;
 }

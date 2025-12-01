@@ -8,7 +8,7 @@ const htmlAddElement = /* html */ `
             <span>בחר מה להוסיף:</span>
             <select id="newElementType" style="width: 100%; padding: 8px; margin-top: 5px;">
                 <option value="div">🔲 קופסה / אזור תוכן</option>
-                <option value="h2">🇹 כותרת</option>
+                <option value="h2">T כותרת</option>
                 <option value="p">📝 טקסט רגיל (פסקה)</option>
                 <option value="button">🔘 כפתור לחיץ</option>
                 <option value="img">🖼️ תמונה</option>
@@ -18,9 +18,8 @@ const htmlAddElement = /* html */ `
         </label>
 
         <label class="design-control" style="display:block;">
-            <span>תן שם לאלמנט (באנגלית או עברית):</span>
-            <input type="text" id="newElementName" placeholder="לדוגמה: הכפתור_שלי" style="width: 100%; padding: 8px; margin-top: 5px;">
-            <span style="font-size: 11px; color: #888;">הרווחים יהפכו למקפים תחתונים באופן אוטומטי.</span>
+            <span>תן שם לאלמנט:</span>
+            <input type="text" id="newElementName" placeholder="חובה להזין שם!" style="width: 100%; padding: 8px; margin-top: 5px;">
         </label>
 
         <button id="btnAddElementAction" style="
@@ -53,110 +52,137 @@ function attachAddElementListeners() {
         btn.whenClick(() => {
             const type = typeSelect.value;
             const rawName = nameInput.value;
-
-            if (!rawName) {
-                alert('אנא בחר שם לאלמנט החדש');
-                return;
-            }
-
-            // שליחה למנהל (הלוגיקה נמצאת שם)
-            addNewBlock(type, rawName);
-
+            const newDomEl = addElementManeger(type, rawName);
             // איפוס השדה לאחר ההוספה
             nameInput.value = '';
+            updateSelectedElement(newDomEl);
+            toggleActivityPanel('panel-design');
         });
     }
 }
 
-function addNewBlock(type, rawName) {
-    // 1. יצירת ID תקין: מחליף רווחים במקף תחתון
-    // מסיר תווים מיוחדים שעלולים לשבור קוד, משאיר עברית/אנגלית/מספרים
-    const safeId = rawName.trim().replace(/\s+/g, '_');
+function addElementManeger(type, rawName) {
+    if (!rawName) return alert('אנא בחר שם לאלמנט החדש');
 
-    // בדיקה אם ה-ID כבר קיים (למנוע כפילויות)
-    if (document.getElementById(safeId)) {
-        alert('שגיאה: קיים כבר אלמנט עם השם הזה. אנא בחר שם אחר.');
-        return;
+    // יצירת האלמנטים (בזיכרון בלבד)
+    const safeId = createSafeId(rawName);
+    if (!safeId) return;// נכשל ביצירה (למשל שם כפול)
+    const newDomEl = createElement(type, { id: safeId });
+    const newTreeEl = createTreeNode(newDomEl);
+
+    const parentTree = tree.$1(`.tree-node[data-editor-id="${theElement.id}"]`);
+
+    insertElementManeger(newTreeEl, parentTree, newDomEl, theElement);
+    createRefRule('#' + safeId);
+    // החלת עיצוב בסיסי
+    applyDefaultSettings(newDomEl);
+
+    return newDomEl;
+}
+
+function setInitialStyles(selector, stylesObject) {
+    // 1. יצירת רפרנס לחוק ב-State אם אינו קיים (פעם אחת בלבד)
+    if (!styleState[selector]) {
+        createRefRule(selector);
     }
 
-    // 2. יצירת האלמנט
-    const el = document.createElement(type);
-    el.id = safeId;
+    // 2. שליפת ה-Rule מתוך ה-State
+    const rule = styleState[selector].rule;
 
-    // 3. הגדרת ערכי ברירת מחדל (לפי דרישת "אנשים ללא ידע בעיצוב")
-    //    applyDefaultSettings(el, type);
-
-    // 4. הוספה ל-DOM
-    // אם יש אלמנט נבחר והוא יכול להכיל ילדים (כמו DIV) - נוסיף לתוכו
-    // אחרת, נוסיף אחריו (או לעורך הראשי)
-    let targetContainer = theElement;
-
-    // מקרים שבהם אי אפשר להכניס לתוך האלמנט (למשל אם בחרנו תמונה או אינפוט)
-    const voidElements = ['IMG', 'INPUT', 'HR', 'BR'];
-
-    if (!targetContainer || voidElements.includes(targetContainer.tagName)) {
-        targetContainer = editor; // ברירת מחדל - הוסף לדף הראשי
+    // 3. עדכון ישיר של ה-style בחוק ה-CSS בלבד
+    if (rule) {
+        for (const [prop, value] of Object.entries(stylesObject)) {
+            rule.style[prop] = value;
+        }
     }
-
-    targetContainer.appendChild(el);
-
-    // 5. בחירת האלמנט החדש ופתיחת פאנל העיצוב
-    updateSelectedElement(el);
-    toggleActivityPanel('panel-design'); // מעבר אוטומטי לעיצוב
 }
 
 /**
  * פונקציית עזר שנותנת לאלמנטים מראה התחלתי
  */
-function applyDefaultSettings(el, type) {
+function applyDefaultSettings(el) {
+    const selector = '#' + el.id;
+    const type = el.tagName.toLowerCase();
+
     switch (type) {
         case 'div':
-            el.style.width = '100%';
-            el.style.minHeight = '100px';
-            el.style.padding = '20px';
-            el.style.backgroundColor = '#f9f9f9';
-            el.style.border = '1px dashed #ccc';
-            el.innerText = 'אזור תוכן חדש (גרירה ושחרור אלמנטים לכאן)';
+            setInitialStyles(selector, {
+                width: '100%',
+                minHeight: '100px',
+                padding: '20px',
+                backgroundColor: '#f9f9f9',
+                border: '1px dashed #ccc'
+            });
+            el.innerText = 'אזור תוכן חדש';
             break;
 
         case 'h2':
+            setInitialStyles(selector, {
+                color: '#333'
+            });
             el.innerText = 'כותרת חדשה';
-            el.style.color = '#333';
             break;
 
         case 'p':
-            el.innerText = 'זוהי פסקה חדשה. לחץ כאן כדי לערוך את הטקסט.';
-            el.style.lineHeight = '1.6';
+            setInitialStyles(selector, {
+                lineHeight: '1.6',
+                marginBottom: '10px'
+            });
+            el.innerText = 'זוהי פסקה חדשה...';
             break;
 
         case 'button':
+            setInitialStyles(selector, {
+                padding: '10px 20px',
+                backgroundColor: '#0078d4',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer'
+            });
             el.innerText = 'לחץ עלי';
-            el.style.padding = '10px 20px';
-            el.style.backgroundColor = '#0078d4';
-            el.style.color = '#fff';
-            el.style.border = 'none';
-            el.style.borderRadius = '4px';
-            el.style.cursor = 'pointer';
             break;
 
         case 'img':
+            setInitialStyles(selector, {
+                maxWidth: '100%',
+                borderRadius: '8px',
+                display: 'block' // מונע רווחים מוזרים בתמונות
+            });
             el.src = 'https://via.placeholder.com/300x200?text=Image';
-            el.style.maxWidth = '100%';
-            el.style.borderRadius = '8px';
             break;
 
         case 'input':
+            setInitialStyles(selector, {
+                padding: '8px',
+                border: '1px solid #ccc',
+                borderRadius: '4px'
+            });
             el.placeholder = 'הקלד כאן...';
-            el.style.padding = '8px';
-            el.style.border = '1px solid #ccc';
-            el.style.borderRadius = '4px';
             break;
 
         case 'hr':
-            el.style.margin = '20px 0';
-            el.style.border = '0';
-            el.style.borderTop = '1px solid #eee';
+            setInitialStyles(selector, {
+                margin: '20px 0',
+                border: 'none', // איפוס
+                borderTop: '1px solid #eee'
+            });
             break;
     }
+}
+
+
+/**
+ * יצירת id מאובטח מהשם שהכניס המשתמש
+ */
+function createSafeId(name) {
+    const safeId = name.trim().replace(/\s+/g, '_');
+
+    // בדיקת כפילות ID
+    if ($(safeId)) {
+        alert('שגיאה: קיים כבר אלמנט עם השם הזה. אנא בחר שם אחר.');
+        return null;
+    }
+    return safeId;
 }
 

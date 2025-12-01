@@ -18,7 +18,7 @@ const htmlToolbar =  /* html */ `
 toolbar.innerHTML = htmlToolbar;
 
 toolbar.whenClick((e) => {
-    const button = e.target.closest('button');
+    const button = e.upTo('button');
     if (!button) return;
     const action = button.dataset.action;
     if (!action) return;

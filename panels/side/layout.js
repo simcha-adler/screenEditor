@@ -7,7 +7,7 @@ const htmlLayout =  /* html */ `
     
     <label class="design-control">
         <span>כיוון (Direction)</span>
-        <select data-style-prop="flexDirection">
+        <select id="flexDirection" data-property="flexDirection">
             <option value="row">שורה (Row)</option>
             <option value="column">טור (Column)</option>
             <option value="row-reverse">שורה הפוכה</option>
@@ -16,7 +16,7 @@ const htmlLayout =  /* html */ `
     </label>
     <label class="design-control">
         <span>יישור ציר ראשי (Justify)</span>
-        <select data-style-prop="justifyContent">
+        <select id="justifyContent" data-property="justifyContent">
             <option value="flex-start">התחלה</option>
             <option value="center">מרכז</option>
             <option value="flex-end">סוף</option>
@@ -26,7 +26,7 @@ const htmlLayout =  /* html */ `
     </label>
     <label class="design-control">
         <span>יישור ציר משני (Align)</span>
-        <select data-style-prop="alignItems">
+        <select id="alignItems" data-property="alignItems">
             <option value="flex-start">התחלה</option>
             <option value="center">מרכז</option>
             <option value="flex-end">סוף</option>
@@ -36,7 +36,7 @@ const htmlLayout =  /* html */ `
     </label>
     <label class="design-control">
         <span>גלישת שורות (Wrap)</span>
-        <select data-style-prop="flexWrap">
+        <select id="flexWrap" data-property="flexWrap">
             <option value="nowrap">ללא גלישה</option>
             <option value="wrap">גלישה</option>
             <option value="wrap-reverse">גלישה הפוכה</option>
@@ -55,9 +55,9 @@ function fillCorrectLayout() {
     const panel = $('panel-layout');
     if (!panel) return;
 
-    panel.$1('[data-style-prop="flexDirection"]').value = theStyles.flexDirection;
-    panel.$1('[data-style-prop="justifyContent"]').value = theStyles.justifyContent;
-    panel.$1('[data-style-prop="alignItems"]').value = theStyles.alignItems;
-    panel.$1('[data-style-prop="flexWrap"]').value = theStyles.flexWrap;
+    panel.$('flexDirection').value = theStyles.flexDirection;
+    panel.$('justifyContent').value = theStyles.justifyContent;
+    panel.$('alignItems').value = theStyles.alignItems;
+    panel.$('flexWrap').value = theStyles.flexWrap;
 }
 

@@ -22,30 +22,22 @@ function loadDocumentListeners() {
     sidePanel.when('input' || 'change', (e) => {
         if (!theElement) return;
 
-        const prop = e.target.dataset.styleProp;
-        const unit = e.target.dataset.unit || ''; // למשל 'px'
-        let value = e.target.value;
-
         //  קבע את הסלקטור
         const state = $('dropdown-states').value; // ':hover', ':focus' או ""
         const selector = '#' + theElement.id + state; // '#כותרת-לדוגמא:hover'
+
+        let prop = e.target.dataset.property;
+        const unit = e.target.dataset.unit || ''; // למשל 'px'
+        let value = e.target.value;
+
+        if (prop === 'gradient') {
+            prop = 'background'
+            value = `linear-gradient(${$('deg').value}deg, ${$('gradient1').value}, ${$('gradient2').value})`;
+        }
 
         if (prop && selector)
             updateStyle(selector, prop, value + unit);
     });
 
     document.whenClick(closeOpenedNav);
-}
-
-function loadPanelListeners(panelName) {
-
-    if (panelName === 'panel-design') {
-        $('gradientBtn').whenClick(toggleGradient);
-        $('gradientDiv').when('input', () => {
-            const gr = `linear-gradient(90deg, ${$('gradient1').value}, ${$('gradient2').value})`;
-            const selector = '#' + theElement.id + $('dropdown-states').value;
-            updateStyle(selector, 'background', gr);
-        })
-    }
-
 }

@@ -20,19 +20,9 @@ function updateSelectedElement(newElement = null) {
     theStyles = window.getComputedStyle(theElement);
     restartPanel(thePanel);
     updateToolbarButtonStates();
-    $('theElement').value = Id;
+    $('theElement').value = Id.replaceAll('_', ' ');
     // סמן את האלמנט הנבחר
     theElement.addClass('selected-element');
-}
-
-function updatePanel(panelName) {
-
-
-    const successfuly = loadPanel(panelName);
-    if (successfuly) {
-        thePanel = panelName;
-        loadPanelListeners(panelName);
-    }
 }
 
 /**
@@ -47,7 +37,7 @@ function updatePanel(panelName) {
     if (panelName === 'tree-panel') {
         treeContainer.style.display = 'block';
         editPanel.style.display = 'none';
-        renderElementTree(); // פונקציה מ-tree.js
+        renderTree(); // פונקציה מ-tree.js
         return;
     }
 
@@ -56,42 +46,25 @@ function updatePanel(panelName) {
     editPanel.style.display = 'block';
 
     const successfuly = loadPanel(panelName);
-    if (successfuly) {
-        loadPanelListeners(panelName);
-    } else {
+    if (!successfuly) {
         thePanel = '';
     }
 }
 
 function createRefRule(selector) {
     if (!styleState[selector]) {
-        styleState[selector] = { 'rule': createRule(selector) };
+        const rule = createRule(selector);
+        styleState[selector] = { 'rule': rule };
+        return rule;
     }
+    return styleState[selector][rule];
 }
 
-// אם נשאר כך שאין עיצובים באובייקט אלא רק הפניה - להעביר לסרוויסס
-function updateStyle(selector, prop, value) {
-    // --- 1. עדכון ה-State ---
-    // אם אין עדיין חוק כזה, צור אותו ב-state ובתגית הסטייל, וקשר אותם.
-    if (!styleState[selector]) {
-        createRefRule(selector);
-    }
-    // עדכן את הערך ב-State
-    //styleState[selector][prop] = value;
-
-    // --- 2. עדכון ה-Sheet (המראה ב-DOM) ---
-    let rule = styleState[selector]['rule'];
-
-    if (rule) {
-        // שנה את הסגנון של החוק
-        rule.style[prop] = value;
-    }
-}
 
 function loadPage() {
     loadDocumentListeners();
     updateSelectedElement(editor);
-    renderElementTree();
+    renderTree();
     initGlobalTreeListeners();
 }
 
