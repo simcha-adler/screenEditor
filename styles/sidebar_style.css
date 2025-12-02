@@ -19,7 +19,7 @@
 }
 
 /* --- 1. סרגל הפעילות (הכי ימני) --- */
-.activity-bar {
+.sidebar {
     width: 50px;
     background-color: #e0e0e0;
     /* רקע לבן */

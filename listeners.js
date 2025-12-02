@@ -19,7 +19,7 @@ function loadDocumentListeners() {
     });
 
     // מאזין 'input' פועל לרוב הפקדים (טקסט, מספר, צבע)
-    sidePanel.when('input' || 'change', (e) => {
+    panelArea.when('input' || 'change', (e) => {
         if (!theElement) return;
 
         //  קבע את הסלקטור
@@ -39,5 +39,8 @@ function loadDocumentListeners() {
             updateStyle(selector, prop, value + unit);
     });
 
-    document.whenClick(closeOpenedNav);
+    document.whenClick(() => {
+        $('tree-menu').style.display = 'none';
+        closeOpenedNav();
+    });
 }

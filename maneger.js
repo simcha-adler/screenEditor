@@ -18,7 +18,8 @@ function updateSelectedElement(newElement = null) {
     // עדכן את כל התוכנית שהאלמנט השתנה
     theElement = newElement;
     theStyles = window.getComputedStyle(theElement);
-    restartPanel(thePanel);
+    if (thePanel && thePanel !== panelTree)
+        restartPanel(thePanel);
     updateToolbarButtonStates();
     $('theElement').value = Id.replaceAll('_', ' ');
     // סמן את האלמנט הנבחר
@@ -27,27 +28,20 @@ function updateSelectedElement(newElement = null) {
 
 /**
  * טעינת התוכן לפאנל
- */
-function updatePanel(panelName) {
+*/
+function updatePanel(panel) {
+    if (thePanel === panel) return;
 
-    thePanel = panelName;
-    updateActivityBarState(panelName); // עדכון האייקון בסרגל
-
-    // טיפול מיוחד לעץ האלמנטים
-    if (panelName === 'tree-panel') {
-        treeContainer.style.display = 'block';
-        editPanel.style.display = 'none';
-        renderTree(); // פונקציה מ-tree.js
-        return;
-    }
-
-    // עבור כל שאר הפאנלים (עיצוב, גבולות וכו')
-    treeContainer.style.display = 'none';
-    editPanel.style.display = 'block';
-
-    const successfuly = loadPanel(panelName);
-    if (!successfuly) {
-        thePanel = '';
+    if (thePanel)
+        thePanel.style.display = 'none';
+    thePanel = panel;
+    if (panel) {
+        panel.style.display = 'block';
+        // לבטל כשאסיר את טולבאר
+        if (panel === panelTree)
+            renderTree();
+        else
+            restartPanel(thePanel);
     }
 }
 

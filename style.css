@@ -5,7 +5,6 @@ body {
     direction: rtl;
 }
 
-/* --- שינויים למבנה דמוי אתר --- */
 .main-area {
     display: flex;
     padding: 0;
@@ -61,8 +60,4 @@ body {
     outline: 1px solid black !important;
     outline-offset: -1px;
     /* כדי שהקו יהיה בתוך האלמנט ולא יגדיל אותו */
-    z-index: 9999;
-    /* שיהיה תמיד מעל */
 }
-
-/*=============================*/

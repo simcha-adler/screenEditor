@@ -1,45 +1,43 @@
 const htmlAddElement = /* html */ `
-<div id="panel-add-element" class="design-panel" style="display: block;">
-    <h4>הוספת אלמנט חדש</h4>
+<h4>הוספת אלמנט חדש</h4>
+
+<div class="design-control-grid-4" style="grid-template-columns: 1fr; gap: 15px;">
     
-    <div class="design-control-grid-4" style="grid-template-columns: 1fr; gap: 15px;">
-        
-        <label class="design-control" style="display:block;">
-            <span>בחר מה להוסיף:</span>
-            <select id="newElementType" style="width: 100%; padding: 8px; margin-top: 5px;">
-                <option value="div">🔲 קופסה / אזור תוכן</option>
-                <option value="h2">T כותרת</option>
-                <option value="p">📝 טקסט רגיל (פסקה)</option>
-                <option value="button">🔘 כפתור לחיץ</option>
-                <option value="img">🖼️ תמונה</option>
-                <option value="input">⌨️ שדה כתיבה (Input)</option>
-                <option value="hr">➖ קו מפריד</option>
-            </select>
-        </label>
+    <label class="design-control" style="display:block;">
+        <span>בחר מה להוסיף:</span>
+        <select id="newElementType" style="width: 100%; padding: 8px; margin-top: 5px;">
+            <option value="div">🔲 קופסה / אזור תוכן</option>
+            <option value="h2">T כותרת</option>
+            <option value="p">📝 טקסט רגיל (פסקה)</option>
+            <option value="button">🔘 כפתור לחיץ</option>
+            <option value="img">🖼️ תמונה</option>
+            <option value="input">⌨️ שדה כתיבה (Input)</option>
+            <option value="hr">➖ קו מפריד</option>
+        </select>
+    </label>
 
-        <label class="design-control" style="display:block;">
-            <span>תן שם לאלמנט:</span>
-            <input type="text" id="newElementName" placeholder="חובה להזין שם!" style="width: 100%; padding: 8px; margin-top: 5px;">
-        </label>
+    <label class="design-control" style="display:block;">
+        <span>תן שם לאלמנט:</span>
+        <input type="text" id="newElementName" placeholder="חובה להזין שם!" style="width: 100%; padding: 8px; margin-top: 5px;">
+    </label>
 
-        <button id="btnAddElementAction" style="
-            background-color: #0078d4; 
-            color: white; 
-            border: none; 
-            padding: 10px; 
-            border-radius: 4px; 
-            cursor: pointer; 
-            margin-top: 10px;
-            width: 100%;">
-            הוסף למסמך
-        </button>
+    <button id="btnAddElementAction" style="
+        background-color: #0078d4; 
+        color: white; 
+        border: none; 
+        padding: 10px; 
+        border-radius: 4px; 
+        cursor: pointer; 
+        margin-top: 10px;
+        width: 100%;">
+        הוסף למסמך
+    </button>
 
-    </div>
 </div>
 `;
 
 function loadAddElementPanel() {
-    editPanel.innerHTML = htmlAddElement;
+    htmlAddElement.into('#panel-add-element');
     attachAddElementListeners();
 }
 
@@ -53,10 +51,12 @@ function attachAddElementListeners() {
             const type = typeSelect.value;
             const rawName = nameInput.value;
             const newDomEl = addElementManeger(type, rawName);
-            // איפוס השדה לאחר ההוספה
-            nameInput.value = '';
-            updateSelectedElement(newDomEl);
-            toggleActivityPanel('panel-design');
+            if (newDomEl) {
+                // איפוס השדה לאחר ההוספה
+                nameInput.value = '';
+                updateSelectedElement(newDomEl);
+                toggleActivityPanel($1('.activity-btn[data-panel="panel-design"]'));
+            }
         });
     }
 }
@@ -186,3 +186,4 @@ function createSafeId(name) {
     return safeId;
 }
 
+loadAddElementPanel();

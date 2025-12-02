@@ -160,12 +160,7 @@ function initGlobalTreeListeners() {
         const contentSpan = e.upTo('.tree-node-content');
         if (contentSpan) {
             const node = contentSpan.closest('.tree-node');
-            const id = node.dataset.editorId;
-            updateSelectedElement($(id));
-
-            // סימון ויזואלי בעץ
-            $$('.tree-life').removeClass('selected');
-            node.$1('.tree-life').addClass('selected');
+            selectTreeNode(node);
             return;
         }
 
@@ -176,17 +171,20 @@ function initGlobalTreeListeners() {
             e.stopPropagation();
             const node = menuBtn.closest('.tree-node');
             // עדכון משתני הפעולה הגלובליים
-            actionTarget = node;
-            actionDom = $(node.dataset.editorId);
-            updateSelectedElement(actionDom);
-
+            selectTreeNode(node);
             // פתיחת התפריט במיקום הכפתור
-            // ליצור תפריט קבוע, להוסיף לו רוקן אלמנט,
             // אם נשלח אדיטור, להסתיר את מחק והוסף אחרי
             if (node.dataset.editorId === 'דף_הבסיס')
-                editorMenu();/*לא קיים */
-            else
-                showContextMenu(e.pageX, e.pageY);
+                hideItemsNotForEditor();
+            showContextMenu(e.pageX, e.pageY);
+        }
+    });
+
+    $('tree-menu').whenClick((e) => {
+        const btn = e.upTo('.tree-menu-item');
+        if (btn) {
+            const action = btn.dataset.action;
+            handleMenuAction(action);
         }
     });
 
@@ -196,10 +194,10 @@ function initGlobalTreeListeners() {
     $('toggle-lock-drag').when('change', function () {
         if (this.checked) {
             draggable = true;
-            treeContainer.addClass('drag-mode');
+            panelTree.addClass('drag-mode');
         } else {
             draggable = false;
-            treeContainer.removeClass('drag-mode');
+            panelTree.removeClass('drag-mode');
         };
     });
 
@@ -237,14 +235,13 @@ function initGlobalTreeListeners() {
             e.preventDefault();
             e.stopPropagation();
 
-            const parentTree = e.upTo('.tree-node');
-            const listContainer = actionTree.parentNode;
+            const parent = e.upTo('.tree-node');
 
             // אם שחררנו במקום לא חוקי או על עצמנו
-            if (!parentTree || (parentTree === actionTree)) return;
+            if (!parent || (parent === actionTree)) return;
 
-            insertElementManeger(actionTree, parentTree);
-            updateHasChildren(listContainer);
+            insertElementManeger(actionTree, parent);
+            updateHasChildren(parent);
 
             // ניקוי
             cleanDragClasses();
@@ -264,40 +261,24 @@ function cleanDragClasses() {
 // === 3. לוגיקת תפריט והזזה בפועל ===
 
 function showContextMenu(x, y) {
-    let menu = $('tree-menu');
-    // יצירת התפריט אם לא קיים
-    if (!menu) {
-        menu = document.createElement('div');
-        menu.id = 'tree-menu';
-        menu.innerHTML = `
-            <div class="tree-menu-item" onclick="handleMenuAction('add-inside')"><span>↳</span> הוסף בתוך</div>
-            <div class="tree-menu-item" onclick="handleMenuAction('add-after')"><span></span> הוסף אחרי</div>
-            <div style="height: 1px; background: #eee; margin: 3px 0;"></div>
-            <div class="tree-menu-item" onclick="handleMenuAction('delete')" style="color: red;"><span>🗑️</span> מחק</div>
-            <div class="tree-menu-item" onclick="handleMenuAction('empty')" style="color: red;"><span>🗑️</span> רוקן תוכן</div>
-        `;
-        document.body.appendChild(menu);
-
-        // סגירה כשלוחצים בחוץ
-        document.whenClick(() => menu.style.display = 'none');
-    }
+    const menu = $('tree-menu');
 
     menu.style.display = 'block';
-    menu.style.left = x + 'px';
+    menu.style.left = (x - 150) + 'px';
     menu.style.top = y + 'px';
 }
 
 // פונקציה גלובלית לטיפול בפעולות התפריט
-window.handleMenuAction = function (action) {
+function handleMenuAction(action) {
     if (!action) return;
 
     if (action === 'add-inside') {
         updateSelectedElement(actionTarget);
-        toggleActivityPanel('panel-add');
+        toggleActivityPanel($('panel-add-element'));
     }
     else if (action === 'add-after') {
         updateSelectedElement(actionTarget.parentElement);
-        toggleActivityPanel('panel-add');
+        toggleActivityPanel($('panel-add-elemnt'));
     }
     else if (action === 'delete') {
         let del = false;
@@ -307,13 +288,19 @@ window.handleMenuAction = function (action) {
             del = confirm('למחוק את האלמנט ואת כל האלמנטים שבו?');
         }
         if (del) {
-            const parentList = actionTree.parentNode;
+            const parent = actionTree.closest('.tree-node');
             actionTree.remove();
             actionDom.remove();
             actionTree = null;
             actionDom = null;
-            updateHasChildren(parentList);
+            updateHasChildren(parent);
             updateSelectedElement(null); // איפוס בחירה
+        }
+    }
+    else if (action === 'empty') {
+        if (confirm('למחוק את כל האלמנטים שבתוך אלמנט זה?')) {
+            $$(`#${actionDom.id} *`).forEach(ch => ch.remove());
+            updateHasChildren(actionTree, true);
         }
     }
 };
@@ -330,7 +317,7 @@ function insertElementManeger(nodeTree, parentTree, nodeDom = null, parentDom = 
     if (voidElements.includes(parentDom.tagName))
         if (confirm("אין אפשרות להכניס בתוך האלמנט הנבחר. להכניס אחריו?")) {
             parentDom = parentDom.parentNode;
-            parentTree = parentTree.parentNode.parentNode;
+            parentTree = parentTree.$1('.tree-node');
         } else return;
 
     // מניעת לולאות (הכנסת אבא לבן)
@@ -343,6 +330,7 @@ function insertElementManeger(nodeTree, parentTree, nodeDom = null, parentDom = 
 
     // פתיחת ההורה החדש כדי שנראה את הילד שהתווסף
     setTimeout(showChildren(parentTree), 50);
+    selectTreeNode(nodeTree);
 }
 
 function showChildren(parentTree) {
@@ -355,10 +343,28 @@ function hideChildren(parentTree) {
     parentTree.$1('.tree-node-toggle').innerHTML = '&#9664;';
 }
 
-function updateHasChildren(list) {
-    if (list.children.length === 0) {
-        const parent = list.parentNode;
+function updateHasChildren(node, empty = false) {
+    const list = node.$1('ul');
+    if (!list) return;
+    if (empty || list.children.length === 0) {
         list.remove();
         parent.$1('.tree-node-toggle').innerHTML = '';
     }
+}
+
+function selectTreeNode(node) {
+    const src = $(node.dataset.editorId);
+    updateSelectedElement(src);
+
+    // עדכון משתנים גלובליים
+    actionTree = node;
+    actionDom = src;
+
+    // סימון ויזואלי בעץ
+    $$('.tree-life').removeClass('selected');
+    node.$1('.tree-life').addClass('selected');
+}
+
+function hideItemsNotForEditor() {
+    $('tree-menu').$$('.not-for-editor').forEach(row => row.style.display = 'none');
 }

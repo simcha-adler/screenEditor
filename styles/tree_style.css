@@ -270,7 +270,7 @@
 
 
 /* כשהעץ במצב גרירה, השורות יקבלו מסגרת וסמן הזזה */
-#tree-container.drag-mode .tree-node-content {
+#panel-tree.drag-mode .tree-node-content {
     cursor: move;
     /* סמן של הזזה */
     border: 1px dashed #ccc;
@@ -284,7 +284,7 @@
 }
 
 /* אפקט בריחוף מעל שורה בזמן מצב גרירה */
-#tree-container.drag-mode .tree-node-content:not(.document-page):hover {
+#panel-tree.drag-mode .tree-node-content:not(.document-page):hover {
     background-color: #c5c5c5;
     border-color: #999999;
     transform: translateX(-2px);
@@ -292,15 +292,15 @@
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-#tree-container.drag-mode .tree-life:hover {
+#panel-tree.drag-mode .tree-life:hover {
     background-color: #f8f8f8;
 }
 
-#tree-container.drag-mode .tree-life.selected {
+#panel-tree.drag-mode .tree-life.selected {
     background: none;
 }
 
-#tree-container.drag-mode .tree-node-menu-btn:hover {
+#panel-tree.drag-mode .tree-node-menu-btn:hover {
     box-shadow: none;
     border-right: 2px solid #f8f8f8;
 }

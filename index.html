@@ -20,46 +20,52 @@
 <body>
 
     <div id="main-nav" class="main-nav"></div>
-
-
     <div id="toolbar" class="toolbar"></div>
-
-
     <div class="main-area">
 
-        <div id="activity-bar" class="activity-bar"></div>
-
-        <div id="side-panel" class="side-panel">
-
-
-            <div class="sidebar-header" id="sidebarHeader">
-
-                <div id="selectedElement" class="header-control-group element-selector-group">
-                    <label for="selectedElement">אלמנט נבחר:</label>
-                    <input type="text" name="theElement" id="theElement" placeholder="לא נבחר אלמנט" readonly>
+        <div id="sidebar" class="sidebar"></div>
+        <div id="panel-area" class="panel-area">
+            <div class="panel-header" id="panel-header">
+                <div id="selectedElement" class="panel-header-content">
+                    <label for="theElement">אלמנט נבחר:</label>
+                    <input type="text" id="theElement" placeholder="לא נבחר אלמנט" readonly>
                 </div>
 
-                <div class="header-control-group state-selector-group">
+                <div id="edition-states" class="panel-header-content">
                     <label for="dropdown-states">מצב:</label>
-                    <select name="dropdown-states" id="dropdown-states">
+                    <select id="dropdown-states">
                         <option value="">בסיסי</option>
                         <option value=":hover">מעבר עכבר</option>
                         <option value=":focus">פוקוס</option>
+                        <option value=":active">לחיצה</option>
+                        <option value=":first-child">ילד ראשון</option>
+                        <option value=":last-child">ילד אחרון</option>
+                        <option value=":nth-child(even)">ילדים זוגיים</option>
+                        <option value=":nth-child(odd)">ילדים אי-זוגיים</option>
+                        <!--hr>
+                        <option value="::before">לפני האלמנט</option>
+                        <option value="::after">אחרי האלמנט</option-->
                     </select>
                 </div>
             </div>
 
-            <div id="edit-panel"></div>
+            <div id="panels">
+                <div id="panel-add-element" class="design-panel"></div>
+                <div id="panel-borders" class="design-panel"></div>
+                <div id="panel-design" class="design-panel"></div>
+                <div id="panel-layout" class="design-panel"></div>
+                <div id="panel-position" class="design-panel"></div>
+                <div id="panel-display" class="design-panel"></div>
 
-            <div id="tree-container">
-                <div id="tree-header" class="tree-header">
-                    <h4 style="padding: 0; margin: 0;">מבנה המסמך</h4>
-                    <input type="checkbox" id="toggle-lock-drag" class="toggle-input">
-                    <label for="toggle-lock-drag" class="toggle-switch"></label>
+                <div id="panel-tree" class="design-panel">
+                    <div id="tree-header" class="tree-header">
+                        <h4 style="padding: 0; margin: 0;">מבנה המסמך</h4>
+                        <input type="checkbox" id="toggle-lock-drag" class="toggle-input">
+                        <label for="toggle-lock-drag" class="toggle-switch"></label>
+                    </div>
+                    <div id="tree-body" class="tree-body" style="margin: 0; padding: 0;"></div>
                 </div>
-                <div id="tree-body" class="tree-body" style="margin: 0; padding: 0;"></div>
             </div>
-
         </div>
 
         <div class="main-content">
@@ -76,6 +82,14 @@
         </div>
     </div>
 
+    <div id="tree-menu">
+        <div class="tree-menu-item" data-action='add-inside'><span>↳</span> הוסף בתוך</div>
+        <div class="tree-menu-item not-for-editor" data-action='add-after'><span></span> הוסף אחרי</div>
+        <div style="height: 1px; background: #eee; margin: 3px 0;"></div>
+        <div class="tree-menu-item not-for-editor" data-action='delete' style="color: red;"><span>🗑️</span> מחק</div>
+        <div class="tree-menu-item" data-action='empty' style="color: red;"><span>🗑️</span> רוקן תוכן</div>
+    </div>
+
     <script src="./data_center.js"></script>
     <script src="./servises.js"></script>
     <script src="./panels/nav.js"></script>
@@ -88,7 +102,6 @@
     <script src="./panels/side/layout.js"></script>
     <script src="./panels/side/position.js"></script>
     <script src="./panels/side/addElement.js"></script>
-    <script src="./panels/panelManeger.js"></script>
     <script src="./listeners.js"></script>
     <script src="./maneger.js"></script>
 </body>
