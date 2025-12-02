@@ -12,10 +12,8 @@ function loadDocumentListeners() {
     $('selectedElement').when('input', (e) => { updateSelectedElement($(`${e.target.value}`)) });
 
     $('design-menu-items').whenClick((e) => {
-        const panelId = "panel-" + e.target.dataset.panel;
-        if (panelId) {
-            updatePanel(panelId);
-        }
+        const btn = $1(`.activity-btn[data-panel=${'panel-' + e.target.dataset.panel}]`)
+        toggleActivityPanel(btn);
     });
 
     // מאזין 'input' פועל לרוב הפקדים (טקסט, מספר, צבע)

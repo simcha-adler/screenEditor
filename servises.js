@@ -151,3 +151,28 @@ function insertNodeAtCursor(node) {
     selection.removeAllRanges();
     selection.addRange(range);
 }
+
+/**
+ * משכפל אלמנט ואת כל ילדיו, ומייצר להם IDs חדשים ותקינים.
+ * @param {HTMLElement} original - האלמנט המקורי
+ * @param {string} newId - השם (ID) החדש לאלמנט הראשי
+ */
+function cloneElementWithUniqueIds(original, newId) {
+    // 1. שכפול עמוק של ה-DOM
+    const clone = original.cloneNode(true);
+
+    // 2. עדכון ה-ID של הראש
+    clone.id = newId;
+
+    // 3. עדכון רקורסיבי של IDs לכל הילדים
+    // כדי למנוע התנגשות עם הילדים המקוריים
+    const descendants = clone.querySelectorAll('*');
+    descendants.forEach(child => {
+        if (child.id) {
+            // יצירת ID חדש: "copy_" + המקורי + מספר אקראי
+            child.id = child.id + '_in_' + newId;
+        }
+    });
+
+    return clone;
+}

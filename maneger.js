@@ -59,7 +59,7 @@ function loadPage() {
     loadDocumentListeners();
     updateSelectedElement(editor);
     renderTree();
-    initGlobalTreeListeners();
+    initTreeListeners();
 }
 
 loadPage();

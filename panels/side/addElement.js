@@ -180,8 +180,7 @@ function createSafeId(name) {
 
     // בדיקת כפילות ID
     if ($(safeId)) {
-        alert('שגיאה: קיים כבר אלמנט עם השם הזה. אנא בחר שם אחר.');
-        return null;
+        return alert('שגיאה: קיים כבר אלמנט עם השם הזה. אנא בחר שם אחר.');
     }
     return safeId;
 }
