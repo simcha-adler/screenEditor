@@ -3,13 +3,27 @@ body {
     background-color: #f0f0f0;
     font-family: Arial, sans-serif;
     direction: rtl;
+    height: 100vh;
+    /* גובה מלא של חלון הדפדפן */
+    margin: 0;
+    overflow: hidden;
+    /* מונע גלילה של כל העמוד (כולל התפריטים) */
+    display: flex;
+    /* הופך את כל העמוד לפלקס-בוקס אנכי */
+    flex-direction: column;
 }
 
 .main-area {
     display: flex;
     padding: 0;
-    min-height: calc(100vh - 80px);
     z-index: 5;
+    flex-grow: 1;
+    /* ממלא את החלל שנשאר מתחת ל-Navbar ול-Toolbar */
+    height: 0;
+    /* טריק חשוב: מאפס גובה כדי לאלץ חישוב מחדש ע"י הפלקס */
+    min-height: 0;
+    overflow: hidden;
+    /* מונע גלילה ברמה הזו */
 }
 
 .main-content {
@@ -17,9 +31,14 @@ body {
     padding: 10px;
     box-sizing: border-box;
     background-color: #f0f0f0;
-    overflow: scroll;
+    overflow-y: auto;
+    /* כאן נוצר פס הגלילה האנכי! */
+    overflow-x: auto;
+    /* גלילה אופקית אם צריך */
     display: block;
     z-index: 1;
+    height: 100%;
+    position: relative;
 }
 
 .editor-view {

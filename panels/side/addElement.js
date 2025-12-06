@@ -50,7 +50,7 @@ function attachAddElementListeners() {
         btn.whenClick(() => {
             const type = typeSelect.value;
             const rawName = nameInput.value;
-            const newDomEl = addElementManeger(type, rawName);
+            const newDomEl = addElementmanager(type, rawName);
             if (newDomEl) {
                 // איפוס השדה לאחר ההוספה
                 nameInput.value = '';
@@ -61,7 +61,7 @@ function attachAddElementListeners() {
     }
 }
 
-function addElementManeger(type, rawName) {
+function addElementmanager(type, rawName) {
     if (!rawName) return alert('אנא בחר שם לאלמנט החדש');
 
     // יצירת האלמנטים (בזיכרון בלבד)
@@ -72,7 +72,7 @@ function addElementManeger(type, rawName) {
 
     const parentTree = tree.$1(`.tree-node[data-editor-id="${theElement.id}"]`);
 
-    insertElementManeger(newTreeEl, parentTree, newDomEl, theElement);
+    insertElementmanager(newTreeEl, parentTree, newDomEl, theElement);
     createRefRule('#' + safeId);
     // החלת עיצוב בסיסי
     applyDefaultSettings(newDomEl);

@@ -125,6 +125,10 @@ function restartPanel(panel) {
             fillCorrectLayout();
             break;
 
+        case 'panel-classes':
+            refreshClassesView();
+            break;
+
         default:
             break;
     }

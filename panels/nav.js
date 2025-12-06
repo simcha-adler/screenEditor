@@ -5,6 +5,7 @@ const htmlNav = /* html */  `
     <button class="nav-button">קובץ</button>
     <div class="dropdown-menu">
         <div class="dropdown-item" id="newDoc">מסמך חדש</div>
+        <div class="dropdown-item" id="upload">העלאת קובץ</div>
         <div class="dropdown-item" id="saveDoc">שמור</div>
         <div class="dropdown-item" id="downloadHTML">הורד כ-HTML</div>
     </div>
@@ -51,7 +52,8 @@ const htmlNav = /* html */  `
         <div class="dropdown-item" data-panel="view">תצוגה</div>
         <div class="dropdown-item" data-panel="layout">פריסה</div>
     </div>
-</div>`
+</div>
+<input type="file" id="fileUploadInput" style="display: none;" accept=".html,.htm">`
 
 nav.innerHTML = htmlNav;
 const navItems = $$('.nav-item');
@@ -135,19 +137,46 @@ $('newDoc').whenClick(() => {
 $('saveDoc').whenClick(() => {
     alert('המסמך נשמר מקומית בדפדפן (פונקציונליות LocalStorage דורשת הטמעה).');
 });
+
+$('upload').whenClick(() => $('fileUploadInput').click());
+
+$('fileUploadInput').when('change', handleFileUpload);
+
 $('downloadHTML').whenClick(() => {
-    //const css = $('styles').outerHTML;
-    //const css = sheet.outerHTML;
-    const content = $('editor-downloader').outerHTML;
-    //const content = '<html><head>' + css + '</head><body>' + html + '</body></html>';
-    const blob = new Blob([content], { type: 'text/html;charset=utf-8' });
-    const link = createElement('a', {
-        attrs: {
-            href: URL.createObjectURL(blob),
-            download: 'המסמך_שלי.html'
-        }
-    })
+    // 1. שליפת ה-CSS הנוכחי שהעורך יצר
+    const currentStyles = sheet.innerHTML;
+
+    // 2. שליפת ה-HTML של העורך
+    const editorContent = $('editor-downloader').outerHTML;
+
+    // 3. יצירת מבנה של דף אינטרנט מלא
+    const fullDoc = `
+    <!DOCTYPE html>
+    <html lang="he" dir="rtl">
+    <head>
+    <meta charset="UTF-8">
+            <title>האתר שלי</title>
+            <style>
+                /* CSS בסיסי לאיפוס */
+                body { margin: 0; font-family: sans-serif; }
+                
+                /* ה-CSS שהמשתמש יצר בעורך */
+                ${currentStyles}
+            </style>
+            </head>
+            <body>
+            ${editorContent}
+            </body>
+            </html>`;
+
+    // 4. יצירת ההורדה
+    const blob = new Blob([fullDoc], { type: 'text/html;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'website.html';
     link.click();
+
+    // שחרור זיכרון
     URL.revokeObjectURL(link.href);
     alert('המסמך הורד כקובץ HTML.');
 });
@@ -171,3 +200,92 @@ $('toggleSidebar').whenClick(() => {
 });
 
 
+
+/*=====================*/
+
+function handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const content = e.target.result;
+        processImportedHTML(content);
+    };
+    reader.readAsText(file);
+
+    // איפוס האינפוט כדי שאפשר יהיה להעלות את אותו קובץ שוב
+    event.target.value = '';
+}
+
+function processImportedHTML(htmlString) {
+    // 1. המרה של הטקסט ל-DOM אמיתי בזיכרון (לא במסך עדיין)
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, 'text/html');
+
+    // ננסה למצוא את הקונטיינר הראשי (לפי הקלאס של העורך שלך)
+    // אם לא מוצא, ניקח את ה-Body
+    let newContent = doc.body;
+
+    // 2. איפוס המערכת הקיימת
+    // נקה את העורך הנוכחי
+    $('דף_הבסיס').innerHTML = '';
+    // נקה את ה-CSS ואת ה-State
+    $('styles').innerHTML = '';
+    sheet = $('styles').sheet; // רענון הרפרנס
+    styleState = {}; // איפוס אובייקט המידע
+
+    // 3. המרת ה-DOM החדש: מעבר מ-Inline ל-Internal
+    // אנחנו עוברים על הילדים של התוכן החדש ומעבדים אותם
+    Array.from(newContent.children).forEach(child => {
+        // שכפול האלמנט כדי לא להרוס את ה-doc המקורי
+        const importedNode = child.cloneNode(true);
+        $('דף_הבסיס').appendChild(importedNode);
+
+        // פונקציה רקורסיבית שעוברת על האלמנט וכל ילדיו
+        convertInlineToInternalRecursively(importedNode);
+    });
+
+    // 4. סיום: רענון העץ והמאזינים
+    renderTree();
+    updateSelectedElement($('דף_הבסיס')); // חזרה לבסיס
+    alert('הקובץ נטען והומר בהצלחה!');
+}
+
+/**
+ * הפונקציה הקסומה: לוקחת אלמנט, קוראת את ה-style שלו,
+ * יוצרת חוק CSS במערכת, ומוחקת את ה-style מהאלמנט.
+ */
+function convertInlineToInternalRecursively(element) {
+    // א. וידוא שיש ID (חובה בשביל המערכת שלך)
+    const id = ensureElementId(element);
+
+    // ב. אם יש לאלמנט עיצוב אינליין
+    if (element.getAttribute('style')) {
+
+        // מעבר על כל התכונות ב-style
+        for (let i = 0; i < element.style.length; i++) {
+            const prop = element.style[i]; // למשל 'color'
+            const value = element.style.getPropertyValue(prop); // למשל 'red'
+
+            // המרה לקאמל-קייס (background-color -> backgroundColor) כי המערכת שלך עובדת ככה
+            const camelProp = prop.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+
+            // יצירת הסלקטור (הנחה: אין state כמו hover בהעלאה רגילה)
+            const selector = '#' + id;
+
+            // שימוש בפונקציה הקיימת שלך לעדכון ה-Internal CSS
+            updateStyle(selector, camelProp, value);
+        }
+
+        // ג. ניקוי הסטייל האינליין (כדי שלא יתנגש ושיהיה "נקי")
+        element.removeAttribute('style');
+    }
+
+    // ד. רקורסיה לילדים
+    if (element.children.length > 0) {
+        Array.from(element.children).forEach(child => {
+            convertInlineToInternalRecursively(child);
+        });
+    }
+}

@@ -152,7 +152,7 @@ function selectTreeNode(node) {
     node.$1('.tree-life').addClass('selected');
 }
 
-function insertElementManeger(nodeTree, parentTree, nodeDom = null, parentDom = null) {
+function insertElementmanager(nodeTree, parentTree, nodeDom = null, parentDom = null) {
     if (!nodeTree || !parentTree || nodeTree === parentTree) return;
 
     if (!nodeDom) nodeDom = $(nodeTree.dataset.editorId);
@@ -163,7 +163,7 @@ function insertElementManeger(nodeTree, parentTree, nodeDom = null, parentDom = 
     if (voidElements.includes(parentDom.tagName))
         if (confirm("אין אפשרות להכניס בתוך האלמנט הנבחר. להכניס אחריו?")) {
             parentDom = parentDom.parentNode;
-            parentTree = parentTree.$1('.tree-node');
+            parentTree = parentTree.closest('.tree-node');
         } else return;
 
     // מניעת לולאות (הכנסת אבא לבן)
@@ -179,7 +179,7 @@ function insertElementManeger(nodeTree, parentTree, nodeDom = null, parentDom = 
     selectTreeNode(nodeTree);
 }
 
-function removeElementManeger() {
+function removeElementmanager() {
     let del = false;
     if (actionDom.children.length === 0) {
         del = confirm('למחוק את האלמנט?');
@@ -197,7 +197,7 @@ function removeElementManeger() {
     }
 }
 
-function duplicateElementManeger() {
+function duplicateElementmanager() {
     let newName = prompt('הכנס שם לאלמנט המשוכפל:', actionDom.id.replaceAll('_', ' ') + '_copy');
     if (newName) {
         newName = createSafeId(newName);
@@ -340,7 +340,7 @@ function initTreeListeners() {
             if (!parent || (parent === actionTree)) return;
 
             const preParent = actionTree.parentNode.closest('.tree-node');
-            insertElementManeger(actionTree, parent);
+            insertElementmanager(actionTree, parent);
             updateHasChildren(preParent);
 
             // ניקוי
@@ -384,7 +384,7 @@ function handleMenuAction(action) {
             break;
 
         case 'delete':
-            removeElementManeger();
+            removeElementmanager();
             break;
 
         case 'empty':
@@ -395,7 +395,7 @@ function handleMenuAction(action) {
             break;
 
         case 'duplicate':
-            duplicateElementManeger();
+            duplicateElementmanager();
             break;
 
         default:

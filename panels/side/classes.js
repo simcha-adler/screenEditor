@@ -1,5 +1,5 @@
 const htmlClasses = /* html */ `
-<div id="panel-classes" class="design-panel">
+
     <h4>ניהול קלאסים (CSS Classes)</h4>
     
     <div class="control-group">
@@ -27,7 +27,7 @@ const htmlClasses = /* html */ `
         <div id="systemClassesList" class="list-container">
             </div>
     </div>
-</div>
+
 
 <style>
     .tags-container {
@@ -79,8 +79,10 @@ const htmlClasses = /* html */ `
 </style>
 `;
 
+htmlClasses.into('#panel-classes');
+
+
 function loadClassesPanel() {
-    editPanel.innerHTML = htmlClasses;
     refreshClassesView();
     attachClassesListeners();
 }
@@ -91,7 +93,7 @@ function refreshClassesView() {
     // 1. עדכון רשימת הקלאסים הפעילים
     const container = $('activeClassesList');
     container.innerHTML = '';
-    
+
     if (theElement.classList.length === 0) {
         container.innerHTML = '<span style="color:#999; font-size:12px;">אין קלאסים משויכים</span>';
     } else {
@@ -106,22 +108,22 @@ function refreshClassesView() {
     // 2. עדכון רשימת הקלאסים הקיימים במערכת (מתוך ה-StyleSheet)
     const systemList = $('systemClassesList');
     systemList.innerHTML = '';
-    
+
     // סריקת ה-styles כדי למצוא קלאסים קיימים
     const knownClasses = new Set();
-    
+
     // נבדוק ב-styleState שלנו
     Object.keys(styleState).forEach(selector => {
         if (selector.startsWith('.')) {
             // ניקוי פסאודו-סלקטורים כמו .btn:hover -> .btn
-            const cleanName = selector.split(':')[0].substring(1); 
+            const cleanName = selector.split(':')[0].substring(1);
             knownClasses.add(cleanName);
         }
     });
 
     // גם נבדוק ב-DOM למקרה שיש קלאסים שלא נרשמו ב-state
     // (אופציונלי - כרגע נסתמך על מה שהמשתמש יצר דרכנו)
-    
+
     knownClasses.forEach(clsName => {
         const item = document.createElement('div');
         item.className = 'system-class-item';
@@ -149,7 +151,7 @@ function attachClassesListeners() {
     };
 
     btnConnect.whenClick(handleAdd);
-    
+
     // הוספת קלאס ב-Enter
     input.when('keypress', (e) => {
         if (e.key === 'Enter') handleAdd();
@@ -162,11 +164,11 @@ function attachClassesListeners() {
             alert('אנא כתוב שם לקלאס');
             return;
         }
-        
+
         const selector = '.' + val;
         // בדיקה אם קיים
         if (!styleState[selector]) {
-            createRefRule(selector); // הפונקציה הקיימת שלך מ-maneger.js
+            createRefRule(selector); // הפונקציה הקיימת שלך מ-manager.js
             alert(`נוצר חוק חדש עבור ${selector}. כעת ניתן להוסיף אותו לאלמנטים.`);
             refreshClassesView();
         } else {
@@ -190,3 +192,5 @@ function addClassToElement(className) {
         refreshClassesView();
     }
 }
+
+loadClassesPanel();
