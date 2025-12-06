@@ -51,6 +51,13 @@ const htmlSidebar = /*html*/ `
             fill="currentColor" />
     </svg>
 </div>
+
+<div class="activity-btn" data-panel="panel-classes" title="ניהול קלאסים">
+    <svg viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h6v2h-6v6h-2v-6H5v-2h6z" fill="none"/>
+        <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" fill="currentColor"/>
+    </svg>
+</div>
 `;
 
 htmlSidebar.into(sidebar);
