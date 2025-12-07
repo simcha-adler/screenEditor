@@ -6,6 +6,7 @@ const htmlNav = /* html */  `
     <div class="dropdown-menu">
         <div class="dropdown-item" id="newDoc">מסמך חדש</div>
         <div class="dropdown-item" id="upload">העלאת קובץ</div>
+        <input type="file" id="fileUploadInput" style="display: none;" accept=".html,.htm">
         <div class="dropdown-item" id="saveDoc">שמור</div>
         <div class="dropdown-item" id="downloadHTML">הורד כ-HTML</div>
     </div>
@@ -13,34 +14,34 @@ const htmlNav = /* html */  `
 
 <!--=======תפריט עריכה=========-->
 <div class="nav-item">
-<button class="nav-button">עריכה</button>
-<div class="dropdown-menu" id="edit-menu-items">
-<div class="dropdown-item" data-action="undo">בטל (Undo)</div>
-<div class="dropdown-item" data-action="redo">חזור (Redo)</div>
-<div class="dropdown-item" data-action="paste">הדבק</div>
-<div class="dropdown-item" data-action="selectAll">בחר הכל</div>
-</div>
+    <button class="nav-button">עריכה</button>
+    <div class="dropdown-menu" id="edit-menu-items">
+        <div class="dropdown-item" data-action="undo">בטל (Undo)</div>
+        <div class="dropdown-item" data-action="redo">חזור (Redo)</div>
+        <div class="dropdown-item" data-action="paste">הדבק</div>
+        <div class="dropdown-item" data-action="selectAll">בחר הכל</div>
+    </div>
 </div>
 
 <!--=======תפריט אלמנטים=========-->
-        <div class="nav-item">
-<button class="nav-button">אלמנטים</button>
-<div class="dropdown-menu" id="elements-menu-items">
+<div class="nav-item">
+    <button class="nav-button">אלמנטים</button>
+    <div class="dropdown-menu" id="elements-menu-items">
         <div class="dropdown-item" id="insertImage">הוסף תמונה (URL)</div>
         <div class="dropdown-item" id="createLink">הוסף קישור (URL)</div>
         <div class="dropdown-item" data-action="insertHorizontalRule">קו מפריד</div>
     </div>
-    </div>
+</div>
     
 <!--=======תפריט תצוגה=========-->
-    <div class="nav-item" id="view-nav">
+<div class="nav-item" id="view-nav">
     <button class="nav-button">תצוגה</button>
     <div class="dropdown-menu">
-    <div class="dropdown-item" id="toggleToolbar">הצג/הסתר סרגל כלים</div>
-    <div class="dropdown-item" id="fullscreen">מצב מסך מלא</div>
-    <div class="dropdown-item" id="toggleSidebar">הצג/הסתר סרגל צד</div>
+        <div class="dropdown-item" id="toggleToolbar">הצג/הסתר סרגל כלים</div>
+        <div class="dropdown-item" id="fullscreen">מצב מסך מלא</div>
+        <div class="dropdown-item" id="toggleSidebar">הצג/הסתר סרגל צד</div>
     </div>
-    </div>
+</div>
     
 <!--=======תפריט עיצוב=========-->
 <div class="nav-item" id="design-nav">
@@ -52,8 +53,7 @@ const htmlNav = /* html */  `
         <div class="dropdown-item" data-panel="view">תצוגה</div>
         <div class="dropdown-item" data-panel="layout">פריסה</div>
     </div>
-</div>
-<input type="file" id="fileUploadInput" style="display: none;" accept=".html,.htm">`
+</div>`
 
 nav.innerHTML = htmlNav;
 const navItems = $$('.nav-item');
@@ -130,9 +130,7 @@ $('elements-menu-items').whenClick((e) => {
 
 // --- לוגיקה של תפריט "קובץ" ---
 $('newDoc').whenClick(() => {
-    if (confirm('האם אתה בטוח שברצונך להתחיל מסמך חדש? השינויים הנוכחיים לא יישמרו.')) {
-        editor.innerHTML = '<h1>מסמך חדש</h1><p>התחל לכתוב...</p>';
-    }
+    restartPage()
 });
 $('saveDoc').whenClick(() => {
     alert('המסמך נשמר מקומית בדפדפן (פונקציונליות LocalStorage דורשת הטמעה).');
@@ -222,19 +220,10 @@ function processImportedHTML(htmlString) {
     // 1. המרה של הטקסט ל-DOM אמיתי בזיכרון (לא במסך עדיין)
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, 'text/html');
-
-    // ננסה למצוא את הקונטיינר הראשי (לפי הקלאס של העורך שלך)
-    // אם לא מוצא, ניקח את ה-Body
-    let newContent = doc.body;
-
+    const newContent = doc.body;
+    const newStyles = doc.$1('style');
     // 2. איפוס המערכת הקיימת
-    // נקה את העורך הנוכחי
-    $('דף_הבסיס').innerHTML = '';
-    // נקה את ה-CSS ואת ה-State
-    $('styles').innerHTML = '';
-    sheet = $('styles').sheet; // רענון הרפרנס
-    styleState = {}; // איפוס אובייקט המידע
-
+    if (!restartPage()) return;
     // 3. המרת ה-DOM החדש: מעבר מ-Inline ל-Internal
     // אנחנו עוברים על הילדים של התוכן החדש ומעבדים אותם
     Array.from(newContent.children).forEach(child => {
@@ -245,6 +234,8 @@ function processImportedHTML(htmlString) {
         // פונקציה רקורסיבית שעוברת על האלמנט וכל ילדיו
         convertInlineToInternalRecursively(importedNode);
     });
+
+    Array.from(newStyles).forEach(st => createRefRule(st));
 
     // 4. סיום: רענון העץ והמאזינים
     renderTree();
@@ -263,6 +254,10 @@ function convertInlineToInternalRecursively(element) {
     // ב. אם יש לאלמנט עיצוב אינליין
     if (element.getAttribute('style')) {
 
+        // יצירת הסלקטור (הנחה: אין state כמו hover בהעלאה רגילה)
+        const selector = '#' + id;
+        const rule = createRuleAndRef(selector);
+
         // מעבר על כל התכונות ב-style
         for (let i = 0; i < element.style.length; i++) {
             const prop = element.style[i]; // למשל 'color'
@@ -271,11 +266,7 @@ function convertInlineToInternalRecursively(element) {
             // המרה לקאמל-קייס (background-color -> backgroundColor) כי המערכת שלך עובדת ככה
             const camelProp = prop.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
 
-            // יצירת הסלקטור (הנחה: אין state כמו hover בהעלאה רגילה)
-            const selector = '#' + id;
-
-            // שימוש בפונקציה הקיימת שלך לעדכון ה-Internal CSS
-            updateStyle(selector, camelProp, value);
+            rule.style[camelProp] = value;
         }
 
         // ג. ניקוי הסטייל האינליין (כדי שלא יתנגש ושיהיה "נקי")

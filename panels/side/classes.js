@@ -94,16 +94,21 @@ function refreshClassesView() {
     const container = $('activeClassesList');
     container.innerHTML = '';
 
-    if (theElement.classList.length === 0) {
+    theElement.classList.forEach(cls => {
+        if (styleState['.' + cls]) {
+            const tag = createElement('div', {
+                class: 'class-tag',
+                in: `<span>${cls}</span>
+                        <span class="remove-class-btn" data-class="${cls}">×</span>`,
+            });
+            tag.into(container);
+        }
+    });
+
+    if (!container.innerHTML) {
         container.innerHTML = '<span style="color:#999; font-size:12px;">אין קלאסים משויכים</span>';
-    } else {
-        theElement.classList.forEach(cls => {
-            const tag = document.createElement('div');
-            tag.className = 'class-tag';
-            tag.innerHTML = `<span>.${cls}</span> <span class="remove-class-btn" data-class="${cls}">×</span>`;
-            container.appendChild(tag);
-        });
     }
+
 
     // 2. עדכון רשימת הקלאסים הקיימים במערכת (מתוך ה-StyleSheet)
     const systemList = $('systemClassesList');
@@ -116,7 +121,8 @@ function refreshClassesView() {
     Object.keys(styleState).forEach(selector => {
         if (selector.startsWith('.')) {
             // ניקוי פסאודו-סלקטורים כמו .btn:hover -> .btn
-            const cleanName = selector.split(':')[0].substring(1);
+            //const cleanName = selector.split(':')[0].substring(1);
+            const cleanName = selector.substring(1);
             knownClasses.add(cleanName);
         }
     });
@@ -125,11 +131,13 @@ function refreshClassesView() {
     // (אופציונלי - כרגע נסתמך על מה שהמשתמש יצר דרכנו)
 
     knownClasses.forEach(clsName => {
-        const item = document.createElement('div');
-        item.className = 'system-class-item';
-        item.innerHTML = `<span>.${clsName}</span> <span style="font-size:10px; color:green;">הוסף +</span>`;
-        item.onclick = () => addClassToElement(clsName);
-        systemList.appendChild(item);
+        const item = createElement('div', {
+            class: 'system-class-item',
+            in: `<span>${clsName}</span> 
+                <span style="font-size:10px; color:green;">הוסף +</span>`,
+            attrs: { 'data-class': clsName }
+        });
+        item.into(systemList);
     });
 
     if (knownClasses.size === 0) {
@@ -139,42 +147,36 @@ function refreshClassesView() {
 
 function attachClassesListeners() {
     // הוספת קלאס בלחיצה
-    const btnConnect = $('btnConnectClass');
     const input = $('classInput');
 
-    const handleAdd = () => {
-        const val = input.value.trim().replace('.', ''); // הסרת נקודה אם המשתמש הקליד
-        if (val) {
-            addClassToElement(val);
-            input.value = '';
-        }
+    function createOrAddClass(toElement = false) {
+        const selector = ensureClassName(input.value);
+        if (!selector) return;
+        // אם לא קיים, להוסיף לרשימת הקלאסים
+        if (!styleState[selector])
+            createRuleAndRef(selector);
+        else if (!toElement) // נשלח להוספה לרשימה וקיים בה כבר
+            return alert('עיצוב בשם זה כבר קיים במערכת.');
+        if (toElement) theElement.addClass(selector.substring(1));
+        input.value = '';
+        refreshClassesView();
     };
 
-    btnConnect.whenClick(handleAdd);
+    $('btnConnectClass').whenClick(() => createOrAddClass(true));
 
     // הוספת קלאס ב-Enter
     input.when('keypress', (e) => {
-        if (e.key === 'Enter') handleAdd();
+        if (e.key === 'Enter') createOrAddClass(true);
     });
 
     // יצירת חוק CSS חדש
-    $('btnCreateRule').whenClick(() => {
-        const val = input.value.trim().replace('.', '');
-        if (!val) {
-            alert('אנא כתוב שם לקלאס');
-            return;
-        }
+    $('btnCreateRule').whenClick(() => createOrAddClass());
 
-        const selector = '.' + val;
-        // בדיקה אם קיים
-        if (!styleState[selector]) {
-            createRefRule(selector); // הפונקציה הקיימת שלך מ-manager.js
-            alert(`נוצר חוק חדש עבור ${selector}. כעת ניתן להוסיף אותו לאלמנטים.`);
-            refreshClassesView();
-        } else {
-            alert('חוק זה כבר קיים במערכת.');
-        }
-    });
+    $('systemClassesList').whenClick((e) => {
+        const cls = e.upTo('.system-class-item');
+        theElement.addClass(cls.dataset.class);
+        refreshClassesView();
+    })
 
     // הסרת קלאס (Event Delegation)
     $('activeClassesList').whenClick((e) => {
@@ -186,11 +188,15 @@ function attachClassesListeners() {
     });
 }
 
-function addClassToElement(className) {
-    if (theElement) {
-        theElement.classList.add(className);
-        refreshClassesView();
+function ensureClassName(name) {
+    if (!name) {
+        alert('אנא כתוב שם לקלאס');
+        return '';
     }
+    if (!name.startsWith('.')) name = '.' + name;
+    const newName = name.replaceAll(' ', '-').trim();
+    return newName;
 }
+
 
 loadClassesPanel();

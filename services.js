@@ -63,7 +63,7 @@ function getStyle(selector, prop) {
 function updateStyle(selector, prop, value) {
     // אם אין עדיין חוק כזה, צור אותו ב-state ובתגית הסטייל, וקשר אותם.
     if (!styleState[selector]) {
-        createRefRule(selector);
+        createRuleAndRef(selector);
     }
 
     let rule = styleState[selector]['rule'];

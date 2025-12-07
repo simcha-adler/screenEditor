@@ -45,7 +45,7 @@ function updatePanel(panel) {
     }
 }
 
-function createRefRule(selector) {
+function createRuleAndRef(selector) {
     if (!styleState[selector]) {
         const rule = createRule(selector);
         styleState[selector] = { 'rule': rule };
@@ -54,6 +54,24 @@ function createRefRule(selector) {
     return styleState[selector][rule];
 }
 
+function restartPage() {
+    if (!confirm('הדף הנוכחי יימחק לחלוטין, ולא ניתן יהיה לשחזר אותו! האם אתם בטוחים? לשמירת הדף, ניתן להוריד אותו כ-html לפני האתחול.')) return false;
+
+    // נקה את העורך הנוכחי
+    $('דף_הבסיס').innerHTML = '';
+    // נקה את ה-CSS ואת ה-State
+    $('styles').innerHTML = '';
+    sheet = $('styles').sheet; // רענון הרפרנס
+    styleState = {}; // איפוס אובייקט המידע
+    return true;
+}
+
+function createRefRule(rule) {
+    const selector = rule.selectorText;
+    if (!selector) return null;
+    styleState[selector] = { 'rule': rule };
+    return rule;
+}
 
 function loadPage() {
     loadDocumentListeners();

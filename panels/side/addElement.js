@@ -73,7 +73,7 @@ function addElementmanager(type, rawName) {
     const parentTree = tree.$1(`.tree-node[data-editor-id="${theElement.id}"]`);
 
     insertElementmanager(newTreeEl, parentTree, newDomEl, theElement);
-    createRefRule('#' + safeId);
+    createRuleAndRef('#' + safeId);
     // החלת עיצוב בסיסי
     applyDefaultSettings(newDomEl);
 
@@ -83,7 +83,7 @@ function addElementmanager(type, rawName) {
 function setInitialStyles(selector, stylesObject) {
     // 1. יצירת רפרנס לחוק ב-State אם אינו קיים (פעם אחת בלבד)
     if (!styleState[selector]) {
-        createRefRule(selector);
+        createRuleAndRef(selector);
     }
 
     // 2. שליפת ה-Rule מתוך ה-State
