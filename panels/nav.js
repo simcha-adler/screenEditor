@@ -32,7 +32,7 @@ const htmlNav = /* html */  `
         <div class="dropdown-item" data-action="insertHorizontalRule">קו מפריד</div>
     </div>
 </div>
-    
+
 <!--=======תפריט תצוגה=========-->
 <div class="nav-item" id="view-nav">
     <button class="nav-button">תצוגה</button>
@@ -42,7 +42,7 @@ const htmlNav = /* html */  `
         <div class="dropdown-item" id="toggleSidebar">הצג/הסתר סרגל צד</div>
     </div>
 </div>
-    
+
 <!--=======תפריט עיצוב=========-->
 <div class="nav-item" id="design-nav">
     <button class="nav-button">עיצוב</button>
@@ -50,7 +50,7 @@ const htmlNav = /* html */  `
         <div class="dropdown-item" data-panel="design">צבעים וגופנים</div>
         <div class="dropdown-item" data-panel="borders">גבולות ורווחים(Borders)</div>
         <div class="dropdown-item" data-panel="position">גודל ומיקום</div>
-        <div class="dropdown-item" data-panel="view">תצוגה</div>
+        <div class="dropdown-item" data-panel="display">תצוגה</div>
         <div class="dropdown-item" data-panel="layout">פריסה</div>
     </div>
 </div>`
@@ -141,11 +141,15 @@ $('upload').whenClick(() => $('fileUploadInput').click());
 $('fileUploadInput').when('change', handleFileUpload);
 
 $('downloadHTML').whenClick(() => {
-    // 1. שליפת ה-CSS הנוכחי שהעורך יצר
-    const currentStyles = sheet.innerHTML;
+    // 1. שליפת ה-CSS האמיתי מתוך האובייקט בזיכרון (ולא מה-HTML הריק)
+    let currentStyles = '';
+    // עוברים על כל החוקים שנצברו ב-sheet
+    for (let i = 0; i < sheet.cssRules.length; i++) {
+        currentStyles += sheet.cssRules[i].cssText + '\n';
+    }
 
     // 2. שליפת ה-HTML של העורך
-    const editorContent = $('editor-downloader').outerHTML;
+    const editorContent = $('editor-downloader').innerHTML;
 
     // 3. יצירת מבנה של דף אינטרנט מלא
     const fullDoc = `
@@ -204,6 +208,7 @@ $('toggleSidebar').whenClick(() => {
 function handleFileUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
+    if (!restartPage()) return;
 
     const reader = new FileReader();
     reader.onload = function (e) {
@@ -221,21 +226,23 @@ function processImportedHTML(htmlString) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, 'text/html');
     const newContent = doc.body;
-    const newStyles = doc.$1('style');
-    // 2. איפוס המערכת הקיימת
-    if (!restartPage()) return;
+    const newStyles = doc.$$('style');
+
     // 3. המרת ה-DOM החדש: מעבר מ-Inline ל-Internal
     // אנחנו עוברים על הילדים של התוכן החדש ומעבדים אותם
     Array.from(newContent.children).forEach(child => {
-        // שכפול האלמנט כדי לא להרוס את ה-doc המקורי
-        const importedNode = child.cloneNode(true);
-        $('דף_הבסיס').appendChild(importedNode);
+        if (child.tagName !== 'STYLE' && child.tagName === 'SCRIPT') {
+            // שכפול האלמנט כדי לא להרוס את ה-doc המקורי
+            const importedNode = child.cloneNode(true);
+            $('דף_הבסיס').appendChild(importedNode);
 
-        // פונקציה רקורסיבית שעוברת על האלמנט וכל ילדיו
-        convertInlineToInternalRecursively(importedNode);
+            // פונקציה רקורסיבית שעוברת על האלמנט וכל ילדיו
+            convertInlineToInternalRecursively(importedNode);
+        }
     });
 
-    Array.from(newStyles).forEach(st => createRefRule(st));
+    // המעבר על תגיות ה-style שנמצאו בקובץ
+    newStyles.forEach(st => importCSSRulesFromText(st.textContent));
 
     // 4. סיום: רענון העץ והמאזינים
     renderTree();
@@ -279,4 +286,52 @@ function convertInlineToInternalRecursively(element) {
             convertInlineToInternalRecursively(child);
         });
     }
+}
+
+
+/**
+ * פונקציה שמקבלת טקסט של CSS, מפרקת אותו לחוקים,
+ * ומכניסה אותם למערכת ה-styleState שלך.
+ */
+function importCSSRulesFromText(cssText) {
+    // טריק: יצירת אלמנט style זמני כדי שהדפדפן יפרסר את ה-CSS עבורנו
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    const doc = iframe.contentDocument;
+    const style = doc.createElement('style');
+    style.textContent = cssText;
+    doc.head.appendChild(style);
+
+    // עכשיו יש לנו גישה ל-rules המפורסרים
+    const rules = style.sheet.cssRules;
+
+    for (let i = 0; i < rules.length; i++) {
+        const rule = rules[i];
+
+        // אנחנו מטפלים כרגע רק בחוקי סגנון רגילים (type 1)
+        if (rule.type === 1) { // CSSStyleRule
+            const selector = rule.selectorText;
+
+            // יצירת החוק במערכת שלך
+            // הפונקציה createRuleAndRef מתוך manager.js תיצור את החוק ב-sheet האמיתי
+            // ותוסיף אותו ל-styleState
+            const newSystemRule = createRuleAndRef(selector);
+
+            // העתקת כל התכונות מהחוק המיובא לחוק החדש
+            for (let j = 0; j < rule.style.length; j++) {
+                const propName = rule.style[j]; // שם התכונה (למשל background-color)
+                const propValue = rule.style.getPropertyValue(propName);
+                const propPriority = rule.style.getPropertyPriority(propName);
+
+                // המרה ל-CamelCase אם צריך, אבל הפרוקסי של style יודע לטפל בזה לרוב
+                // נשתמש ב-setProperty כדי לתמוך ב-important
+                newSystemRule.style.setProperty(propName, propValue, propPriority);
+            }
+        }
+    }
+
+    // ניקוי
+    document.body.removeChild(iframe);
 }
