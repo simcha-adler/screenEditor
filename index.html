@@ -12,7 +12,13 @@
     <link rel="stylesheet" href="./styles/sidebar_style.css">
     <link rel="stylesheet" href="./styles/tree_style.css">
     <link rel="stylesheet" href="./styles/panels_style.css">
-    <style id="styles"></style>
+    <style id="styles">
+        .document-page {
+            line-height: 1.6;
+            text-align: right;
+            padding: 40px;
+        }
+    </style>
     <script src="./lib/short.js"></script>
     <!--script src="./load.js"></script-->
 </head>
@@ -57,6 +63,8 @@
                 <div id="panel-position" class="design-panel"></div>
                 <div id="panel-display" class="design-panel"></div>
                 <div id="panel-classes" class="design-panel"></div>
+                <div id="panel-theme" class="design-panel"></div>
+                <div id="panel-settings" class="design-panel"></div>
 
                 <div id="panel-tree" class="design-panel">
                     <div id="tree-header" class="tree-header">
@@ -106,6 +114,8 @@
     <script src="./panels/side/position.js"></script>
     <script src="./panels/side/addElement.js"></script>
     <script src="./panels/side/classes.js"></script>
+    <script src="./panels/side/theme.js"></script>
+    <script src="./panels/side/settings.js"></script>
     <script src="./listeners.js"></script>
     <script src="./manager.js"></script>
 </body>

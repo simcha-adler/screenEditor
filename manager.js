@@ -78,6 +78,7 @@ function loadPage() {
     updateSelectedElement(editor);
     renderTree();
     initTreeListeners();
+    initUserSettings();
 }
 
 loadPage();

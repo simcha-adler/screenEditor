@@ -95,7 +95,9 @@ function ensureElementId(element) {
         return element.id;
     }
     // יצירת ID ייחודי
-    const newId = 'auto-' + element.tagName + '-' + Math.random().toString(36).substring(2, 9);
+    do {
+        const newId = 'auto-' + element.tagName + '-' + Math.random().toString(36).substring(2, 9);
+    } while ($('newId'));
     element.id = newId;
     return newId;
 }
@@ -175,4 +177,106 @@ function cloneElementWithUniqueIds(original, newId) {
     });
 
     return clone;
+}
+
+
+
+
+/**
+ * מפרק ערך CSS למספר וליחידה
+ * למשל: "20px" -> { value: 20, unit: "px" }
+ */
+function parseUnit(cssValue, defaultUnit = 'px') {
+    if (!cssValue) return { value: '', unit: defaultUnit };
+
+    // אם זה "auto" או מילה אחרת
+    if (isNaN(parseFloat(cssValue))) return { value: '', unit: defaultUnit };
+
+    const value = parseFloat(cssValue);
+    const unit = cssValue.replace(value, '').trim() || defaultUnit;
+    return { value, unit };
+}
+
+/**
+ * מייצר HTML עבור אינפוט חכם עם בחירת יחידות
+ */
+function createSmartInputHTML(prop, label, defaultUnit = 'px') {
+    return /*html*/ `
+    <div class="control-wrapper">
+        <span class="input-label-small">${label}</span>
+        <div class="smart-input-group">
+            <input type="number" data-prop="${prop}" data-type="value" placeholder="-">
+            <select class="unit-select" data-prop="${prop}" data-type="unit">
+                <option value="px" ${defaultUnit === 'px' ? 'selected' : ''}>px</option>
+                <option value="%" ${defaultUnit === '%' ? 'selected' : ''}>%</option>
+                <option value="vh" ${defaultUnit === 'vh' ? 'selected' : ''}>vh</option>
+                <option value="vw" ${defaultUnit === 'vw' ? 'selected' : ''}>vw</option>
+                <option value="rem" ${defaultUnit === 'rem' ? 'selected' : ''}>rem</option>
+                <option value="em" ${defaultUnit === 'em' ? 'selected' : ''}>em</option>
+                <option value="" ${defaultUnit === '' ? 'selected' : ''}>-</option>
+            </select>
+        </div>
+    </div>`;
+}
+
+// פונקציה לטיפול באקורדיונים
+function initAccordions(panelElement) {
+    const headers = panelElement.querySelectorAll('.section-header');
+    headers.forEach(header => {
+        header.addEventListener('click', () => {
+            header.parentElement.classList.toggle('collapsed');
+        });
+    });
+}
+
+
+
+
+/*======לניסיון======*/
+
+// --- ניהול הגדרות משתמש ---
+
+function initUserSettings() {
+    // 1. טעינה מ-LocalStorage
+    const saved = localStorage.getItem('screenEditor_settings');
+    if (saved) {
+        try {
+            // מיזוג ההגדרות השמורות עם ברירות המחדל (למקרה שהוספנו פיצ'רים חדשים)
+            userSettings = { ...userSettings, ...JSON.parse(saved) };
+        } catch (e) {
+            console.error('שגיאה בטעינת הגדרות', e);
+        }
+    }
+
+    // 2. החלת ההגדרות בפועל
+    applyUserSettings();
+}
+
+function saveUserSettings() {
+    localStorage.setItem('screenEditor_settings', JSON.stringify(userSettings));
+}
+
+function applyUserSettings() {
+    const body = document.body;
+
+    // --- יישום מצב כהה ---
+    if (userSettings.theme === 'dark') {
+        body.classList.add('editor-dark-mode');
+    } else {
+        body.classList.remove('editor-dark-mode');
+    }
+
+    // --- יישום גבולות עזר ---
+    // מוסיף קלאס לקונטיינר של העורך
+    const editorContainer = $('editor-downloader');
+    if (userSettings.showOutlines) {
+        editorContainer.classList.add('show-outlines');
+    } else {
+        editorContainer.classList.remove('show-outlines');
+    }
+
+    // --- יישום גודל ממשק ---
+    // משנה את הזום של הממשק (לא של האתר הנערך!)
+    // נשתמש במשתנה CSS לשליטה בגודל הפונט הבסיסי של הממשק
+    document.documentElement.style.setProperty('--ui-scale', userSettings.uiScale / 100);
 }

@@ -3,24 +3,6 @@
 =========================*/
 
 
-.tree-node-toggle {
-    font-size: 14px;
-    /* הגדלת האייקון */
-    background: none;
-    border: none;
-    cursor: pointer;
-    /* padding: 0 5px; */
-    color: #333;
-    align-self: flex-end;
-    /* יישור לחלק התחתון של הפלקס */
-    margin-right: auto;
-    /* דחיפה שמאלה (RTL) */
-}
-
-.tree-node-toggle:hover {
-    color: #01264e;
-}
-
 .tree-header {
     font-size: 14px;
     border-bottom: 1px dotted #ccc;
@@ -46,6 +28,17 @@
     display: block;
 }
 
+.tree-life {
+    display: inline-flex;
+    margin-left: 0;
+    border-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tree-life:hover {
+    background-color: #d4d4d4;
+}
 
 .tree-life.selected {
     background-color: #ffffff;
@@ -63,9 +56,22 @@
 .tree-node-toggle {
     display: inline-block;
     width: 15px;
+    font-size: 14px;
+    /* הגדלת האייקון */
+    background: none;
+    color: #333;
+    border: none;
+    cursor: pointer;
     text-align: center;
+    align-self: flex-end;
+    /* יישור לחלק התחתון של הפלקס */
     margin-left: 5px;
-    /* אייקון חץ */
+    margin-right: auto;
+    /* דחיפה שמאלה (RTL) */
+}
+
+.tree-node-toggle:hover {
+    color: #01264e;
 }
 
 .tree-children {
@@ -104,18 +110,6 @@
     transition: border-width 0.1s;
 }
 
-.tree-life {
-    display: inline-flex;
-    margin-left: 0;
-    border-radius: 10px;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.tree-life:hover {
-    background-color: #d4d4d4;
-}
-
 
 
 /*===============================
@@ -135,6 +129,12 @@
     display: none;
     /* מוסתר ברירת מחדל */
     min-width: 150px;
+}
+
+.menu-hr {
+    height: 1px;
+    background: #eee;
+    margin: 3px 0;
 }
 
 .tree-menu-item {
@@ -221,8 +221,7 @@
     background-color: #bbb;
 }
 
-/* 4. הקסם: מה קורה כשהצ'קבוקס "מסומן" (checked) */
-
+/* הקסם: מה קורה כשהצ'קבוקס "מסומן" (checked) */
 /* כשהאינפוט מסומן, שנה את צבע הרקע של ה-label שלידו */
 .toggle-input:checked+.toggle-switch {
     background-color: #493cff;

@@ -1,3 +1,12 @@
+:root {
+    --theme-hue: 200;
+    /* כחול */
+    --theme-sat: 100%;
+    /* רוויה מלאה */
+    --theme-lightness: 50%;
+    /* בהירות ברירת מחדל */
+}
+
 body {
     margin: 0;
     background-color: #f0f0f0;
@@ -68,11 +77,6 @@ body {
     outline: none;
 }
 
-.document-page {
-    line-height: 1.6;
-    text-align: right;
-    padding: 40px;
-}
 
 /* סימון אלמנט נבחר - ללא פגיעה ב-Border המקורי */
 .selected-element {
@@ -81,8 +85,81 @@ body {
     /* כדי שהקו יהיה בתוך האלמנט ולא יגדיל אותו */
 }
 
-.menu-hr {
-    height: 1px;
-    background: #eee;
-    margin: 3px 0;
+
+
+
+
+
+
+
+
+
+
+/*=============לניסיון===========*/
+
+
+/* --- גבולות עזר (Outlines) --- */
+/* מציג גבול רק כשהקלאס קיים על העורך */
+.show-outlines * {
+    outline: 1px dashed rgba(0, 120, 212, 0.3) !important;
+}
+
+.show-outlines *:hover {
+    outline: 1px solid rgba(0, 120, 212, 0.6) !important;
+}
+
+
+/* --- מצב כהה (Dark Mode) לממשק העורך --- */
+/* נשתמש ב-CSS Variables כדי להקל על השינוי */
+
+body.editor-dark-mode {
+    background-color: #1e1e1e;
+    /* רקע כללי כהה */
+    color: #e0e0e0;
+}
+
+/* סרגל עליון וצד */
+body.editor-dark-mode .main-nav,
+body.editor-dark-mode .toolbar,
+body.editor-dark-mode .sidebar,
+body.editor-dark-mode .activity-bar,
+body.editor-dark-mode .side-panel {
+    background-color: #252526;
+    border-color: #3e3e42;
+    color: #cccccc;
+}
+
+/* כפתורים ואינפוטים במצב כהה */
+body.editor-dark-mode .nav-button,
+body.editor-dark-mode .activity-btn {
+    color: #cccccc;
+}
+
+body.editor-dark-mode .nav-button:hover,
+body.editor-dark-mode .activity-btn:hover {
+    background-color: #3e3e42;
+}
+
+body.editor-dark-mode .design-panel {
+    background-color: #333333;
+    border-color: #444;
+}
+
+body.editor-dark-mode .design-panel h4 {
+    color: #fff;
+    border-bottom-color: #555;
+}
+
+body.editor-dark-mode input,
+body.editor-dark-mode select,
+body.editor-dark-mode textarea {
+    background-color: #1e1e1e;
+    border-color: #555;
+    color: #fff;
+}
+
+/* את משטח העריכה (הדף הלבן) נשאיר לבן, או ניתן למשתמש לבחור */
+/* אבל את הרקע שמאחוריו נכהה */
+body.editor-dark-mode .main-content {
+    background-color: #1e1e1e;
 }
