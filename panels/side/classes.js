@@ -182,7 +182,7 @@ function attachClassesListeners() {
     $('activeClassesList').whenClick((e) => {
         if (e.target.classList.contains('remove-class-btn')) {
             const cls = e.target.dataset.class;
-            theElement.classList.remove(cls);
+            theElement.removeClass(cls);
             refreshClassesView();
         }
     });

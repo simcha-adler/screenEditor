@@ -95,8 +95,9 @@ function ensureElementId(element) {
         return element.id;
     }
     // יצירת ID ייחודי
+    let newId;
     do {
-        const newId = 'auto-' + element.tagName + '-' + Math.random().toString(36).substring(2, 9);
+        newId = 'auto-' + element.tagName + '-' + Math.random().toString(36).substring(2, 9);
     } while ($('newId'));
     element.id = newId;
     return newId;
@@ -168,7 +169,7 @@ function cloneElementWithUniqueIds(original, newId) {
 
     // 3. עדכון רקורסיבי של IDs לכל הילדים
     // כדי למנוע התנגשות עם הילדים המקוריים
-    const descendants = clone.querySelectorAll('*');
+    const descendants = clone.$$('*');
     descendants.forEach(child => {
         if (child.id) {
             // יצירת ID חדש: "copy_" + המקורי + מספר אקראי
@@ -221,10 +222,10 @@ function createSmartInputHTML(prop, label, defaultUnit = 'px') {
 
 // פונקציה לטיפול באקורדיונים
 function initAccordions(panelElement) {
-    const headers = panelElement.querySelectorAll('.section-header');
+    const headers = panelElement.$$('.section-header');
     headers.forEach(header => {
         header.addEventListener('click', () => {
-            header.parentElement.classList.toggle('collapsed');
+            header.parentElement.toggleClass('collapsed');
         });
     });
 }
@@ -261,18 +262,18 @@ function applyUserSettings() {
 
     // --- יישום מצב כהה ---
     if (userSettings.theme === 'dark') {
-        body.classList.add('editor-dark-mode');
+        body.addClass('editor-dark-mode');
     } else {
-        body.classList.remove('editor-dark-mode');
+        body.removeClass('editor-dark-mode');
     }
 
     // --- יישום גבולות עזר ---
     // מוסיף קלאס לקונטיינר של העורך
     const editorContainer = $('editor-downloader');
     if (userSettings.showOutlines) {
-        editorContainer.classList.add('show-outlines');
+        editorContainer.addClass('show-outlines');
     } else {
-        editorContainer.classList.remove('show-outlines');
+        editorContainer.removeClass('show-outlines');
     }
 
     // --- יישום גודל ממשק ---

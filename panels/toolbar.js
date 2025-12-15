@@ -61,7 +61,7 @@ function updateToolbarButtonStates() {
             try {
                 // document.queryCommandState בודק אם הפקודה פעילה כרגע במיקום הסמן
                 const isActive = document.queryCommandState(command);
-                button.classList.toggle('active', isActive);
+                button.toggleClass('active', isActive);
             } catch (error) {
                 console.error(`Error querying state for command: ${command}`, error);
             }

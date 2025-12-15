@@ -145,7 +145,7 @@ function restartPanel(panel) {
             break;
 
         case 'panel-theme':
-            fillCorrectTheme();
+            //fillCorrectTheme();
             break;
 
         default:
