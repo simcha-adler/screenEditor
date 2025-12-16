@@ -163,7 +163,7 @@ function insertElementmanager(nodeTree, parentTree, nodeDom = null, parentDom = 
     if (voidElements.includes(parentDom.tagName))
         if (confirm("אין אפשרות להכניס בתוך האלמנט הנבחר. להכניס אחריו?")) {
             parentDom = parentDom.parentNode;
-            parentTree = parentTree.closest('.tree-node');
+            parentTree = parentTree.parentNode.closest('.tree-node');
         } else return;
 
     // מניעת לולאות (הכנסת אבא לבן)
@@ -423,7 +423,7 @@ function updateHasChildren(node, empty = false) {
     if (!list) return;
     if (empty || list.children.length === 0) {
         list.remove();
-        parent.$1('.tree-node-toggle').innerHTML = '';
+        node.$1('.tree-node-toggle').innerHTML = '';
     }
 }
 
