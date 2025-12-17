@@ -95,10 +95,7 @@ function ensureElementId(element) {
         return element.id;
     }
     // יצירת ID ייחודי
-    let newId;
-    do {
-        newId = 'auto-' + element.tagName + '-' + Math.random().toString(36).substring(2, 9);
-    } while ($('newId'));
+    const newId = createSafeId('', element.tagName);
     element.id = newId;
     return newId;
 }
@@ -173,7 +170,7 @@ function cloneElementWithUniqueIds(original, newId) {
     descendants.forEach(child => {
         if (child.id) {
             // יצירת ID חדש: "copy_" + המקורי + מספר אקראי
-            child.id = child.id + '_in_' + newId;
+            child.id = child.id + '_ב' + newId;
         }
     });
 

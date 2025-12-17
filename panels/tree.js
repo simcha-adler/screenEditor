@@ -45,9 +45,7 @@ function renderTree() {
     if (rootLi) {
         rootLi.into(ulRoot);
         // פתיחת רמת השורש כברירת מחדל
-        rootLi.addClass('open');
-        const toggle = rootLi.$1('.tree-node-toggle');
-        if (toggle) toggle.innerHTML = '&#9660;';
+        showChildren(rootLi);
     }
 
     ulRoot.into(tree);
@@ -111,7 +109,6 @@ function createTreeNode(realElement) {
  * מטפל גם ביצירת ה-UL להורה אם צריך
  */
 function appendNodeToTree(newNode, parent) {
-    // הגנה: אם ההורה לא בעץ (למשל אם זה ה-Editor הראשי, מוסיפים לשורש)
     if (!parent || !newNode) {
         return;
     }
@@ -121,11 +118,6 @@ function appendNodeToTree(newNode, parent) {
     if (!ul) {
         ul = createElement('ul', { class: 'tree-children' });
         ul.into(parent);
-
-        // עדכון אייקון ההורה
-        const toggle = parent.$1('.tree-node-toggle');
-        if (toggle) toggle.innerHTML = '&#9660;'; // חץ למטה
-        parent.addClass('open');
     }
 
     // הפעולה הסופית - הכנסה (או העברה אם כבר קיים)
@@ -152,14 +144,24 @@ function selectTreeNode(node) {
     node.$1('.tree-life').addClass('selected');
 }
 
-function insertElementmanager(nodeTree, parentTree, nodeDom = null, parentDom = null) {
-    if (!nodeTree || !parentTree || nodeTree === parentTree) return;
-
-    if (!nodeDom) nodeDom = $(nodeTree.dataset.editorId);
-    if (!parentDom) parentDom = $(parentTree.dataset.editorId);
+function insertElementManager(node, parent, isTree) {
+    if (!node || !parent || node === parent) return;
+    let nodeTree, parentTree, nodeDom, parentDom;
+    if (isTree) {
+        nodeTree = node;
+        parentTree = parent;
+        nodeDom = $(nodeTree.dataset.editorId);
+        parentDom = $(parentTree.dataset.editorId);
+    } else {
+        nodeTree = tree.$1(`.tree-node[data-editor-id=${node.id}]`);
+        parentTree = tree.$1(`.tree-node[data-editor-id=${parent.id}]`);
+        nodeDom = node;
+        parentDom = parent;
+        if (!nodeTree) nodeTree = buildTreeDOM(nodeDom);
+    }
 
     //  אם אלמנט האב אינו יכול להכיל אלמנטים בתוכו, עבור לאלמנט האב באישור המשתמש
-    const voidElements = ['IMG', 'INPUT', 'HR', 'BR'];
+    const voidElements = ['IMG', 'INPUT', 'HR', 'BR', 'VIDEO'];
     if (voidElements.includes(parentDom.tagName))
         if (confirm("אין אפשרות להכניס בתוך האלמנט הנבחר. להכניס אחריו?")) {
             parentDom = parentDom.parentNode;
@@ -174,12 +176,12 @@ function insertElementmanager(nodeTree, parentTree, nodeDom = null, parentDom = 
     nodeDom.into(parentDom);
     appendNodeToTree(nodeTree, parentTree);
 
-    // פתיחת ההורה החדש כדי שנראה את הילד שהתווסף
+    // פתיחת ההורה החדש כדי שנראה את הילד שהתווסף, כולל גם את הוספת אייקון החץ.
     setTimeout(showChildren(parentTree), 50);
     selectTreeNode(nodeTree);
 }
 
-function removeElementmanager() {
+function removeElementManager() {
     let del = false;
     if (actionDom.children.length === 0) {
         del = confirm('למחוק את האלמנט?');
@@ -198,9 +200,9 @@ function removeElementmanager() {
 }
 
 function duplicateElementmanager() {
-    let newName = prompt('הכנס שם לאלמנט המשוכפל:', actionDom.id.replaceAll('_', ' ') + '_copy');
-    if (newName) {
-        newName = createSafeId(newName);
+    let newName = prompt('הכנס שם לאלמנט המשוכפל (מומלץ). השאר ריק ליצירה אוטומטית', actionDom.id.replaceAll('_', ' ') + '_copy');
+    if (newName || newName === '') {
+        newName = createSafeId(newName, actionDom.tagName);
         if (!newName) return; // שם כפול!
         // שימוש בפונקציית השכפול החכמה מ-servises.js
         const newClone = cloneElementWithUniqueIds(actionDom, newName);
@@ -302,7 +304,7 @@ function initTreeListeners() {
         if (draggable) {
             const node = e.upTo('.tree-node');
 
-            if (!node || node === $('.tree-node[data-editor-id="דף הבסיס"]')) {
+            if (!node || node === $1('.tree-node[data-editor-id="דף הבסיס"]')) {
                 e.preventDefault();
                 return;
             }
@@ -340,7 +342,7 @@ function initTreeListeners() {
             if (!parent || (parent === actionTree)) return;
 
             const preParent = actionTree.parentNode.closest('.tree-node');
-            insertElementmanager(actionTree, parent);
+            insertElementManager(actionTree, parent, true);
             updateHasChildren(preParent);
 
             // ניקוי
@@ -384,7 +386,7 @@ function handleMenuAction(action) {
             break;
 
         case 'delete':
-            removeElementmanager();
+            removeElementManager();
             break;
 
         case 'empty':
