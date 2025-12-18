@@ -61,7 +61,7 @@ function createTreeNode(realElement) {
 
     // קביעת השם לתצוגה
     let displayName = id.replaceAll("_", " ");
-    if (id.startsWith('auto-')) {
+    if (id.startsWith('auto_')) {
         displayName = `<span style="opacity:0.8">${realElement.tagName.toLowerCase()}</span>`;
     }
 

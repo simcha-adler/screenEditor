@@ -51,7 +51,7 @@ function createRuleAndRef(selector) {
         styleState[selector] = { 'rule': rule };
         return rule;
     }
-    return styleState[selector][rule];
+    return styleState[selector]['rule'];
 }
 
 function restartPage() {

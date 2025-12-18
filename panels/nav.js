@@ -150,6 +150,7 @@ $('downloadHTML').whenClick(() => {
 
     // 2. שליפת ה-HTML של העורך
     const editorContent = $('editor-downloader').innerHTML;
+    editorContent.replace('contenteditable="true"', 'contenteditable="false"');
 
     // 3. יצירת מבנה של דף אינטרנט מלא
     const fullDoc = `
@@ -158,16 +159,12 @@ $('downloadHTML').whenClick(() => {
     <head>
     <meta charset="UTF-8">
             <title>האתר שלי</title>
-            <style>
-                /* CSS בסיסי לאיפוס */
-                body { margin: 0; font-family: sans-serif; }
-                
-                /* ה-CSS שהמשתמש יצר בעורך */
+            <style id='styles'>             
                 ${currentStyles}
             </style>
             </head>
             <body>
-            ${editorContent}
+                ${editorContent}
             </body>
             </html>`;
 
@@ -225,16 +222,26 @@ function processImportedHTML(htmlString) {
     // 1. המרה של הטקסט ל-DOM אמיתי בזיכרון (לא במסך עדיין)
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, 'text/html');
-    const newContent = doc.body;
-    const newStyles = doc.$$('style');
+    let newContent = doc.body;
+    const base = newContent.$('דף_הבסיס');
+    if (base) {
+        if (newContent.children.length === 1 && newContent.children[0] === base)
+            newContent = base;
+        else
+            base.id = 'דף_הבסיס(1)'
+    }
+    const newStyles = doc.querySelectorAll('style');
 
     // 3. המרת ה-DOM החדש: מעבר מ-Inline ל-Internal
     // אנחנו עוברים על הילדים של התוכן החדש ומעבדים אותם
     Array.from(newContent.children).forEach(child => {
-        if (child.tagName !== 'STYLE' && child.tagName === 'SCRIPT') {
+        if (child.tagName !== 'STYLE' && child.tagName !== 'SCRIPT') {
             // שכפול האלמנט כדי לא להרוס את ה-doc המקורי
             const importedNode = child.cloneNode(true);
-            $('דף_הבסיס').appendChild(importedNode);
+            if (child.id === 'דף_הבסיס') {
+
+            } else
+                $('דף_הבסיס').appendChild(importedNode);
 
             // פונקציה רקורסיבית שעוברת על האלמנט וכל ילדיו
             convertInlineToInternalRecursively(importedNode);

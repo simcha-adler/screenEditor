@@ -356,9 +356,9 @@ function buildElementStructure(type, data, baseId) {
         // 6. כפתור
         const b = document.createElement('button');
         b.innerText = data.btnText;
-        b.id = baseId + '_b';
+        b.id = baseId + '_button';
         content.appendChild(b);
-        rules['#' + baseId + '_b'] = {
+        rules['#' + baseId + '_button'] = {
             backgroundColor: '#0078d4',
             color: 'white',
             border: 'none',
@@ -391,7 +391,7 @@ function buildElementStructure(type, data, baseId) {
     }
     if (type === 'details') {
         const s = document.createElement('summary');
-        p.id = baseId + '_summary'
+        s.id = baseId + '_summary'
         s.innerText = data.summary;
         const p = document.createElement('p');
         p.id = baseId + '_p'
@@ -442,28 +442,10 @@ function createSafeId(nameFromUser, tagName) {
             return alert('שגיאה: קיים כבר אלמנט עם השם הזה. אנא בחר שם אחר.');
     } else {
         do {
-            safeId = 'auto-' + tagName + '-' + Math.random().toString(36).substring(2, 9);
+            safeId = 'auto_' + tagName + '_' + Math.random().toString(36).substring(2, 9);
         } while ($(safeId));
     }
     return safeId;
-}
-
-
-function setInitialStyles(selector, stylesObject) {
-    // 1. יצירת רפרנס לחוק ב-State אם אינו קיים (פעם אחת בלבד)
-    if (!styleState[selector]) {
-        createRuleAndRef(selector);
-    }
-
-    // 2. שליפת ה-Rule מתוך ה-State
-    const rule = styleState[selector].rule;
-
-    // 3. עדכון ישיר של ה-style בחוק ה-CSS בלבד
-    if (rule) {
-        for (const [prop, value] of Object.entries(stylesObject)) {
-            rule.style[prop] = value;
-        }
-    }
 }
 
 // הפעלה ראשונית
