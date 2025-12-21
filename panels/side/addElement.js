@@ -167,7 +167,7 @@ const htmlAddElement = /* html */ `
         <span class="element-id-hint">השאר ריק ליצירה אוטומטית</span>
     </div>
 
-    <button id="btnSmartAdd" class="btn-primary">
+    <button id="btnAdd" class="btn-primary">
          <span>+</span> הוסף למסמך
     </button>
 `;
@@ -193,7 +193,7 @@ function loadAddElementPanel() {
 
     // אתחול ראשוני (הצג שדות של הסוג הראשון)
     renderDynamicFields(select.value);
-    $('btnSmartAdd').whenClick(executeSmartAdd);
+    $('btnAdd').whenClick(executeAdd);
 }
 
 /**
@@ -259,7 +259,7 @@ function renderDynamicFields(type) {
 /**
  * הפונקציה הראשית שיוצרת את האלמנט לפי הנתונים בטופס
  */
-function executeSmartAdd() {
+function executeAdd() {
     const type = $('elementTypeSelect').value;
     const config = elementDefinitions[type];
 

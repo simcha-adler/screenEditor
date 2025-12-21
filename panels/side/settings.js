@@ -8,10 +8,8 @@ const htmlSettings = /* html */ `
         <div class="section-content">
             <label class="design-control">
                 <span>מצב כהה (Dark Mode)</span>
-                <label class="switch">
-                    <input type="checkbox" id="settingDarkMode">
-                    <span class="slider round"></span>
-                </label>
+                <input type="checkbox" id="settingDarkMode" class="toggle-input">
+                <label for="settingDarkMode" class="toggle-switch"></label>
             </label>
 
             <label class="design-control">
@@ -45,17 +43,6 @@ const htmlSettings = /* html */ `
             </button>
         </div>
     </div>
-
-
-<style>
-/* CSS למתג (Switch) */
-.switch { position: relative; display: inline-block; width: 40px; height: 20px; }
-.switch input { opacity: 0; width: 0; height: 0; }
-.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 20px; }
-.slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 2px; bottom: 2px; background-color: white; transition: .4s; border-radius: 50%; }
-input:checked + .slider { background-color: #0078d4; }
-input:checked + .slider:before { transform: translateX(20px); }
-</style>
 `;
 
 function loadSettingsPanel() {
