@@ -1,17 +1,5 @@
 const htmlNav = /* html */  `
 
-<!--=======תפריט קובץ=========-->
-<div class="nav-item" id="file-nav">
-    <button class="nav-button">קובץ</button>
-    <div class="dropdown-menu">
-        <div class="dropdown-item" id="newDoc">מסמך חדש</div>
-        <div class="dropdown-item" id="upload">העלאת קובץ</div>
-        <input type="file" id="fileUploadInput" style="display: none;" accept=".html,.htm">
-        <div class="dropdown-item" id="saveDoc">שמור</div>
-        <div class="dropdown-item" id="downloadHTML">הורד כ-HTML</div>
-    </div>
-</div>
-
 <!--=======תפריט עריכה=========-->
 <div class="nav-item">
     <button class="nav-button">עריכה</button>
@@ -20,16 +8,6 @@ const htmlNav = /* html */  `
         <div class="dropdown-item" data-action="redo">חזור (Redo)</div>
         <div class="dropdown-item" data-action="paste">הדבק</div>
         <div class="dropdown-item" data-action="selectAll">בחר הכל</div>
-    </div>
-</div>
-
-<!--=======תפריט אלמנטים=========-->
-<div class="nav-item">
-    <button class="nav-button">אלמנטים</button>
-    <div class="dropdown-menu" id="elements-menu-items">
-        <div class="dropdown-item" id="insertImage">הוסף תמונה (URL)</div>
-        <div class="dropdown-item" id="createLink">הוסף קישור (URL)</div>
-        <div class="dropdown-item" data-action="insertHorizontalRule">קו מפריד</div>
     </div>
 </div>
 
@@ -42,91 +20,18 @@ const htmlNav = /* html */  `
         <div class="dropdown-item" id="toggleSidebar">הצג/הסתר סרגל צד</div>
     </div>
 </div>
+`
 
-<!--=======תפריט עיצוב=========-->
-<div class="nav-item" id="design-nav">
-    <button class="nav-button">עיצוב</button>
-    <div class="dropdown-menu" id="design-menu-items">
-        <div class="dropdown-item" data-panel="design">צבעים וגופנים</div>
-        <div class="dropdown-item" data-panel="borders">גבולות ורווחים(Borders)</div>
-        <div class="dropdown-item" data-panel="position">גודל ומיקום</div>
-        <div class="dropdown-item" data-panel="display">תצוגה</div>
-        <div class="dropdown-item" data-panel="layout">פריסה</div>
-    </div>
-</div>`
-
-nav.innerHTML = htmlNav;
+//nav.innerHTML = htmlNav;
 const navItems = $$('.nav-item');
 
-
-function closeOpenedNav() {
-    if (openedMenu) {
-        openedMenu.removeClass('active');
-        openedMenu = null;
-    }
-};
-
-
-navItems.forEach(item => {
-    const button = item.$1('.nav-button');
-    button.whenClick((event) => {
-        const opened = item === openedMenu;
-        closeOpenedNav()
-        if (!opened) {
-            item.addClass('active');
-            openedMenu = item;
-        }
-        event.stopPropagation();
-    });
-});
-
-// --- לוגיקה של תפריט "עריכה" ---
-$('edit-menu-items').whenClick((e) => {
-    const action = e.target.dataset.action;
-    if (action) {
-        applyEditorCommand(action);
-    }
-});
-
-// --- לוגיקה של תפריט "אלמנטים" ---
-$('elements-menu-items').whenClick((e) => {
-    const action = e.target.id || e.target.dataset.action;
-    editor.focus();
-    switch (action) {
-        case 'insertImage':
-            const imageUrl = prompt('הכנס את כתובת ה-URL של התמונה:');
-            if (imageUrl) {
-                const img = document.createElement('img');
-                img.src = imageUrl;
-                img.style.maxWidth = '100%';
-                insertNodeAtCursor(img);
-            }
-            break;
-        case 'createLink':
-            const linkUrl = prompt('הכנס את כתובת ה-URL של הקישור:');
-            if (linkUrl) {
-                const selection = window.getSelection();
-                if (selection.rangeCount === 0) return;
-                const range = selection.getRangeAt(0);
-                const a = document.createElement('a');
-                a.href = linkUrl;
-                if (range.collapsed) {
-                    a.textContent = linkUrl;
-                    range.insertNode(a);
-                } else {
-                    try {
-                        range.surroundContents(a);
-                    } catch (e) {
-                        console.error("נכשל ביצירת קישור:", e);
-                    }
-                }
-            }
-            break;
-        case 'insertHorizontalRule':
-            insertNodeAtCursor(document.createElement('hr'));
-            break;
-    }
-});
+// // --- לוגיקה של תפריט "עריכה" ---
+// $('edit-menu-items').whenClick((e) => {
+//     const action = e.target.dataset.action;
+//     if (action) {
+//         applyEditorCommand(action);
+//     }
+// });
 
 // --- לוגיקה של תפריט "קובץ" ---
 $('newDoc').whenClick(() => {
@@ -149,7 +54,7 @@ $('downloadHTML').whenClick(() => {
     }
 
     // 2. שליפת ה-HTML של העורך
-    const editorContent = $('editor-downloader').innerHTML;
+    const editorContent = $('canvas-scroller').innerHTML;
     editorContent.replace('contenteditable="true"', 'contenteditable="false"');
 
     // 3. יצירת מבנה של דף אינטרנט מלא
@@ -181,22 +86,22 @@ $('downloadHTML').whenClick(() => {
 });
 
 
-// --- לוגיקה של תפריט "תצוגה" ---
-$('toggleToolbar').whenClick(() => {
-    toolbar.style.display = toolbar.style.display === 'none' ? 'flex' : 'none';
-});
-$('fullscreen').whenClick(() => {
-    if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(err => {
-            alert(`שגיאה במעבר למסך מלא: ${err.message}`);
-        });
-    } else {
-        document.exitFullscreen();
-    }
-});
-$('toggleSidebar').whenClick(() => {
-    sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';
-});
+// // --- לוגיקה של תפריט "תצוגה" ---
+// $('toggleToolbar').whenClick(() => {
+//     toolbar.toggleClass('hide');
+// });
+// $('fullscreen').whenClick(() => {
+//     if (!document.fullscreenElement) {
+//         document.documentElement.requestFullscreen().catch(err => {
+//             alert(`שגיאה במעבר למסך מלא: ${err.message}`);
+//         });
+//     } else {
+//         document.exitFullscreen();
+//     }
+// });
+// $('toggleSidebar').whenClick(() => {
+//     sidebar.toggleClass('hide');
+// });
 
 
 
@@ -303,7 +208,7 @@ function convertInlineToInternalRecursively(element) {
 function importCSSRulesFromText(cssText) {
     // טריק: יצירת אלמנט style זמני כדי שהדפדפן יפרסר את ה-CSS עבורנו
     const iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
+    iframe.addClass('hide');
     document.body.appendChild(iframe);
 
     const doc = iframe.contentDocument;

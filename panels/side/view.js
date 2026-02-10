@@ -1,52 +1,71 @@
 
-// ========== HTML ==========
-const htmlView =  /* html */ `
+const viewSchema = [
+    { type: 'title', label: 'תצוגה ואפקטים' },
 
-<h4>תצוגה (Display)</h4>
-<label class="design-control">
-    <span>סוג תצוגה</span>
-    <select data-property="display">
-        <option value="block">Block</option>
-        <option value="inline">Inline</option>
-        <option value="inline-block">Inline-Block</option>
-        <option value="flex">Flex</option>
-        <option value="grid">Grid</option>
-        <option value="none">None (מוסתר)</option>
-    </select>
-</label>
-<label class="design-control">
-    <span>נראות</span>
-    <select data-property="visibility">
-        <option value="visible">נראה</option>
-        <option value="hidden">מוסתר (שומר מקום)</option>
-    </select>
-</label>
-<label class="design-control">
-    <span>אטימות (Opacity)</span>
-    <input type="number" data-property="opacity" min="0" max="1" step="0.1" value="1" style="width: 60px;">
-</label>
-<label class="design-control">
-    <span>גלישה (Overflow)</span>
-    <select data-property="overflow">
-        <option value="visible">Visible</option>
-        <option value="hidden">Hidden</option>
-        <option value="scroll">Scroll</option>
-        <option value="auto">Auto</option>
-    </select>
-</label>
-`;
+    {
+        type: 'inputRow', label: 'סוג תצוגה',
+        inputType: 'select', prop: 'display',
+        options: [
+            { value: 'block', text: 'בלוק' },
+            { value: 'inline', text: 'בתוך השורה' },
+            { value: 'inline-block', text: 'בלוק בשורה' },
+            { value: 'flex', text: 'פלקס' },
+            { value: 'grid', text: 'גריד' },
+            { value: 'none', text: 'מוסתר' }
+        ]
+    },
 
-// ========== JavaScript ==========
+    { type: 'smallTitle', label: 'גלישת תוכן' },
 
-htmlView.into('#panel-display');
+    {
+        type: 'grid',
+        children: [
+            {
+                type: 'input', inputType: 'select', label: 'אופקי', prop: 'overflowX',
+                options: [
+                    { value: 'visible', text: 'רגיל' },
+                    { value: 'hidden', text: 'חתוך' },
+                    { value: 'scroll', text: 'גלילה' },
+                    { value: 'auto', text: 'אוטומטי' }
+                ]
+            },
+            {
+                type: 'input', inputType: 'select', label: 'אנכי', prop: 'overflowY',
+                options: [
+                    { value: 'visible', text: 'רגיל' },
+                    { value: 'hidden', text: 'חתוך' },
+                    { value: 'scroll', text: 'גלילה' },
+                    { value: 'auto', text: 'אוטומטי' }
+                ]
+            }
+        ]
+    },
 
-function fillCorrectView() {
-    const panel = $('panel-display');
-    if (!panel) return;
+    { type: 'title', label: 'נראות ועכבר' },
 
-    panel.$1('[data-property="display"]').value = theStyles.display;
-    panel.$1('[data-property="visibility"]').value = theStyles.visibility;
-    panel.$1('[data-property="opacity"]').value = theStyles.opacity;
-    panel.$1('[data-property="overflow"]').value = theStyles.overflow;
-}
+    {
+        type: 'inputRow', label: 'נראות',
+        inputType: 'toggle', prop: 'visibility',
+        v: 'visible', x: 'hidden'
+    },
+
+    {
+        type: 'inputRow', label: 'אטימות',
+        inputType: 'range', prop: 'opacity',
+        min: 0, max: 1, step: 0.01
+    },
+
+    {
+        type: 'inputRow', label: 'סמן עכבר',
+        inputType: 'select', prop: 'cursor',
+        options: [
+            { value: 'auto', text: 'אוטומטי' },
+            { value: 'pointer', text: 'אצבע' },
+            { value: 'text', text: 'טקסט' },
+            { value: 'not-allowed', text: 'חסום' },
+            { value: 'grab', text: 'תפיסה' },
+            { value: 'crosshair', text: 'כוונת' }
+        ]
+    }
+];
 

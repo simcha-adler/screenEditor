@@ -1,60 +1,58 @@
 
-// ========== HTML ==========
-const htmlLayout =  /* html */ `
+const layoutSchema = [
+    { type: 'title', label: 'פריסת פלקס (Flexbox)' },
 
-<h4>פריסת פלקס (Flex Container)</h4>
-<p style="font-size: 12px; margin-top: 0;">הגדרות אלו רלוונטיות אם התצוגה היא 'Flex'</p>
+    {
+        type: 'inputRow', label: 'כיוון',
+        inputType: 'select', prop: 'flexDirection',
+        options: [
+            { value: 'row', text: 'שורה ←' },
+            { value: 'column', text: 'טור ↓' },
+            { value: 'row-reverse', text: 'שורה הפוכה →' },
+            { value: 'column-reverse', text: 'טור הפוך ↑' }
+        ]
+    },
+    {
+        type: 'inputRow', label: 'ירידת שורה',
+        inputType: 'toggle', prop: 'flexWrap', v: 'wrap', x: 'nowrap'
+    },
 
-<label class="design-control">
-    <span>כיוון (Direction)</span>
-    <select id="flexDirection" data-property="flexDirection">
-        <option value="row">שורה (Row)</option>
-        <option value="column">טור (Column)</option>
-        <option value="row-reverse">שורה הפוכה</option>
-        <option value="column-reverse">טור הפוך</option>
-    </select>
-</label>
-<label class="design-control">
-    <span>יישור ציר ראשי (Justify)</span>
-    <select id="justifyContent" data-property="justifyContent">
-        <option value="flex-start">התחלה</option>
-        <option value="center">מרכז</option>
-        <option value="flex-end">סוף</option>
-        <option value="space-between">רווח-ביניהם</option>
-        <option value="space-around">רווח-מסביב</option>
-    </select>
-</label>
-<label class="design-control">
-    <span>יישור ציר משני (Align)</span>
-    <select id="alignItems" data-property="alignItems">
-        <option value="flex-start">התחלה</option>
-        <option value="center">מרכז</option>
-        <option value="flex-end">סוף</option>
-        <option value="stretch">מתיחה (Stretch)</option>
-        <option value="baseline">קו בסיס</option>
-    </select>
-</label>
-<label class="design-control">
-    <span>גלישת שורות (Wrap)</span>
-    <select id="flexWrap" data-property="flexWrap">
-        <option value="nowrap">ללא גלישה</option>
-        <option value="wrap">גלישה</option>
-        <option value="wrap-reverse">גלישה הפוכה</option>
-    </select>
-</label>
-`;
+    { type: 'smallTitle', label: 'מרווח בין פריטים' },
 
-// ========== JavaScript ==========
+    { type: 'inputRow', inputType: 'number', label: 'רווח בין שורות', prop: 'rowGap', unit: 'px' },
+    { type: 'inputRow', inputType: 'number', label: 'רווח בין עמודות', prop: 'columnGap', unit: 'px' },
 
-htmlLayout.into('#panel-layout');
-
-function fillCorrectLayout() {
-    const panel = $('panel-layout');
-    if (!panel) return;
-
-    panel.$('flexDirection').value = theStyles.flexDirection;
-    panel.$('justifyContent').value = theStyles.justifyContent;
-    panel.$('alignItems').value = theStyles.alignItems;
-    panel.$('flexWrap').value = theStyles.flexWrap;
-}
+    { type: 'title', label: 'יישור' },
+    {
+        type: 'inputRow', label: 'ציר ראשי',
+        inputType: 'select', prop: 'justifyContent',
+        options: [
+            { value: 'flex-start', text: 'התחלה' },
+            { value: 'center', text: 'מרכז' },
+            { value: 'flex-end', text: 'סוף' },
+            { value: 'space-between', text: 'רווח בין' },
+            { value: 'space-around', text: 'רווח מסביב' }
+        ]
+    },
+    {
+        type: 'inputRow', label: 'ציר משני',
+        inputType: 'select', prop: 'alignItems',
+        options: [
+            { value: 'flex-start', text: 'התחלה' },
+            { value: 'center', text: 'מרכז' },
+            { value: 'stretch', text: 'מתיחה' },
+            { value: 'baseline', text: 'קו בסיס' }
+        ]
+    },
+    {
+        type: 'inputRow', label: 'יישור תוכן',
+        inputType: 'select', prop: 'alignContent',
+        options: [
+            { value: 'flex-start', text: 'התחלה' },
+            { value: 'center', text: 'מרכז' },
+            { value: 'stretch', text: 'מתיחה' },
+            { value: 'space-between', text: 'רווח בין' }
+        ]
+    }
+];
 

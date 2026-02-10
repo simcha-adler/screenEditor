@@ -1,279 +1,199 @@
+
 // ==========================================
-//   הגדרות הרכיבים (Metadata)
+//   1. הגדרות הרכיבים
 // ==========================================
-// (נשאר זהה לקוד המקורי שלך - לא שיניתי את ההגדרות)
-const elementDefinitions = {
+
+const elementsList = {
     'h1': {
         label: '🇹 כותרת ראשית (H1)',
         fields: [
-            { key: 'text', label: 'תוכן', type: 'text', default: 'כותרת ראשית' },
-            { key: 'color', label: 'צבע', type: 'color', default: '#333333' }
+            { type: 'inputRow', label: 'תוכן', inputType: 'text', prop: 'text', value: 'כותרת ראשית' },
+            { type: 'inputRow', label: 'צבע', inputType: 'color', prop: 'color', value: '#333333' }
         ]
     },
     'h2': {
         label: '🇹 כותרת משנית (H2)',
         fields: [
-            { key: 'text', label: 'תוכן', type: 'text', default: 'כותרת משנה' },
-            { key: 'color', label: 'צבע', type: 'color', default: '#555555' }
+            { type: 'inputRow', label: 'תוכן', inputType: 'text', prop: 'text', value: 'כותרת משנה' },
+            { type: 'inputRow', label: 'צבע', inputType: 'color', prop: 'color', value: '#555555' }
         ]
     },
     'p': {
         label: '📝 פסקה (Paragraph)',
         fields: [
-            { key: 'text', label: 'תוכן', type: 'textarea', default: 'טקסט לדוגמה...' },
-            { key: 'fontSize', label: 'גודל (px)', type: 'number', default: '16' },
-            { key: 'lineHeight', label: 'גובה שורה', type: 'number', default: '1.5' }
+            { type: 'inputRow', label: 'תוכן', inputType: 'textarea', prop: 'text', value: 'טקסט לדוגמה...' },
+            { type: 'inputRow', label: 'גודל', inputType: 'number', prop: 'fontSize', unit: 'px', value: '16' },
+            { type: 'inputRow', label: 'גובה שורה', inputType: 'number', prop: 'lineHeight', value: '1.5' }
         ]
     },
     'img': {
         label: '🖼️ תמונה (Image)',
         fields: [
-            { key: 'src', label: 'URL', type: 'text', default: 'https://via.placeholder.com/400x300' },
-            { key: 'alt', label: 'תיאור', type: 'text', default: 'תמונה' },
-            { key: 'width', label: 'רוחב (%)', type: 'number', default: '100' },
-            { key: 'borderRadius', label: 'עיגול (px)', type: 'number', default: '8' }
+            { type: 'inputRow', label: 'URL', inputType: 'text', prop: 'src', value: 'https://via.placeholder.com/400x300' },
+            { type: 'inputRow', label: 'תיאור', inputType: 'text', prop: 'alt', value: 'תמונה' },
+            {
+                type: 'grid',
+                children: [
+                    { type: 'input', inputType: 'number', label: 'רוחב', prop: 'width', unit: '%', value: '100' },
+                    { type: 'input', inputType: 'number', label: 'עיגול', prop: 'borderRadius', unit: 'px', value: '8' }
+                ]
+            }
         ]
     },
     'video': {
         label: '🎬 וידאו (Video)',
         fields: [
-            { key: 'src', label: 'URL', type: 'text', default: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-            { key: 'controls', label: 'פקדים', type: 'checkbox', default: true },
-            { key: 'autoplay', label: 'ניגון אוטומטי', type: 'checkbox', default: false }
+            { type: 'inputRow', label: 'URL', inputType: 'text', prop: 'src', value: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+            { type: 'inputRow', label: 'פקדים', inputType: 'toggle', prop: 'controls', v: true, x: false, value: true },
+            { type: 'inputRow', label: 'ניגון אוטומטי', inputType: 'toggle', prop: 'autoplay', v: true, x: false, value: false }
         ]
     },
     'button': {
         label: '🔘 כפתור (Button)',
         fields: [
-            { key: 'text', label: 'טקסט', type: 'text', default: 'לחץ כאן' },
-            { key: 'backgroundColor', label: 'רקע', type: 'color', default: '#0078d4' },
-            { key: 'color', label: 'טקסט', type: 'color', default: '#ffffff' },
-            { key: 'borderRadius', label: 'עיגול (px)', type: 'number', default: '4' },
-            { key: 'padding', label: 'ריווח', type: 'text', default: '10px 20px' }
+            { type: 'inputRow', label: 'טקסט', inputType: 'text', prop: 'text', value: 'לחץ כאן' },
+            { type: 'inputRow', label: 'צבע רקע', inputType: 'color', prop: 'backgroundColor', value: '#0078d4' },
+            { type: 'inputRow', label: 'צבע טקסט', inputType: 'color', prop: 'color', value: '#ffffff' },
+            {
+                type: 'grid',
+                children: [
+                    { type: 'input', inputType: 'number', label: 'עיגול', prop: 'borderRadius', unit: 'px', value: '4' },
+                    { type: 'input', inputType: 'text', label: 'ריווח', prop: 'padding', value: '10px 20px' }
+                ]
+            }
         ]
     },
     'a': {
         label: '🔗 קישור (Link)',
         fields: [
-            { key: 'text', label: 'טקסט', type: 'text', default: 'עבור לאתר' },
-            { key: 'href', label: 'URL', type: 'text', default: 'https://google.com' },
-            { key: 'target', label: 'חלון חדש', type: 'checkbox', default: true },
-            { key: 'color', label: 'צבע', type: 'color', default: '#0078d4' }]
+            { type: 'inputRow', label: 'טקסט', inputType: 'text', prop: 'text', value: 'עבור לאתר' },
+            { type: 'inputRow', label: 'כתובת (HREF)', inputType: 'text', prop: 'href', value: 'https://google.com' },
+            { type: 'inputRow', label: 'חלון חדש', inputType: 'toggle', prop: 'target', v: true, x: false, value: true },
+            { type: 'inputRow', label: 'צבע', inputType: 'color', prop: 'color', value: '#0078d4' }
+        ]
     },
     'div': {
         label: '🔲 קופסה (Container)',
         fields: [
-            { key: 'minHeight', label: 'גובה מינ\' (px)', type: 'number', default: '100' },
-            { key: 'backgroundColor', label: 'רקע', type: 'color', default: '#f9f9f9' },
-            { key: 'padding', label: 'ריווח', type: 'text', default: '20px' },
-            { key: 'border', label: 'מסגרת', type: 'checkbox', default: true }
+            { type: 'inputRow', label: 'גובה מינימלי', inputType: 'number', prop: 'minHeight', unit: 'px', value: '100' },
+            { type: 'inputRow', label: 'צבע רקע', inputType: 'color', prop: 'backgroundColor', value: '#f9f9f9' },
+            { type: 'inputRow', label: 'ריווח פנימי', inputType: 'text', prop: 'padding', value: '20px' },
+            { type: 'inputRow', label: 'מסגרת', inputType: 'toggle', prop: 'border', v: true, x: false, value: true }
         ]
     },
     'details': {
         label: '🔻 אקורדיון (Details)',
         fields: [
-            { key: 'summary', label: 'כותרת', type: 'text', default: 'לחץ לפתיחה' },
-            { key: 'content', label: 'תוכן', type: 'textarea', default: 'תוכן מוסתר...' }
+            { type: 'inputRow', label: 'כותרת', inputType: 'text', prop: 'summary', value: 'לחץ לפתיחה' },
+            { type: 'inputRow', label: 'תוכן', inputType: 'textarea', prop: 'content', value: 'תוכן מוסתר...' }
         ]
     },
     'card': {
         label: '🃏 כרטיס (Card)',
         fields: [
-            { key: 'imgSrc', label: 'תמונה', type: 'text', default: 'https://via.placeholder.com/300x200' },
-            { key: 'title', label: 'כותרת', type: 'text', default: 'כותרת' },
-            { key: 'desc', label: 'תיאור', type: 'textarea', default: 'תיאור קצר.' },
-            { key: 'btnText', label: 'כפתור', type: 'text', default: 'קרא עוד' }
+            { type: 'inputRow', label: 'תמונה', inputType: 'text', prop: 'imgSrc', value: 'https://via.placeholder.com/300x200' },
+            { type: 'inputRow', label: 'כותרת', inputType: 'text', prop: 'title', value: 'כותרת' },
+            { type: 'inputRow', label: 'תיאור', inputType: 'textarea', prop: 'desc', value: 'תיאור קצר.' },
+            { type: 'inputRow', label: 'טקסט כפתור', inputType: 'text', prop: 'btnText', value: 'קרא עוד' }
         ]
     }
 };
 
 // ==========================================
-//   בניית הממשק (HTML & Setup)
+//   2. הסכימה הראשית של הפאנל
+// ==========================================
+const addElementSchema = [
+    { type: 'title', label: 'הוספת אלמנט' },
+
+    {
+        type: 'inputRow',
+        label: 'בחר סוג אלמנט',
+        inputType: 'select',
+        id: 'elementTypeSelect',
+        options: Object.keys(elementsList).map(k => ({ value: k, text: elementsList[k].label })),
+        oninput: (e) => renderDynamicFields(e.target.value)
+    },
+
+    // קונטיינר לשדות הדינמיים
+    {
+        type: 'div',
+        id: 'dynamicFormFields',
+        style: 'display: flex; flex-direction: column; gap: 20px; border-top: 1px solid var(--ui-10); padding-top: 15px;'
+    },
+
+    {
+        type: 'inputRow',
+        label: 'מזהה ייחודי (ID)',
+        inputType: 'text',
+        id: 'newElementId',
+        placeholder: 'מומלץ לקרוא שם לאלמנט',
+    },
+
+    {
+        type: 'button',
+        id: 'btnAdd',
+        label: '+ הוסף למסמך',
+        class: 'ui-btn-primary',
+        onClick: executeAdd
+    }
+];
+
+// ==========================================
+//   3. לוגיקה וניהול
 // ==========================================
 
-const htmlAddElement = /* html */ `
-    <style>
-        .add-element-header { margin-bottom: 15px; }
-        .form-group { margin-bottom: 12px; }
-        .form-label { display: block; font-size: 12px; font-weight: 500; color: #444; margin-bottom: 5px; }
-        
-        .styled-select, .styled-input, .styled-textarea {
-            width: 100%;
-            padding: 8px 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 13px;
-            background: #fff;
-            box-sizing: border-box;
-            transition: border-color 0.2s;
-        }
-        .styled-select:focus, .styled-input:focus, .styled-textarea:focus {
-            border-color: #0078d4;
-            outline: none;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #f9f9f9;
-            padding: 8px;
-            border-radius: 6px;
-            border: 1px solid #eee;
-        }
-        .checkbox-group input { margin: 0; }
-        .checkbox-group label { margin: 0; cursor: pointer; flex: 1;}
-
-        .btn-primary {
-            background-color: #0078d4;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: 600;
-            font-size: 14px;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            transition: background 0.2s;
-            margin-top: 20px;
-        }
-        .btn-primary:hover { background-color: #0063b1; }
-        
-        .separator { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
-        .element-id-hint { font-size: 11px; color: #888; margin-top: 4px; display: block; }
-    </style>
-
-    <h4>הוספת אלמנט</h4>
-    
-    <div class="form-group">
-        <label class="form-label">בחר סוג אלמנט:</label>
-        <div style="position:relative;">
-            <select id="elementTypeSelect" class="styled-select" style="appearance: none; font-weight:bold;">
-            </select>
-            <div style="position:absolute; left:10px; top:50%; transform:translateY(-50%); pointer-events:none; color:#666;">▼</div>
-        </div>
-    </div>
-
-    <div class="separator"></div>
-
-    <div id="dynamicFormFields"></div>
-
-    <div class="separator"></div>
-
-    <div class="form-group">
-        <label class="form-label">מזהה ייחודי - מומלץ</label>
-        <input type="text" id="newElementId" class="styled-input" placeholder="למשל: hero_section" style="direction:ltr;">
-        <span class="element-id-hint">השאר ריק ליצירה אוטומטית</span>
-    </div>
-
-    <button id="btnAdd" class="btn-primary">
-         <span>+</span> הוסף למסמך
-    </button>
-`;
-
-htmlAddElement.into('#panel-add-element');
-
-function loadAddElementPanel() {
-    const select = $('elementTypeSelect');
-    select.innerHTML = ''; // איפוס
-
-    // מילוי ה-Select
-    Object.keys(elementDefinitions).forEach(type => {
-        const option = document.createElement('option');
-        option.value = type;
-        option.textContent = elementDefinitions[type].label;
-        select.appendChild(option);
-    });
-
-    // האזנה לשינוי סוג האלמנט -> בניית הטופס מחדש
-    select.when('change', () => {
-        renderDynamicFields(select.value);
-    });
-
-    // אתחול ראשוני (הצג שדות של הסוג הראשון)
-    renderDynamicFields(select.value);
-    $('btnAdd').whenClick(executeAdd);
-}
 
 /**
- * בונה את השדות (Inputs) בהתאם לסוג שנבחר
+ * בונה את השדות הדינמיים באמצעות ה-Builder
  */
 function renderDynamicFields(type) {
     const container = $('dynamicFormFields');
+    const config = elementsList[type];
+
     container.innerHTML = '';
-    const config = elementDefinitions[type];
     if (!config || !config.fields) return;
 
-    config.fields.forEach(field => {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'form-group';
-
-        if (field.type === 'checkbox') {
-            wrapper.className = 'checkbox-group'; // עיצוב שונה לצ'קבוקס
-
-            const input = document.createElement('input');
-            input.type = 'checkbox';
-            input.checked = field.default;
-            input.id = 'field_' + field.key;
-
-            const label = document.createElement('label');
-            label.htmlFor = input.id; // קשירה ללחיצה
-            label.textContent = field.label;
-            label.className = 'form-label';
-
-            wrapper.appendChild(input);
-            wrapper.appendChild(label);
-        } else {
-            const label = document.createElement('label');
-            label.className = 'form-label';
-            label.textContent = field.label;
-            wrapper.appendChild(label);
-
-            let input;
-            if (field.type === 'textarea') {
-                input = document.createElement('textarea');
-                input.className = 'styled-textarea';
-                input.rows = 3;
-            } else {
-                input = document.createElement('input');
-                input.type = field.type;
-                input.className = 'styled-input';
-                // אם זה צבע, ניתן לו גובה קבוע שיראה טוב
-                if (field.type === 'color') input.style.height = '35px';
-            }
-
-            if (field.default !== undefined) input.value = field.default;
-            input.id = 'field_' + field.key;
-            wrapper.appendChild(input);
-        }
-        container.appendChild(wrapper);
-    });
+    // שימוש ב-Builder כדי לרנדר את רשימת השדות של האלמנט הנבחר
+    build.fillChildren(container, config.fields);
 }
 
-
-// ==========================================
-//   לוגיקת הוספה חכמה (Architecture Compliant)
-// ==========================================
-
 /**
- * הפונקציה הראשית שיוצרת את האלמנט לפי הנתונים בטופס
+ * לוגיקת הוספה - אוספת נתונים ובודקת איפה להכניס את האלמנט
  */
 function executeAdd() {
     const type = $('elementTypeSelect').value;
-    const config = elementDefinitions[type];
+    const config = elementsList[type];
 
     let baseId = $('newElementId').value;
     baseId = createSafeId(baseId, type);
     if (!baseId) return;
 
+    // איסוף הנתונים מהטופס הדינמי
     const data = {};
+    const dynamicContainer = $('dynamicFormFields');
+
+    // סריקת ההגדרות כדי לדעת אילו שדות לחפש
+    const allProps = [];
     config.fields.forEach(field => {
-        const input = $('field_' + field.key);
-        data[field.key] = field.type === 'checkbox' ? input.checked : input.value;
+        if (field.children) { // אם זה גריד
+            field.children.forEach(child => allProps.push(child.prop));
+        } else if (field.prop) { // אם זה inputRow
+            allProps.push(field.prop);
+        }
     });
 
+    // שליפת הערכים מה-DOM
+    allProps.forEach(prop => {
+        const input = dynamicContainer.$1(`[data-property="${prop}"]`);
+        if (input) {
+            data[prop] = input.type === 'checkbox' ? input.checked : input.value;
+        }
+    });
+
+    // בניית המבנה הלוגי של האלמנט
     const result = buildElementStructure(type, data, baseId);
+
+    // החלטה איפה להוסיף את האלמנט (בתוך או אחרי ההורה)
     let parent = theElement;
     if (['IMG', 'INPUT', 'HR', 'BR', 'VIDEO'].includes(parent.tagName)) {
         if (confirm("אין אפשרות להכניס בתוך האלמנט הנבחר. להכניס אחריו?")) {
@@ -281,12 +201,15 @@ function executeAdd() {
         } else return;
     }
 
+    // הוספה בפועל ל-DOM
     insertElementManager(result.element, parent, false);
 
+    // יצירת חוקי CSS ושיוך שלהם
     Object.keys(result.rules).forEach(selector => {
         const rule = createRuleAndRef(selector);
         Object.entries(result.rules[selector]).forEach(([p, v]) => {
             if (v !== undefined && v !== '') {
+                // הוספת px אם צריך
                 if (['width', 'height', 'fontSize', 'borderRadius', 'minHeight', 'padding', 'margin'].includes(p) && !isNaN(v)) v += 'px';
                 rule.style[p] = v;
             }
@@ -296,7 +219,6 @@ function executeAdd() {
 
 /**
  * בונה את מבנה ה-DOM ומכין את אובייקט העיצובים
- * @returns { element: HTMLElement, rules: { 'selector': { prop: val } } }
  */
 function buildElementStructure(type, data, baseId) {
     const rules = {};
@@ -304,78 +226,42 @@ function buildElementStructure(type, data, baseId) {
 
     // --- קומפוננטת כרטיס (Card) - מורכב ---
     if (type === 'card') {
-        // 1. מיכל ראשי
         el = document.createElement('div');
         el.id = baseId;
         rules['#' + baseId] = {
-            border: '1px solid #ddd',
-            borderRadius: '8px',
-            overflow: 'hidden',
-            backgroundColor: '#fff',
-            maxWidth: '300px',
-            display: 'flex',
-            flexDirection: 'column',
-            boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
+            border: '1px solid #ddd', borderRadius: '8px', overflow: 'hidden',
+            backgroundColor: 'var(--ui-base)', maxWidth: '300px', display: 'flex',
+            flexDirection: 'column', boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
         };
 
-        // 2. תמונה
-        const img = document.createElement('img');
-        img.id = baseId + '_img';
-        img.src = data.imgSrc;
+        const img = createElement('img', { id: baseId + '_תמונה', src: data.imgSrc });
         el.appendChild(img);
-        rules['#' + baseId + '_img'] = {
-            width: '100%',
-            height: '150px',
-            objectFit: 'cover',
-            display: 'block'
-        };
+        rules['#' + baseId + '_תמונה'] = { width: '100%', height: '150px', objectFit: 'cover', display: 'block' };
 
-        // 3. תוכן הכרטיס (עוטף)
-        const content = document.createElement('div');
-        content.id = baseId + '_content';
+        const content = createElement('div', { id: baseId + '_תוכן' });
         el.appendChild(content);
-        rules['#' + baseId + '_content'] = { padding: '15px' };
+        rules['#' + baseId + '_תוכן'] = { padding: '15px' };
 
-        // 4. כותרת
-        const h3 = document.createElement('h3');
-        h3.id = baseId + '_title';
-        h3.innerText = data.title;
+        const h3 = createElement('h3', { id: baseId + '_כותרת', text: data.title });
         content.appendChild(h3);
-        rules['#' + baseId + '_title'] = { margin: '0 0 10px 0', fontSize: '18px' };
+        rules['#' + baseId + '_כותרת'] = { margin: '0 0 10px 0', fontSize: '18px' };
 
-        // 5. תיאור
-        const p = document.createElement('p');
-        p.innerText = data.desc;
-        p.id = baseId + '_desc';
+        const p = createElement('p', { text: data.desc, id: baseId + '_פירוט' });
         content.appendChild(p);
-        rules['#' + baseId + '_desc'] = {
-            fontSize: '14px',
-            color: '#666',
-            margin: '0 0 15px 0'
-        };
-        // 6. כפתור
-        const b = document.createElement('button');
-        b.innerText = data.btnText;
-        b.id = baseId + '_button';
+        rules['#' + baseId + '_פירוט'] = { fontSize: '14px', color: '#666', margin: '0 0 15px 0' };
+
+        const b = document.createElement('button', { id: baseId + '_כפתור', text: data.btnText });
         content.appendChild(b);
-        rules['#' + baseId + '_button'] = {
-            backgroundColor: '#0078d4',
-            color: 'white',
-            border: 'none',
-            padding: '8px 16px',
-            borderRadius: '4px'
+        rules['#' + baseId + '_כפתור'] = {
+            backgroundColor: '#0078d4', color: 'white', border: 'none',
+            padding: '8px 16px', borderRadius: '4px'
         };
         return { element: el, rules: rules };
     }
 
     // --- אלמנטים סטנדרטיים ---
-
     el = createElement(type, { id: baseId });
-
-    // אובייקט הסטייל של האלמנט הראשי
     const myStyle = {};
-
-    // מיפוי שדות מידע ל-DOM Attributes או ל-CSS Styles
 
     // -- DOM Attributes --
     if (data.text) el.innerText = data.text;
@@ -390,56 +276,38 @@ function buildElementStructure(type, data, baseId) {
         myStyle.maxWidth = '100%';
     }
     if (type === 'details') {
-        const s = document.createElement('summary');
-        s.id = baseId + '_summary'
-        s.innerText = data.summary;
-        const p = document.createElement('p');
-        p.id = baseId + '_p'
-        p.innerText = data.content;
+        const s = createElement('summary', { id: baseId + '_summary', text: data.summary });
+        const p = createElement('p', { id: baseId + '_p', text: data.content });
         el.append(s, p);
-        myStyle.border = '1px solid #ccc';
-        myStyle.padding = '10px';
-        myStyle.borderRadius = '4px';
+        myStyle.border = '1px solid #ccc'; myStyle.padding = '10px'; myStyle.borderRadius = '4px';
     }
 
     // -- CSS Properties Mapping --
-    // מיפוי ישיר: אם המפתח קיים ב-data, נעביר אותו לסטייל
     const styleKeys = [
         'color', 'backgroundColor', 'fontSize', 'lineHeight',
-        'borderRadius', 'border', 'width', 'minHeight', 'padding'
+        'borderRadius', 'width', 'minHeight', 'padding'
     ];
 
     styleKeys.forEach(key => {
-        if (data[key]) {
-            if (key === 'border') {
-                if (data[key] === true)
-                    myStyle.border = '1px dashed #ccc'; // ברירת מחדל למסגרת
-            } else {
-                myStyle[key] = data[key];
-            }
-        }
+        if (data[key]) myStyle[key] = data[key];
     });
 
-    // כפתור וקישורים - הסרת קו תחתון ועיצוב בסיסי
+    if (data.border) myStyle.border = '1px dashed #ccc';
     if (type === 'a') myStyle.textDecoration = 'none';
-    if (type === 'button') {
-        myStyle.border = 'none';
-        myStyle.cursor = 'pointer';
-    }
+    if (type === 'button') { myStyle.border = 'none'; myStyle.cursor = 'pointer'; }
+
     rules['#' + baseId] = myStyle;
     return { element: el, rules: rules };
 }
 
-
 /**
- * יצירת id מאובטח מהשם שהכניס המשתמש
+ * יצירת id מאובטח
  */
 function createSafeId(nameFromUser, tagName) {
     let safeId;
     if (nameFromUser) {
         safeId = nameFromUser.trim().replace(/\s+/g, '_');
-        if ($(safeId))
-            return alert('שגיאה: קיים כבר אלמנט עם השם הזה. אנא בחר שם אחר.');
+        if ($(safeId)) return alert('שגיאה: קיים כבר אלמנט עם השם הזה. אנא בחר שם אחר.');
     } else {
         do {
             safeId = 'auto_' + tagName + '_' + Math.random().toString(36).substring(2, 9);
@@ -448,5 +316,3 @@ function createSafeId(nameFromUser, tagName) {
     return safeId;
 }
 
-// הפעלה ראשונית
-loadAddElementPanel();

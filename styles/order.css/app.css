@@ -1,0 +1,719 @@
+/*=======================
+          בסיס
+========================*/
+
+:root {
+    --h: 240;
+    /* גוון */
+    --c: 20;
+    /* רמת גוון (קו אופקי בפיקר): 0 = שחור - לבן, 100 = שחור - גוון */
+    --d: calc(var(--c) * 1%);
+    /* עבור אקצנט ליצור משתנה גוון, ובהובר להבהיר / להכהות */
+
+    --ui-base: hwb(var(--h) calc(100% - var(--d)) 0%);
+    --ui-5: hwb(var(--h) calc(95% - var(--d)) 5%);
+    --ui-10: hwb(var(--h) calc(90% - var(--d)) 10%);
+    --ui-15: hwb(var(--h) calc(85% - var(--d)) 15%);
+    --ui-20: hwb(var(--h) calc(80% - var(--d)) 20%);
+    --ui-25: hwb(var(--h) calc(75% - var(--d)) 25%);
+    --ui-45: hwb(var(--h) calc(55% - var(--d)) 45%);
+    --ui-80: hwb(var(--h) calc(20% - var(--d)) 80%);
+
+    --ui-accent-focus: hwb(217 23% 4%);
+    --ui-accent: hwb(206 0% 16%);
+    --ui-radius: 6px;
+    --ui-spacing: 12px;
+    --ui-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+body.editor-dark-mode {
+    --ui-base: hwb(var(--h) 5% 95%);
+    --ui-5: hwb(var(--h) calc(10% - var(--d)) 90%);
+    --ui-10: hwb(var(--h) calc(15% - var(--d)) 85%);
+    --ui-15: hwb(var(--h) calc(20% - var(--d)) 80%);
+    --ui-20: hwb(var(--h) calc(25% - var(--d)) 75%);
+    --ui-25: hwb(var(--h) calc(30% - var(--d)) 70%);
+    --ui-45: hwb(var(--h) calc(50% - var(--d)) 50%);
+    --ui-80: hwb(var(--h) calc(85% - var(--d)) 15%);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--ui-10);
+    color: var(--ui-80);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    direction: rtl;
+    overflow: hidden;
+}
+
+.selected-element {
+    outline: 1px solid black;
+    outline-offset: -1px;
+}
+
+/* גבולות עזר. מציג גבול רק כשהקלאס קיים על העורך */
+.show-outlines * {
+    outline: 1px dashed rgba(0, 120, 212, 0.3) !important;
+}
+
+.show-outlines *:hover {
+    outline: 1px solid rgba(0, 120, 212, 0.6) !important;
+}
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+.hide {
+    display: none !important;
+}
+
+/*=========================
+           header
+==========================*/
+
+
+.app-header {
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    background-color: var(--ui-15);
+    border-bottom: 1px solid var(--ui-25);
+    z-index: 200;
+    position: relative;
+}
+
+.header-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-section.center {
+    font-size: 13px;
+    color: var(--ui-45);
+    font-weight: 500;
+}
+
+.app-logo {
+    font-weight: bold;
+    padding: 0 10px;
+}
+
+.header-icon-btn {
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    transition: 0.2s;
+}
+
+.header-icon-btn:hover {
+    color: var(--ui-45);
+}
+
+/* כפתור החץ שמסתובב */
+.toggle-edit-bar {
+    transition: transform 0.3s;
+}
+
+.toggle-edit-bar.active {
+    transform: rotate(180deg);
+    color: var(--accent);
+}
+
+/* תפריט המבורגר */
+.dropdown-menu {
+    height: 140px;
+    position: absolute;
+    top: 100%;
+    left: 30px;
+    background-color: var(--ui-15);
+    border: 1px solid var(--ui-25);
+    border-top: none;
+    z-index: 100;
+    padding: 0;
+    min-width: 120px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.dropdown-item {
+    padding: 8px 15px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdown-item:hover {
+    background-color: var(--ui-20);
+}
+
+/*=====================
+        topBar
+======================*/
+
+
+.edit-actions-bar {
+    background-color: var(--ui-20);
+    border-bottom: 1px solid var(--ui-25);
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 20px;
+    position: absolute;
+    z-index: 20;
+    top: 45px;
+    left: 0;
+    width: 100%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.dropdown-menu.collapsed,
+.edit-actions-bar.collapsed {
+    height: 0;
+    border-bottom: none;
+}
+
+.action-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    user-select: none;
+}
+
+.action-toggle input {
+    display: none;
+}
+
+.action-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.action-toggle:has(input:checked) {
+    background: var(--accent);
+    color: white;
+}
+
+.divider-vertical {
+    width: 1px;
+    height: 20px;
+    background: var(--ui-25);
+}
+
+
+
+/*====================================
+                main
+=====================================*/
+
+
+.main-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+aside {
+    overflow: hidden;
+    /* שלא יראו את התוכן כשהוא סגור */
+    background: var(--ui-15);
+    width: 0;
+    opacity: 0;
+    /* אנימציה חלקה לפתיחה משמאל */
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+aside.open {
+    overflow: auto;
+    width: 280px;
+    opacity: 1;
+    flex-shrink: 0;
+}
+
+.panel-right {
+    border-left: 1px solid var(--ui-25);
+}
+
+.panel-left {
+    border-right: 1px solid var(--ui-25);
+}
+
+.workspace {
+    padding: 40px;
+    background-color: var(--ui-base);
+    overflow: hidden;
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-image: linear-gradient(var(--ui-15) 0, transparent 0.4px),
+        linear-gradient(90deg, var(--ui-10) 0, transparent 0.5px);
+    background-size: 2px 2px;
+    /* הוספת מעבר חלק כשהמקום הפנוי משתנה */
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.editor-dark-mode .workspace {
+    background-image: linear-gradient(var(--ui-25) 0, transparent 0.4px),
+        linear-gradient(90deg, var(--ui-20) 0, transparent 0.5px);
+}
+
+
+
+/*=========================
+          workspace
+==========================*/
+
+
+/* The Viewport Controls (Floating) */
+.width-screen {
+    position: absolute;
+    width: 120px;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ui-15);
+    border: 1px solid var(--ui-25);
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-around;
+    padding: 5px;
+    gap: 5px;
+    z-index: 10;
+    margin-top: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.ws-btn {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    flex: 1;
+}
+
+.ws-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--ui-base);
+}
+
+.ws-btn.active {
+    background: var(--accent);
+    color: var(--ui-base);
+}
+
+.canvas-scroller {
+    flex: 1;
+    display: flex;
+    overflow: auto;
+    background-color: white;
+    transition: all 0.4s;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.canvas {
+    flex: 1;
+    border-radius: 6px;
+    background-color: white;
+    /* הטריק "לכליאת" אלמנטים עם position: fixed */
+    transform: translate(0);
+}
+
+
+.canvas-scroller:focus-visible,
+.canvas:focus-visible,
+.canvas .canvas-scroller {
+    outline: none;
+}
+
+
+
+
+/*==========================
+            sidebar
+===========================*/
+
+
+.sidebar-icons {
+    width: 50px;
+    background: var(--ui-15);
+    border-right: 1px solid var(--ui-25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    flex-shrink: 0;
+    gap: 5px;
+}
+
+.activity-btn {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.1s;
+    background-color: var(--ui-10);
+}
+
+.activity-btn:hover {
+    background-color: var(--ui-20);
+}
+
+.activity-btn.active {
+    /* border-top-right-radius: 0;
+    border-bottom-right-radius: 0; */
+    background-color: var(--ui-25);
+    border-left: 2px solid var(--accent);
+    color: var(--accent);
+}
+
+.activity-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+
+/* --- למערכת אנימציות --- */
+/*
+Fades
+*/
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 50px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -50px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translate3d(-50px, 0, 0);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translate3d(50px, 0, 0);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+/*
+Zooms
+*/
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale3d(0.3, 0.3, 0.3);
+    }
+
+    50% {
+        opacity: 1;
+
+    }
+}
+
+@keyframes zoomOut {
+    from {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+        transform: scale3d(0.3, 0.3, 0.3);
+    }
+
+    to {
+        opacity: 0;
+
+    }
+}
+
+/*
+Attention Seekers
+*/
+@keyframes bounce {
+
+    from,
+    20%,
+    53%,
+    80%,
+    to {
+        animation-timing-function: cubic-bezier(0.215,
+                0.61, 0.355, 1);
+        transform: translate3d(0, 0, 0);
+    }
+
+    40%,
+    43% {
+        animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+        transform: translate3d(0, -30px, 0);
+    }
+
+    70% {
+        animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+        transform: translate3d(0, -15px, 0);
+    }
+
+    90% {
+        transform: translate3d(0, -4px, 0);
+    }
+}
+
+@keyframes pulse {
+    from {
+        transform: scale3d(1, 1, 1);
+    }
+
+    50% {
+        transform: scale3d(1.05, 1.05, 1.05);
+    }
+
+    to {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+@keyframes shake {
+
+    from,
+    to {
+        transform: translate3d(0, 0, 0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translate3d(-10px, 0, 0);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translate3d(10px, 0, 0);
+    }
+}
+
+/*
+Rotations
+*/
+@keyframes rotateIn {
+    from {
+        transform-origin: center;
+        transform: rotate3d(0, 0, 1, -200deg);
+        opacity: 0;
+    }
+
+    to {
+        transform-origin: center;
+        transform: none;
+        opacity: 1;
+
+    }
+}
+
+@keyframes flipInX {
+    from {
+        transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+        animation-timing-function: ease-in;
+        opacity: 0;
+    }
+
+    40% {
+        transform: perspective(400px) rotate3d(1,
+                0, 0, -20deg);
+        animation-timing-function: ease-in;
+    }
+
+    60% {
+        transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+        opacity: 1;
+    }
+
+    80% {
+        transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+    }
+
+    to {
+        transform: perspective(400px)
+    }
+}
+
+
+/*==========================
+        עיצובים לרופא
+=============================*/
+
+
+/* הקונטיינר של הדיאגנוזה */
+.diagnosis-card {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    /* או left אם הממשק בעברית */
+    width: 320px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    font-family: system-ui, -apple-system, sans-serif;
+    z-index: 10000;
+    overflow: hidden;
+    animation: slideIn 0.3s ease-out;
+    direction: rtl;
+    /* חשוב לעברית */
+}
+
+/* כותרת */
+.diagnosis-header {
+    background: #f8f9fa;
+    padding: 12px 16px;
+    border-bottom: 1px solid #eee;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.diagnosis-close {
+    cursor: pointer;
+    font-size: 18px;
+    color: #999;
+}
+
+/* רשימת התקלות */
+.diagnosis-list {
+    padding: 0;
+    margin: 0;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.diagnosis-item {
+    display: flex;
+    gap: 12px;
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.diagnosis-item:last-child {
+    border-bottom: none;
+}
+
+.diagnosis-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.diagnosis-content h4 {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.diagnosis-content p {
+    margin: 0;
+    font-size: 13px;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* עיצוב למצב תקין */
+.diagnosis-item.success {
+    background-color: #f0fff4;
+}
+
+.diagnosis-item.success h4 {
+    color: #2e7d32;
+}
+
+.tip {
+    background-color: #fff9f0;
+    padding: 5px 16px;
+    font-size: 13px;
+    border-top: 1px solid #ffebcc;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

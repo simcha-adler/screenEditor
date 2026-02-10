@@ -1,69 +1,84 @@
-const htmlDesign = /* html */ `
 
-<h4>צבע וטיפוגרפיה</h4>
+const designSchema = [
+    { type: 'title', label: 'עיצוב טקסט וצבע' },
 
-<label for="fontFamilyInput" class="design-control">
-    <span>גופן</span>
-    <select id="fontFamilyInput" data-property="fontFamily" style="width: 120px;">
-        <option value="Arial, sans-serif">Arial</option>
-        <option value="'Times New Roman', serif">Times New Roman</option>
-        <option value="'Courier New', monospace">Courier New</option>
-        <option value="Georgia, serif">Georgia</option>
-        <option value="Verdana, sans-serif">Verdana</option>
-    </select>
-</label>
+    {
+        type: 'section', label: 'טיפוגרפיה', collapsed: false,
+        children: [
+            {
+                type: 'inputRow', label: 'גופן',
+                inputType: 'select', prop: 'fontFamily',
+                options: [
+                    { value: 'Arial, sans-serif', text: 'Arial' },
+                    { value: 'Verdana, sans-serif', text: 'Verdana' },
+                    { value: '"Times New Roman", serif', text: 'Times New Roman' },
+                    { value: '"Courier New", monospace', text: 'Courier New' },
+                    { value: 'system-ui, -apple-system, sans-serif', text: 'System UI' },
+                    { value: 'inherit', text: 'מורש (Inherit)' }
+                ]
+            },
 
-<label for="fontSizeInput" class="design-control">
-    <span>גודל גופן (px)</span>
-    <input type="number" id="fontSizeInput" data-property="fontSize" data-unit="px" min="8" max="120" value="16"
-        style="width: 50px; text-align: left;">
-</label>
+            {
+                type: 'inputRow', inputType: 'number', label: 'גודל', prop: 'fontSize', unit: 'px',
+            },
+            {
+                type: 'inputRow', inputType: 'select', label: 'משקל', prop: 'fontWeight',
+                options: [
+                    { value: '400', text: 'רגיל' },
+                    { value: '700', text: 'מודגש' },
+                    { value: '300', text: 'דק' },
+                    { value: '900', text: 'כבד' }
+                ],
+            },
+            {
+                type: 'inputRow', label: 'יישור טקסט',
+                inputType: 'select', prop: 'textAlign',
+                options: [
+                    { value: 'start', text: 'התחלה' },
+                    { value: 'center', text: 'מרכז' },
+                    { value: 'end', text: 'סוף' },
+                    { value: 'justify', text: 'יישור מלא' }
+                ]
+            }
+        ]
+    },
 
-<label for="colorInput" class="design-control">
-    <span>צבע טקסט</span>
-    <input type="color" id="colorInput" data-property="color" value="#000000">
-</label>
+    {
+        type: 'section', label: 'צבעים ורקע', collapsed: false,
+        children: [
+            {
+                type: 'inputRow', label: 'צבע טקסט',
+                inputType: 'color', prop: 'color',
+            },
+            {
+                type: 'inputRow', label: 'צבע רקע',
+                inputType: 'color', prop: 'backgroundColor',
+            }
+        ]
+    }
+];
 
-<label for="bgColorInput" class="design-control">
-    <span>צבע רקע (סימון)</span>
-    <input type="color" id="bgColorInput" data-property="backgroundColor" value="#ffff00">
-</label>
-
-<button id="gradientBtn">גרדיאנט</button>
-<div id="gradientDiv" style="display: none;">
-    <label for="bgColorInput" class="design-control">            
-        <span>זווית</span>
-        <input type="number" id="deg" data-property="gradient" value="0"  style="width: 50px; text-align: center;">
-        <span>צבע 1</span>
-        <input type="color" id="gradient1" data-property="gradient" value="#ffffff">
-        <span>צבע 2</span>
-        <input type="color" id="gradient2" data-property="gradient" value="#ffffff">
-    </label>
-</div>
-`;
-
-htmlDesign.into('#panel-design');
-
-
-function fillCorrectDesign() {
-    // --- 1. עדכון פאנל צבע וטיפוגרפיה ---
-    const mainFont = theStyles.fontFamily.split(',')[0].replace(/"/g, '').trim();
-    let found = Array.from(fontFamilyInput.options).find(opt => opt.value.includes(mainFont));
-
-    $('colorInput').value = rgbToHex(theStyles.color);
-    $('bgColorInput').value = rgbToHex(theStyles.backgroundColor);
-    $('fontSizeInput').value = parseInt(theStyles.fontSize, 10);
-    $('fontFamilyInput').value = found ? found.value : 'Arial, sans-serif';
-
-}
 
 function toggleGradient() {
     const hide = $('gradientDiv').style.display === 'none';
     $('gradientDiv').style.display = hide ? 'block' : 'none';
 }
 
+// להוסיף את יחידות הגרדיאנט בסכמה, ולצרף את המאזין לשם.
 function loadDesignListeners() {
     $('gradientBtn').whenClick(toggleGradient);
 }
 
-loadDesignListeners();
+function buildDesignPanel() {
+    const inputs = $$('.color-picker-wrapper')
+    // שליחת הסלקטור הנוכחי
+    const selector = getActiveSelectorKey(); // (פונקציית עזר שקיימת ב-borders.js וצריך להנגיש אותה)
+
+
+    inputs.forEach(container => {
+        const picker = createColorPicker(selector, 'color');
+        container = container.parentNode;
+        container.children[1].remove();
+        container.appendChild(picker);
+    });
+}

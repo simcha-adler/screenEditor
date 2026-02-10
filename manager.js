@@ -20,7 +20,6 @@ function updateSelectedElement(newElement = null) {
     theStyles = window.getComputedStyle(theElement);
     if (thePanel && thePanel !== panelTree)
         restartPanel(thePanel);
-    updateToolbarButtonStates();
     $('theElement').value = Id.replaceAll('_', ' ');
     // סמן את האלמנט הנבחר
     theElement.addClass('selected-element');
@@ -32,17 +31,19 @@ function updateSelectedElement(newElement = null) {
 function updatePanel(panel) {
     if (thePanel === panel) return;
 
-    if (thePanel)
-        thePanel.style.display = 'none';
-    thePanel = panel;
+    // צריך לתמוך במצב פתיחת פאנל, סגירה ויזואלית, והחלפה מיידית
     if (panel) {
-        panel.style.display = 'block';
-        // לבטל כשאסיר את טולבאר
-        if (panel === panelTree)
-            renderTree();
-        else
-            restartPanel(thePanel);
+        if (thePanel) thePanel.addClass('hide');
+        panel.removeClass('hide');
+        fillValues.panel(panel.id);
+    } else if (thePanel) {
+        const temp = thePanel;
+        setTimeout(() => {
+            if (!panelLeft.classList.contains('open')) //כדי למנוע תקלות בסגירה ופתיחה מיידית
+                temp.addClass('hide');
+        }, 300);
     }
+    thePanel = panel;
 }
 
 function createRuleAndRef(selector) {
@@ -63,6 +64,7 @@ function restartPage() {
     $('styles').innerHTML = '';
     sheet = $('styles').sheet; // רענון הרפרנס
     styleState = {}; // איפוס אובייקט המידע
+    renderTree();
     return true;
 }
 
@@ -74,11 +76,26 @@ function createRefRule(rule) {
 }
 
 function loadPage() {
-    loadDocumentListeners();
-    updateSelectedElement(editor);
+    // טעינת פאנלים
+    build.panel('panel-display', viewSchema, designListeners);
+    build.panel('panel-layout', layoutSchema, designListeners);
+    build.panel('panel-design', designSchema, designListeners);
+    build.panel('panel-borders', bordersSchema, designListeners);
+    build.panel('panel-position', positionSchema, designListeners);
+    build.panel('panel-animations', animationsSchema, designListeners);
+    build.panel('panel-theme', themeSchema);
+    build.panel('panel-add-element', addElementSchema);
+    build.panel('panel-classes', classesSchema);
+    settings.loadPanel();
     renderTree();
+
+    loadDocumentListeners();
+    attachClassesListeners();
     initTreeListeners();
-    initUserSettings();
+
+    updateSelectedElement(editor);
+    $$('.panel').addClass('hide');
+    //$$('.show').forEach(element => element.click()); // הפעלת כפתורי ברירת המחדל בסוויצ'רים
 }
 
 loadPage();

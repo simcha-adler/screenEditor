@@ -6,209 +6,497 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>עורך תוכן (דמוי אתר) - עם פאנלי עיצוב</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="./styles/nav_style.css">
-    <link rel="stylesheet" href="./styles/toolbar_style.css">
-    <link rel="stylesheet" href="./styles/sidebar_style.css">
-    <link rel="stylesheet" href="./styles/tree_style.css">
-    <link rel="stylesheet" href="./styles/panels_style.css">
-    <style>
+    <link rel="stylesheet" href="./styles/to order/panel2.css">
+    <link rel="stylesheet" href="./styles/to order/panels_style.css">
+    <link rel="stylesheet" href="./styles/order.css/tree_style.css">
+    <link rel="stylesheet" href="./styles/order.css/app.css">
+    <link rel="stylesheet" href="./styles/order.css/panels.css">
+    <style id="styles">
         /*עיצובים לאתר לדוגמא*/
-        #לעיצוב_הקישור_ככפתור {
-            color: rgb(255, 255, 255);
-            background-color: rgb(0, 120, 212);
-            border-radius: 4px;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            min-width: 100%;
-        }
-
-        #פסקת_שיווק {
+        #hero {
+            padding: 60px 20px;
+            font-family: 'Segoe UI', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
             text-align: center;
-            font-size: 18px;
-            line-height: 1.5;
-            margin-top: 46px;
-            margin-bottom: 46px;
         }
 
-        #ברכת_הצלחה {
-            text-align: center;
-            color: rgb(85, 85, 85);
+        #hero_content {
+            margin-bottom: 60px;
         }
 
-        body {
-            margin: 0;
+        #main_title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+            line-height: 1.1;
         }
 
-        #דף_הבסיס {
-            line-height: 1.6;
-            text-align: right;
-            padding: 40px;
-            min-height: calc(100vh - 80px);
-            background: linear-gradient(0deg, rgb(242, 249, 184), rgb(215, 243, 249));
-            font-size: 16px;
-        }
-
-        #קישור_לפתיחת_האתר_בחלון_חדש {
-            color: rgb(255, 255, 255);
-            text-decoration: none;
-            z-index: 100;
-            position: relative;
+        #hero_text {
             font-size: 20px;
-            border-style: none;
+            color: #666;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        #כותרת {
-            text-align: center;
-            color: rgb(51, 51, 51);
-            justify-content: center;
-            align-items: center;
-        }
-
-        #כותרת_משנה {
-            color: rgb(51, 51, 51);
-            padding-right: 18px;
-        }
-
-        #תפריט_האתר {
-            border: 1px none rgb(204, 204, 204);
-            padding: 10px;
-            border-radius: 4px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #כפתור_לדוגמא {
-            color: rgb(255, 255, 255);
-            background-color: rgb(0, 120, 212);
-            border-radius: 25px;
-            padding: 10px 20px;
-            border: 3px solid rgb(5, 5, 5);
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 16px;
-        }
-
-        #תפריט_האתר_p {
-            display: flex;
-            justify-content: center;
-        }
-
-        #סרטון_לדוגמא {
-            max-width: 100%;
-            border-radius: 22px;
-            border-style: solid;
-            height: 250px;
-            width: 400px;
-        }
-
-        #מעטפת_לסרטון_לדוגמא {
-            align-items: center;
-            justify-content: center;
-            flex-direction: row;
-            display: flex;
-        }
-
-        #תפריט_כרטיס {
-            border: 1px none rgb(204, 204, 204);
-            padding: 10px 40px 10px 10px;
-            border-radius: 4px;
-        }
-
-        #תפריט_וידאו {
-            border: 1px none rgb(204, 204, 204);
-            padding: 10px 40px 10px 10px;
-            border-radius: 4px;
-        }
-
-        #תפריט_כפתור {
-            border: 1px none rgb(204, 204, 204);
-            padding: 10px 40px 10px 10px;
-            border-radius: 4px;
-        }
-
-        #תפריט_כפתור_p {
-            display: flex;
-            justify-content: center;
-        }
-
-        #תפריט_האתר_summary {
-            padding: 9px;
-            border-radius: 4px;
-            margin-left: 1px;
-            margin-bottom: 15px;
-        }
-
-        #כרטיס_ביקור {
-            border: 5px dashed rgb(221, 221, 221);
-            border-radius: 27px;
-            overflow: hidden;
-            background-color: rgb(193, 250, 251);
-            max-width: 300px;
-            display: flex;
-            flex-flow: column wrap;
-            box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 5px;
-            align-items: stretch;
-            justify-content: center;
-        }
-
-        #כרטיס_ביקור_img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            display: block;
-        }
-
-        #כרטיס_ביקור_content {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #כרטיס_ביקור_button {
-            background-color: rgb(0, 120, 212);
+        #cta_btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            background-color: #2563eb;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            min-width: 100%;
-            min-height: 100%;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+            transition: transform 0.2s;
         }
 
-        #תפריט_כרטיס_p {
+        #cta_btn:hover {
+            transform: translateY(-2px);
+        }
+
+        #features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: right;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            background: #f0f9ff;
+            width: 80px;
+            height: 80px;
             display: flex;
+            align-items: center;
             justify-content: center;
-        }
-
-        #כרטיס_ביקור_desc {
-            text-align: center;
-            font-size: 14px;
-            color: rgb(102, 102, 102);
-            margin: 0px 0px 15px;
-        }
-
-        #כרטיס_ביקור_title {
-            text-align: center;
-            margin: 0px 0px 10px;
-            font-size: 18px;
+            border-radius: 50%;
         }
     </style>
-    <style id="styles"></style>
+    <!--style id="styles">
+        /* כרטיס ביקור דיגיטלי */
+
+        #profile_container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        #card_box {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 40px;
+            border-radius: 24px;
+            text-align: center;
+            width: 100%;
+            max-width: 350px;
+            color: white;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        #avatar_wrap {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.5);
+            overflow: hidden;
+        }
+
+        #avatar_img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #name_txt {
+            margin: 0;
+            font-size: 28px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        #job_txt {
+            margin: 10px 0 25px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        #stats_row {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        #social_links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .link-btn {
+            background: white;
+            color: #764ba2;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .link-btn:hover {
+            background: #f0f0f0;
+            transform: scale(1.02);
+        }
+    </style-->
+    <!-- <style id="styles">
+        #pricing_section {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 60px 20px;
+            background-color: #f8fafc;
+            flex-wrap: wrap;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .pricing-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 40px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .popular {
+            border: 2px solid #3b82f6;
+            background: #eff6ff;
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            right: 50%;
+            transform: translateX(50%);
+            background: #3b82f6;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .plan-price {
+            font-size: 48px;
+            font-weight: 800;
+            color: #1e293b;
+            margin: 20px 0;
+        }
+
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
+            text-align: right;
+            line-height: 2.5;
+            color: #64748b;
+        }
+
+        .plan-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #3b82f6;
+            background: transparent;
+            color: #3b82f6;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .plan-btn.primary {
+            background: #3b82f6;
+            color: white;
+        }
+    </style> -->
+    <!-- <style id="styles">
+        #contact_wrapper {
+            background: linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%);
+            color: white;
+            padding: 50px;
+            border-radius: 20px;
+            max-width: 500px;
+            margin: 50px auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            font-family: sans-serif;
+        }
+
+        .contact-title {
+            text-align: center;
+            margin-top: 0;
+            font-size: 32px;
+            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .contact-desc {
+            text-align: center;
+            color: #a0a0b0;
+            margin-bottom: 40px;
+        }
+
+        .form-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .modern-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .modern-input:focus {
+            border-color: #4facfe;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .full-width {
+            grid-column: span 2;
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .send-btn {
+            grid-column: span 2;
+            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+            border: none;
+            padding: 15px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .send-btn:hover {
+            opacity: 0.9;
+            transform: scale(0.98);
+        }
+    </style> -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../lib/אייקונים/RemixIcon_Fonts_v4.8.0/fonts/remixicon.css">
     <script src="./lib/short.js"></script>
-    <!--script src="./load.js"></script-->
+
+
 </head>
 
 <body>
+    <header class="app-header">
+        <div class="header-section">
+            <div class="header-icon-btn" title="חזרה לבית"><i class="ri-home-4-line"></i></div>
+            <div class="app-logo">SiteBuilder</div>
+        </div>
 
-    <div id="main-nav" class="main-nav"></div>
-    <div id="toolbar" class="toolbar"></div>
-    <div class="main-area">
+        <div class="header-section center">
+            <span class="file-name">my-website-project.html</span>
+        </div>
 
-        <div id="sidebar" class="sidebar"></div>
-        <div id="panel-area" class="panel-area">
+        <div class="header-section">
+            <div class="header-icon-btn" title="יציאה / ניתוק"><i class="ri-logout-box-r-line"></i></div>
+            <div id="menu" class="header-icon-btn" title="תפריט"><i class="ri-menu-line"></i>
+                <div class="dropdown-menu collapsed">
+                    <div class="dropdown-item" id="newDoc">מסמך חדש</div>
+                    <div class="dropdown-item" id="upload">העלאת קובץ</div>
+                    <input type="file" id="fileUploadInput" style="display: none;" accept=".html,.htm">
+                    <div class="dropdown-item" id="saveDoc">שמור</div>
+                    <div class="dropdown-item" id="downloadHTML">הורד כ-HTML</div>
+                </div>
+            </div>
+            <div class="header-icon-btn toggle-edit-bar" id="btnToggleEditBar" title="הצג כלי עריכה">
+                <i class="ri-arrow-down-s-line"></i>
+            </div>
+        </div>
+    </header>
+
+    <div id="topBar" class="edit-actions-bar collapsed">
+        <div class="action-group">
+            <label class="action-toggle" title="אפשר הקלדה חופשית על הדף">
+                <input type="checkbox" id="toggleContentEditable">
+                <span><i class="ri-text"></i></span>
+                <span>הקלדה חופשית</span>
+            </label>
+            <label class="action-toggle" title="אפשר גרירה ושחרור">
+                <input type="checkbox" id="toggleDragDrop">
+                <span><i class="ri-drag-move-2-line"></i></span>
+                <span>גרירה</span>
+            </label>
+        </div>
+        <div class="divider-vertical"></div>
+        <div class="action-group">
+            <span style="font-size:12px; color:#aaa;">זום:</span>
+            <input type="range" min="50" max="150" value="100" id="zoomRange" style="width:100px;">
+            <span id="zoomValue" style="font-size:12px; width:35px;">100%</span>
+        </div>
+    </div>
+
+    <div class="main-layout">
+
+        <aside id="panel-right" class="panel-right">
+            <div id="tree-header" class="tree-header">
+                <h4 style="padding: 0; margin: 0;">מבנה המסמך</h4>
+                <input type="checkbox" id="toggle-lock-drag" class="toggle-input">
+                <label for="toggle-lock-drag" class="toggle-switch"></label>
+            </div>
+            <div id="panel-tree">
+                <div id="tree-body" class="tree-body" style="margin: 0; padding: 0;"></div>
+            </div>
+        </aside>
+
+        <main class="workspace">
+            <div class="width-screen">
+                <div class="vp-btn active" data-width="100%" title="דסקטופ"><i class="ri-computer-line"></i></div>
+                <div class="vp-btn" data-width="768px" title="טאבלט"><i class="ri-tablet-line"></i></div>
+                <div class="vp-btn" data-width="375px" title="מובייל"><i class="ri-smartphone-line"></i></div>
+            </div>
+
+            <div id="canvas-scroller" class="canvas-scroller">
+                <div id="דף_הבסיס" class="canvas">
+                    <!--אתר לדוגמא-->
+                    <!-- <div id="contact_wrapper" class="contact-box">
+                        <h2 id="c_title" class="contact-title">צור קשר</h2>
+                        <p id="c_desc" class="contact-desc">יש לך שאלה? אנחנו כאן בשבילך.</p>
+
+                        <div id="form_grid" class="form-layout">
+                            <input type="text" id="inp_name" class="modern-input" placeholder="שם מלא">
+                            <input type="email" id="inp_email" class="modern-input" placeholder="אימייל">
+                            <textarea id="inp_msg" class="modern-input full-width"
+                                placeholder="ההודעה שלך..."></textarea>
+                            <button id="btn_send" class="send-btn">שלח הודעה 🚀</button>
+                        </div>
+                    </div> -->
+
+                    <!-- <section id="pricing_section" class="pricing-container">
+                        <div id="plan_basic" class="pricing-card">
+                            <h3 id="p_title_1" class="plan-title">בסיסי</h3>
+                            <div id="p_price_1" class="plan-price">₪0</div>
+                            <ul id="p_list_1" class="plan-features">
+                                <li>פרויקט אחד</li>
+                                <li>5GB אחסון</li>
+                                <li>תמיכה במייל</li>
+                            </ul>
+                            <button id="p_btn_1" class="plan-btn">התחל חינם</button>
+                        </div>
+
+                        <div id="plan_pro" class="pricing-card popular">
+                            <div id="badge_pro" class="popular-badge">מומלץ</div>
+                            <h3 id="p_title_2" class="plan-title">מקצועי</h3>
+                            <div id="p_price_2" class="plan-price">₪49</div>
+                            <ul id="p_list_2" class="plan-features">
+                                <li>ללא הגבלת פרויקטים</li>
+                                <li>50GB אחסון</li>
+                                <li>תמיכה 24/7</li>
+                            </ul>
+                            <button id="p_btn_2" class="plan-btn primary">הצטרף עכשיו</button>
+                        </div>
+                    </section> -->
+
+                    <!-- <div id="profile_container" class="profile-wrapper">
+                        <div id="card_box" class="glass-card">
+                            <div id="avatar_wrap" class="avatar-container">
+                                <img id="avatar_img" src="https://via.placeholder.com/150" alt="Profile">
+                            </div>
+                            <h2 id="name_txt">אלכס כהן</h2>
+                            <p id="job_txt">מעצב מוצר & מפתח Fullstack</p>
+
+                            <div id="stats_row" class="stats">
+                                <div id="stat_1">
+                                    <strong>120+</strong> פרויקטים
+                                </div>
+                                <div id="stat_2">
+                                    <strong>5k</strong> עוקבים
+                                </div>
+                            </div>
+
+                            <div id="social_links" class="links-col">
+                                <button id="btn_web" class="link-btn">🌐 אתר אישי</button>
+                                <button id="btn_li" class="link-btn">💼 לינקדאין</button>
+                                <button id="btn_ig" class="link-btn">📷 אינסטגרם</button>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <section id="hero" class="hero-section">
+                        <div id="hero_content" class="hero-content">
+                            <h1 id="main_title" class="hero-title">בנה את העתיד שלך</h1>
+                            <p id="hero_text" class="hero-subtitle">הפלטפורמה המתקדמת ביותר לבניית מוצרים דיגיטליים
+                                במהירות ובקלות.</p>
+                            <button id="cta_btn">התחל עכשיו</button>
+                        </div>
+                        <div id="features" class="features-grid">
+                            <div id="card_1" class="feature-card">
+                                <div id="icon_1" class="card-icon">🚀</div>
+                                <h3 id="title_1">מהירות</h3>
+                                <p id="desc_1">ביצועים מהירים פי 10.</p>
+                            </div>
+                            <div id="card_2" class="feature-card">
+                                <div id="icon_2" class="card-icon">🎨</div>
+                                <h3 id="title_2">עיצוב</h3>
+                                <p id="desc_2">ממשק משתמש מודרני ונקי.</p>
+                            </div>
+                            <div id="card_3" class="feature-card">
+                                <div id="icon_3" class="card-icon">🔒</div>
+                                <h3 id="title_3">אבטחה</h3>
+                                <p id="desc_3">הגנה ברמה צבאית למידע.</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+
+        <aside id="panel-left" class="panel-left">
             <div class="panel-header" id="panel-header">
                 <div id="selectedElement" class="panel-header-content">
                     <label for="theElement">אלמנט נבחר:</label>
@@ -226,108 +514,62 @@
                         <option value=":last-child">ילד אחרון</option>
                         <option value=":nth-child(even)">ילדים זוגיים</option>
                         <option value=":nth-child(odd)">ילדים אי-זוגיים</option>
-                        <!--hr>
+                        !--
+                        <hr>
                         <option value="::before">לפני האלמנט</option>
-                        <option value="::after">אחרי האלמנט</option-->
+                        <option value="::after">אחרי האלמנט</option>--
                     </select>
                 </div>
             </div>
 
             <div id="panels">
-                <div id="panel-add-element" class="design-panel"></div>
-                <div id="panel-borders" class="design-panel"></div>
-                <div id="panel-design" class="design-panel"></div>
-                <div id="panel-layout" class="design-panel"></div>
-                <div id="panel-position" class="design-panel"></div>
-                <div id="panel-display" class="design-panel"></div>
-                <div id="panel-classes" class="design-panel"></div>
-                <div id="panel-theme" class="design-panel"></div>
-                <div id="panel-settings" class="design-panel"></div>
-
-                <div id="panel-tree" class="design-panel">
-                    <div id="tree-header" class="tree-header">
-                        <h4 style="padding: 0; margin: 0;">מבנה המסמך</h4>
-                        <input type="checkbox" id="toggle-lock-drag" class="toggle-input">
-                        <label for="toggle-lock-drag" class="toggle-switch"></label>
-                    </div>
-                    <div id="tree-body" class="tree-body" style="margin: 0; padding: 0;"></div>
-                </div>
+                <div id="panel-add-element" class="panel"></div>
+                <div id="panel-borders" class="panel"></div>
+                <div id="panel-design" class="panel"></div>
+                <div id="panel-layout" class="panel"></div>
+                <div id="panel-position" class="panel"></div>
+                <div id="panel-display" class="panel"></div>
+                <div id="panel-classes" class="panel"></div>
+                <div id="panel-theme" class="panel"></div>
+                <div id="panel-settings" class="panel"></div>
+                <div id="panel-animations" class="panel"></div>
             </div>
-        </div>
+        </aside>
 
-        <div class="main-content">
-            <div class="editor-view">
-                <div id="editor-downloader" class="editor-downloader">
-                    <!--אתר לדוגמא-->
-                    <div id="דף_הבסיס" class="document-page" contenteditable="true" spellcheck="false">
-                        <h1 id="כותרת" class=""><u id="auto_U_9z24jje">כותרת האתר</u></h1>
-                        <h2 id="כותרת_משנה" class="">ברוך הבא לאתר שלך!!</h2>
-                        <details id="תפריט_האתר" class="" open="">
-                            <summary id="תפריט_האתר_summary" class="">האפשרויות שלך!!</summary>
-                            <details id="תפריט_כפתור" class="">
-                                <summary id="תפריט_כפתור_summary" class="">לחץ לפתיחת כפתור</summary>
-                                <p id="תפריט_כפתור_p" class=""><button id="כפתור_לדוגמא" class="">לחץ כאן. אבל לא יקרה
-                                        כלום!...</button></p>
-                            </details>
-                            <details id="תפריט_וידאו" class="">
-                                <summary id="תפריט_וידאו_summary" class="">לחץ לפתיחת וידאו</summary>
-                                <p id="מעטפת_לסרטון_לדוגמא" class=""><video id="סרטון_לדוגמא" src="D:\hazan.mp4"
-                                        controls="" autoplay="" class=""></video></p>
-                            </details>
-                            <details id="תפריט_כרטיס" class="">
-                                <summary id="תפריט_כרטיס_summary" class="selected-element">לחץ לפתיחת כרטיס</summary>
-                                <div id="תפריט_כרטיס_p" class="">
-                                    <div id="כרטיס_ביקור" class=""><img id="כרטיס_ביקור_img"
-                                            src="https://via.placeholder.com/300x200">
-                                        <div id="כרטיס_ביקור_content" class="">
-                                            <h3 id="כרטיס_ביקור_title" class="">האתר לעיצוב אתרים</h3>
-                                            <p id="כרטיס_ביקור_desc" class="">צור את האתר שלך בקלות ובמהירות עם מעצב
-                                                האתרים האינטואיטיבי שלנו!</p><a id="קישור_לפתיחת_האתר_בחלון_חדש"
-                                                href="index.html" target="_blank" class=""><button
-                                                    id="לעיצוב_הקישור_ככפתור" class="">למעבר
-                                                    לאתר</button></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </details>
-                        </details>
-                        <p id="פסקת_שיווק" class="">כעת אתה יכול להוסיף ולמחוק אלמנטים, לשנות את הסדר שלהם, ולעצב אותם
-                            כרצונך.
-                        </p>
-                        <h2 id="ברכת_הצלחה" class="">בהצלחה!!</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div id="sidebar" class="sidebar-icons"></div>
     </div>
 
-    <div id="tree-menu">
+    <div id="tree-menu" class="hide">
+        <div class="tree-menu-item" data-action='diagnostic'><span>📑</span> אבחן תקלות </div>
         <div class="tree-menu-item not-for-editor" data-action='duplicate'><span>📑</span> שכפל אלמנט</div>
         <div class="menu-hr not-for-editor"></div>
         <div class="tree-menu-item" data-action='add-inside'><span>↳</span> הוסף בתוך</div>
         <div class="tree-menu-item not-for-editor" data-action='add-after'><span>⬇</span> הוסף אחרי</div>
         <div class="menu-hr"></div>
-        <div class="tree-menu-item not-for-editor" data-action='delete' style="color: red;"><span>🗑️</span> מחק</div>
+        <div class="tree-menu-item not-for-editor" data-action='delete' style="color: red;"><span>🗑️</span> מחק
+        </div>
         <div class="tree-menu-item" data-action='empty' style="color: red;"><span>🗑️</span> רוקן תוכן</div>
     </div>
 
     <script src="./data_center.js"></script>
     <script src="./services.js"></script>
+    <script src="./listeners.js"></script>
+    <script src="./panels/side/theme.js"></script>
+    <script src="./panels/build.js"></script>
+    <script src="./panels/side/classes.js"></script>
     <script src="./panels/nav.js"></script>
-    <script src="./panels/toolbar.js"></script>
     <script src="./panels/sidebar.js"></script>
     <script src="./panels/tree.js"></script>
     <script src="./panels/side/borders.js"></script>
-    <script src="./panels/side/theme.js"></script>
     <script src="./panels/side/design.js"></script>
     <script src="./panels/side/view.js"></script>
     <script src="./panels/side/layout.js"></script>
     <script src="./panels/side/position.js"></script>
     <script src="./panels/side/addElement.js"></script>
-    <script src="./panels/side/classes.js"></script>
     <script src="./panels/side/settings.js"></script>
-    <script src="./listeners.js"></script>
+    <script src="./panels/side/animations.js"></script>
     <script src="./manager.js"></script>
+    <script src="./panels/topBar.js"></script>
 </body>
 
 </html>

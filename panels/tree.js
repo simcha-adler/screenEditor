@@ -68,10 +68,8 @@ function createTreeNode(realElement) {
     // יצירת ה-LI
     const li = createElement('li', {
         class: 'tree-node',
-        attrs: {
-            'data-editor-id': id,
-            'draggable': 'true'
-        }
+        'data-editor-id': id,
+        'draggable': 'true'
     });
 
     // יצירת התוכן הפנימי (Toggle + Text)
@@ -87,11 +85,11 @@ function createTreeNode(realElement) {
         in: displayName
     });
 
-    // === חדש: כפתור התפריט ===
+    // === כפתור התפריט ===
     const menuBtn = createElement('span', {
         class: 'tree-node-menu-btn',
         text: '⋮', // תו של שלוש נקודות אנכיות
-        attrs: { title: 'פעולות נוספות' }
+        title: 'פעולות נוספות'
     });
 
     // חיבור פנימי
@@ -365,7 +363,7 @@ function initTreeListeners() {
 function showContextMenu(x, y) {
     const menu = $('tree-menu');
 
-    menu.style.display = 'block';
+    menu.removeClass('hide');
     menu.style.left = (x - 150) + 'px';
     menu.style.top = y + 'px';
 }
@@ -400,6 +398,10 @@ function handleMenuAction(action) {
             duplicateElementmanager();
             break;
 
+        case 'diagnostic':
+            showDiagnosisUI(theElement);
+            break;
+
         default:
             break;
     }
@@ -430,11 +432,11 @@ function updateHasChildren(node, empty = false) {
 }
 
 function hideItemsNotForEditor() {
-    $('tree-menu').$$('.not-for-editor').forEach(row => row.style.display = 'none');
+    $('tree-menu').$$('.not-for-editor').forEach(row => row.addClass('hide'));
 }
 
 function showItemsNotForEditor() {
-    $('tree-menu').$$('.not-for-editor').forEach(row => row.style.display = 'block');
+    $('tree-menu').$$('.not-for-editor').forEach(row => row.removeClass('hide'));
 }
 
 function cleanDragClasses() {

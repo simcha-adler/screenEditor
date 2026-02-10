@@ -1,0 +1,141 @@
+/* כאן יהיו בעז"ה כל עיצובי תוך הפאנלים */
+/* 1. הקונטיינר הראשי של הפאנלים */
+#panels {
+    flex: 1;
+    overflow-y: auto;
+    /* גלילה לגובה כשצריך */
+    overflow-x: hidden;
+    /* מניעת גלישה לצדדים */
+    padding: 20px;
+    background-color: var(--ui-5);
+    z-index: 10;
+    position: relative;
+    width: 279px;
+    /* כדי שהתוכן לא "יימעך" בזמן האנימציה */
+}
+
+.panel-header {
+    width: 279px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    background-color: var(--ui-base);
+    border-bottom: 1px solid var(--ui-15);
+}
+
+.panel-header-content label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 11px;
+    margin-bottom: 3px;
+    font-weight: bold;
+}
+
+.panel-header-content select,
+.panel-header-content input {
+    font-size: 13px;
+    padding: 4px;
+    border: 1px solid var(--ui-20);
+    border-radius: 4px;
+    background-color: var(--ui-base);
+}
+
+
+/* הגדרות ספציפיות */
+#selectedElement {
+    flex-grow: 1;
+}
+
+#theElement {
+    background-color: var(--ui-5);
+    /* רקע אפרפר לאינפוט קריאה בלבד */
+}
+
+#edition-states select {
+    width: 80px;
+}
+
+/* === עיצוב אלמנטים בתוך הפאנלים === */
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--ui-15);
+}
+
+input,
+select {
+    width: 100%;
+    /* מכריח להתאים לרוחב */
+    min-width: 0;
+    /* מונע תקיעה על רוחב דיפולטיבי */
+}
+
+/* תיקון ספציפי ל-Color Input כדי שייראה טוב */
+#panels input[type="color"] {
+    padding: 2px;
+    height: 30px;
+    cursor: pointer;
+}
+
+/*===================
+     פאנל קלאסים
+====================*/
+
+.ui-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 5px;
+    min-height: 30px;
+    padding: 5px;
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+.ui-class-tag {
+    background-color: #e1f0fa;
+    color: #005a9e;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ui-remove-class-btn {
+    cursor: pointer;
+    font-weight: bold;
+    color: #005a9e;
+}
+
+.ui-remove-class-btn:hover {
+    color: red;
+}
+
+.ui-class-list-container {
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    background: #fff;
+}
+
+.ui-class-list-item {
+    padding: 5px 10px;
+    font-size: 13px;
+    border-bottom: 1px solid #f5f5f5;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+}
+
+.ui-class-list-item:hover {
+    background-color: #f0f0f0;
+}
