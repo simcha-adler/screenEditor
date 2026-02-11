@@ -18,7 +18,7 @@ function loadDocumentListeners() {
     });
 
     document.whenClick((e) => {
-        $('tree-menu').addClass('hide');
+        tree.menu.hide();
         if (!e.upTo('#menu')) $1('.dropdown-menu').addClass('collapsed');
     });
 

@@ -18,7 +18,7 @@ function updateSelectedElement(newElement = null) {
     // עדכן את כל התוכנית שהאלמנט השתנה
     theElement = newElement;
     theStyles = window.getComputedStyle(theElement);
-    if (thePanel && thePanel !== panelTree)
+    if (thePanel && thePanel !== treePanel)
         restartPanel(thePanel);
     $('theElement').value = Id.replaceAll('_', ' ');
     // סמן את האלמנט הנבחר

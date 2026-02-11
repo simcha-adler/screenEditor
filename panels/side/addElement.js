@@ -202,7 +202,7 @@ function executeAdd() {
     }
 
     // הוספה בפועל ל-DOM
-    insertElementManager(result.element, parent, false);
+    tree.sincDo.add(result.element, parent, false);
 
     // יצירת חוקי CSS ושיוך שלהם
     Object.keys(result.rules).forEach(selector => {

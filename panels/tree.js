@@ -1,10 +1,4 @@
 
-// משתנים גלובליים לניהול הגרירה והתפריט
-let draggable = false;
-let actionTree = null; // האלמנט שנגרר
-let actionDom = null; // אלמנט ה-dom המקביל לנגרר
-
-
 /*=======================================
             פונקציות לבניית עץ
 =========================================*/
@@ -36,7 +30,7 @@ function buildTreeDOM(element) {
 // הפונקציה הראשית שנקראת מבחוץ
 function renderTree() {
     // ניקוי העץ
-    tree.innerHTML = '';
+    treePanel.innerHTML = '';
 
     // יצירת העץ והכנסתו
     const ulRoot = createElement('ul', { style: 'padding: 10px; margin: 0;' });
@@ -48,7 +42,7 @@ function renderTree() {
         showChildren(rootLi);
     }
 
-    ulRoot.into(tree);
+    ulRoot.into(treePanel);
 }
 
 
@@ -69,7 +63,7 @@ function createTreeNode(realElement) {
     const li = createElement('li', {
         class: 'tree-node',
         'data-editor-id': id,
-        'draggable': 'true'
+        'tree.draggable': 'true'
     });
 
     // יצירת התוכן הפנימי (Toggle + Text)
@@ -134,8 +128,8 @@ function selectTreeNode(node) {
     updateSelectedElement(src);
 
     // עדכון משתנים גלובליים
-    actionTree = node;
-    actionDom = src;
+    tree.actionTree = node;
+    tree.actionDom = src;
 
     // סימון ויזואלי בעץ
     $$('.tree-life').removeClass('selected');
@@ -151,8 +145,8 @@ function insertElementManager(node, parent, isTree) {
         nodeDom = $(nodeTree.dataset.editorId);
         parentDom = $(parentTree.dataset.editorId);
     } else {
-        nodeTree = tree.$1(`.tree-node[data-editor-id=${node.id}]`);
-        parentTree = tree.$1(`.tree-node[data-editor-id=${parent.id}]`);
+        nodeTree = treePanel.$1(`.tree-node[data-editor-id=${node.id}]`);
+        parentTree = treePanel.$1(`.tree-node[data-editor-id=${parent.id}]`);
         nodeDom = node;
         parentDom = parent;
         if (!nodeTree) nodeTree = buildTreeDOM(nodeDom);
@@ -176,43 +170,43 @@ function insertElementManager(node, parent, isTree) {
 
     // פתיחת ההורה החדש כדי שנראה את הילד שהתווסף, כולל גם את הוספת אייקון החץ.
     setTimeout(showChildren(parentTree), 50);
-    selectTreeNode(nodeTree);
+    tree.sincDo.select(nodeTree);
 }
 
 function removeElementManager() {
     let del = false;
-    if (actionDom.children.length === 0) {
+    if (tree.actionDom.children.length === 0) {
         del = confirm('למחוק את האלמנט?');
     } else {
         del = confirm('למחוק את האלמנט ואת כל האלמנטים שבו?');
     }
     if (del) {
-        const parent = actionTree.closest('.tree-node');
-        actionTree.remove();
-        actionDom.remove();
-        actionTree = null;
-        actionDom = null;
+        const parent = tree.actionTree.closest('.tree-node');
+        tree.actionTree.remove();
+        tree.actionDom.remove();
+        tree.actionTree = null;
+        tree.actionDom = null;
         updateHasChildren(parent);
         updateSelectedElement(null); // איפוס בחירה
     }
 }
 
-function duplicateElementmanager() {
-    let newName = prompt('הכנס שם לאלמנט המשוכפל (מומלץ). השאר ריק ליצירה אוטומטית', actionDom.id.replaceAll('_', ' ') + '_copy');
+function duplicateElementManager() {
+    let newName = prompt('הכנס שם לאלמנט המשוכפל (מומלץ). השאר ריק ליצירה אוטומטית', tree.actionDom.id.replaceAll('_', ' ') + '_copy');
     if (newName || newName === '') {
-        newName = createSafeId(newName, actionDom.tagName);
+        newName = createSafeId(newName, tree.actionDom.tagName);
         if (!newName) return; // שם כפול!
         // שימוש בפונקציית השכפול החכמה מ-servises.js
-        const newClone = cloneElementWithUniqueIds(actionDom, newName);
+        const newClone = cloneElementWithUniqueIds(tree.actionDom, newName);
 
         if (newClone) {
             // הוספה ל-DOM אחרי המקורי
-            actionDom.after(newClone);
+            tree.actionDom.after(newClone);
             // יצירת השורות המקבילות בעץ
             const newTreeItem = buildTreeDOM(newClone);
             // הוספה לעץ אחרי המקורי
-            if (actionTree)
-                actionTree.after(newTreeItem);
+            if (tree.actionTree)
+                tree.actionTree.after(newTreeItem);
             // עדכון בחירה
             updateSelectedElement(newClone);
         }
@@ -233,7 +227,7 @@ function initTreeListeners() {
         לחיצה על שורה בעץ. טיפול מתאים לפי מיקום הלחיצה
     -------------------------------------------------------------*/
 
-    tree.whenClick((e) => {
+    treePanel.whenClick((e) => {
         // טיפול בפתיחה/סגירה (החץ)
         const toggleBtn = e.upTo('.tree-node-toggle');
         if (toggleBtn) {
@@ -251,7 +245,7 @@ function initTreeListeners() {
         const contentSpan = e.upTo('.tree-node-content');
         if (contentSpan) {
             const node = contentSpan.closest('.tree-node');
-            selectTreeNode(node);
+            tree.sincDo.select(node);
             return;
         }
 
@@ -262,13 +256,13 @@ function initTreeListeners() {
             e.stopPropagation();
             const node = menuBtn.closest('.tree-node');
             // עדכון משתני הפעולה הגלובליים
-            selectTreeNode(node);
+            tree.sincDo.select(node);
             // פתיחת התפריט במיקום הכפתור
             if (node.dataset.editorId === 'דף_הבסיס')
                 hideItemsNotForEditor();
             else
                 showItemsNotForEditor();
-            showContextMenu(e.pageX, e.pageY);
+            tree.menu.show(e.pageX, e.pageY);
         }
     });
 
@@ -277,7 +271,7 @@ function initTreeListeners() {
         const btn = e.upTo('.tree-menu-item');
         if (btn) {
             const action = btn.dataset.action;
-            handleMenuAction(action);
+            tree.menu.router(action);
         }
     });
 
@@ -289,17 +283,17 @@ function initTreeListeners() {
     // ======== שחרור הנעילה ======
     $('toggle-lock-drag').when('change', function () {
         if (this.checked) {
-            draggable = true;
-            panelTree.addClass('drag-mode');
+            tree.draggable = true;
+            treePanel.addClass('drag-mode');
         } else {
-            draggable = false;
-            panelTree.removeClass('drag-mode');
+            tree.draggable = false;
+            treePanel.removeClass('drag-mode');
         };
     });
 
     // ======== תחילת גרירה =========
-    tree.when('dragstart', (e) => {
-        if (draggable) {
+    treePanel.when('dragstart', (e) => {
+        if (tree.draggable) {
             const node = e.upTo('.tree-node');
 
             if (!node || node === $1('.tree-node[data-editor-id="דף הבסיס"]')) {
@@ -307,7 +301,7 @@ function initTreeListeners() {
                 return;
             }
 
-            actionTree = node;
+            tree.actionTree = node;
             e.dataTransfer.effectAllowed = 'move';
 
             setTimeout(() => node.addClass('dragging'), 0);
@@ -315,12 +309,12 @@ function initTreeListeners() {
     });
 
     // ======== תהליך הגרירה ==========
-    tree.when('dragover', (e) => {
-        if (draggable) {
+    treePanel.when('dragover', (e) => {
+        if (tree.draggable) {
             e.preventDefault(); // חובה כדי לאפשר Drop!
 
             const targetTree = e.upTo('.tree-node');
-            if (targetTree && targetTree !== actionTree) {
+            if (targetTree && targetTree !== tree.actionTree) {
                 // ניקוי סימונים קודמים
                 $$('.tree-node').removeClass('drag-over');
                 targetTree.addClass('drag-over');
@@ -329,18 +323,18 @@ function initTreeListeners() {
     });
 
     // ======== שחרור ==========
-    tree.when('drop', (e) => {
-        if (draggable) {
+    treePanel.when('drop', (e) => {
+        if (tree.draggable) {
             e.preventDefault();
             e.stopPropagation();
 
             const parent = e.upTo('.tree-node');
 
             // אם שחררנו במקום לא חוקי או על עצמנו
-            if (!parent || (parent === actionTree)) return;
+            if (!parent || (parent === tree.actionTree)) return;
 
-            const preParent = actionTree.parentNode.closest('.tree-node');
-            insertElementManager(actionTree, parent, true);
+            const preParent = tree.actionTree.parentNode.closest('.tree-node');
+            tree.sincDo.add(tree.actionTree, parent, true);
             updateHasChildren(preParent);
 
             // ניקוי
@@ -348,7 +342,7 @@ function initTreeListeners() {
         }
     });
 
-    tree.when('dragend', (e) => {
+    treePanel.when('dragend', (e) => {
         cleanDragClasses();
     });
 }
@@ -368,6 +362,10 @@ function showContextMenu(x, y) {
     menu.style.top = y + 'px';
 }
 
+function hideContextMenu() {
+    $('tree-menu').addClass('hide');
+}
+
 // פונקציה גלובלית לטיפול בפעולות התפריט
 function handleMenuAction(action) {
     if (!action) return;
@@ -379,23 +377,23 @@ function handleMenuAction(action) {
 
         case 'add-after':
             // לסדר, כי עכשיו זה מוסיף לסוף האבא ולא אחרי הנבחר
-            updateSelectedElement(actionDom.parentElement);
+            updateSelectedElement(tree.actionDom.parentElement);
             toggleActivityPanel($1('.activity-btn[data-panel="panel-add-element"]'));
             break;
 
         case 'delete':
-            removeElementManager();
+            removetree.sincDo.delete();
             break;
 
         case 'empty':
             if (confirm('למחוק את כל האלמנטים שבתוך אלמנט זה?')) {
-                $$(`#${actionDom.id} *`).forEach(ch => ch.remove());
-                updateHasChildren(actionTree, true);
+                $$(`#${tree.actionDom.id} *`).forEach(ch => ch.remove());
+                updateHasChildren(tree.actionTree, true);
             }
             break;
 
         case 'duplicate':
-            duplicateElementmanager();
+            tree.sincDo.duplicate();
             break;
 
         case 'diagnostic':
@@ -441,4 +439,33 @@ function showItemsNotForEditor() {
 
 function cleanDragClasses() {
     $$('.tree-node').removeClass('dragging').removeClass('drag-over');
+}
+
+
+/*export*/ const tree = {
+
+    // משתנים גלובליים לניהול
+    draggable: false,
+    actionTree: null, // אלמנט העץ הפעיל
+    actionDom: null, // אלמנט ה-dom הפעיל
+
+    init: () => {
+        renderTree();
+        initTreeListeners();
+    },
+
+    menu: {
+        show: showContextMenu,
+        hide: hideContextMenu,
+        router: handleMenuAction,
+    },
+    build: {
+
+    },
+    sincDo: {
+        select: selectTreeNode,
+        add: insertElementManager,
+        delete: removeElementManager,
+        duplicate: duplicateElementManager
+    }
 }
