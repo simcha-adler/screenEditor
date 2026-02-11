@@ -116,7 +116,7 @@ const build = {
 
         element.appendChild(build.label(item));
         element.appendChild(build.input.manager(item));
-        if (item.inputType === 'color') element.addClass('flex-col')
+        // if (item.inputType === 'color') element.addClass('flex-col')
 
         return element;
     },
@@ -190,33 +190,34 @@ const build = {
             const wrapper = createElement('div', { class: 'ui-input-group' });
             const valInput = build.input[item.inputType](item);
             const unitInput = build.input.select(item);
+            const demoInput = createElement('input', { type: 'hidden', 'data-property': item.prop });
 
             wrapper.when('input', (e) => {
-                const [numInput, unitSelect] = wrapper.children;
+                const [numInput, unitSelect, demoInput] = wrapper.children;
+                if (e.target === demoInput) return;
                 const num = numInput.value;
                 const unit = unitSelect.value;
+                let value;
 
                 // רשימת מילים שמותר להן להופיע לבד
                 const standaloneKeywords = ['auto', 'none', 'inherit', 'initial', 'unset', 'normal'];
 
                 // 1. תרחיש א': מילת מפתח בודדת (כמו auto)
                 if (standaloneKeywords.includes(unit)) {
-                    e.target.value = unit;
+                    value = unit;
                     if (num) numInput.value = ''; // ניקוי המספר כדי למנוע בלבול ויזואלי
+                } else if (num === '') {  // 2. תרחיש ב': יחידה ללא מספר (למשל 'px' כשהשדה ריק)
+                    e.stopPropagation(); // ערך שגוי. תתעלם.
                     return;
+                } else {  // 3. תרחיש ג' (המצב התקין): מספר + יחידה
+                    value = num + unit;
                 }
-
-                // 2. תרחיש ב': יחידה ללא מספר (למשל 'px' כשהשדה ריק)
-                if (num === '') {
-                    e.stopPropagation();
-                    return;
-                }
-
-                // 3. תרחיש ג' (המצב התקין): מספר + יחידה
-                e.target.value = num + unit;
+                e.stopPropagation();
+                demoInput.value = value;
+                demoInput.sendInput();
             });
 
-            wrapper.append(valInput, unitInput);
+            wrapper.append(valInput, unitInput, demoInput);
             return wrapper;
         },
 
