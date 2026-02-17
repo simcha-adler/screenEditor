@@ -83,6 +83,251 @@ select {
     cursor: pointer;
 }
 
+
+/*=================================
+          רכיבי הפאנלים 
+ ==================================*/
+
+
+.ui-title {
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--ui-10);
+}
+
+.ui-title.small {
+    font-size: 12px;
+    text-align: center;
+    border-bottom: none;
+}
+
+.ui-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 8px;
+}
+
+
+/* שורה רגילה (לייבל + אינפוט) */
+.ui-control-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 24px;
+    gap: 10px;
+}
+
+.ui-control-row.flex-col {
+    flex-direction: column;
+    justify-items: start;
+    align-items: stretch;
+    gap: 6px;
+}
+
+.ui-label {
+    font-size: 13px;
+    font-weight: 400;
+}
+
+/* --- Inputs --- */
+.ui-input,
+.ui-select {
+    flex: 1;
+    height: 32px;
+    padding: 0 8px;
+    border: 1px solid var(--ui-10);
+    border-radius: var(--ui-radius);
+    background: var(--ui-base);
+    font-size: 13px;
+    transition: border-color 0.2s;
+    min-width: 0;
+    width: 100%;
+}
+
+.ui-input:focus,
+.ui-select:focus {
+    border-color: var(--ui-accent-focus);
+    outline: none;
+}
+
+.ui-control-row {
+
+    >.ui-input,
+    >.ui-select {
+        max-width: 140px;
+    }
+}
+
+/* Input Group (Number + Unit) */
+.ui-input-group {
+    display: flex;
+    border: 1px solid var(--ui-20);
+    border-radius: var(--ui-radius);
+    overflow: hidden;
+    background: var(--ui-base);
+    align-items: stretch;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.ui-input-group:focus-within {
+    border-color: var(--ui-accent-focus);
+    box-shadow: 0 0 0 2px rgba(var(--h), 50%, 50%, 0.1);
+}
+
+.ui-input-group input {
+    border: none !important;
+    flex: 1;
+    height: 30px;
+    padding: 4px 8px;
+    width: 60px;
+    outline: none;
+}
+
+/* Select Unit Override */
+.ui-input-group .ui-select {
+    background: var(--ui-base);
+    color: var(--ui-45);
+    font-size: 11px;
+    padding: 0 6px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    border-right: 1px solid var(--ui-10);
+    width: 50px;
+}
+
+
+/* --- Sections --- */
+.ui-section {
+    border: 1px solid var(--ui-45);
+    border-radius: var(--ui-radius);
+    overflow: hidden;
+    background: var(--ui-base);
+    max-height: 500px;
+    transition: all 0.3s ease-in-out;
+}
+
+.ui-section-head {
+    background: var(--ui-10);
+    padding: 8px 12px;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+}
+
+.ui-section-head:hover {
+    background: var(--ui-10);
+}
+
+.ui-section-head::after {
+    content: '▼';
+    font-size: 10px;
+    color: var(--ui-45);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* כשהסקשן סגור, מסתירים את הגוף */
+.ui-section.collapsed {
+    max-height: 32.8px;
+}
+
+.ui-section.collapsed .ui-section-head::after {
+    transform: rotate(-90deg);
+}
+
+.ui-section-body {
+    padding: 20px 10px;
+    border-top: 1px solid var(--ui-10);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* --- Buttons --- */
+.ui-btn {
+    width: 100%;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--ui-radius);
+    border: 1px solid var(--ui-10);
+    background: var(--ui-base);
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.ui-btn:hover {
+    background: var(--ui-5);
+    transform: scale(0.95);
+}
+
+.ui-btn-primary {
+    /* background: hwb(220 0% 0%); */
+    background: var(--ui-accent);
+    color: var(--ui-base);
+    border: none;
+}
+
+.ui-btn-primary:hover {
+    background: var(--ui-accent-focus);
+}
+
+.ui-btn-danger {
+    color: #ef4444;
+    border-color: #fecaca;
+    background: #fef2f2;
+}
+
+/* --- Toggle Switch --- */
+.ui-switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 18px;
+}
+
+.ui-switch input {
+    display: none;
+}
+
+.ui-slider {
+    cursor: pointer;
+    background-color: var(--ui-15);
+    transition: .2s;
+    border-radius: 9px;
+    display: block;
+    height: 100%;
+}
+
+.ui-slider:before {
+    position: absolute;
+    content: "";
+    height: 12px;
+    width: 12px;
+    left: 3px;
+    bottom: 3px;
+    background-color: var(--ui-base);
+    transition: .2s;
+    border-radius: 50%;
+}
+
+input:checked+.ui-slider {
+    background-color: var(--ui-accent);
+}
+
+input:checked+.ui-slider:before {
+    transform: translateX(18px);
+}
+
+
 /*===================
      פאנל קלאסים
 ====================*/

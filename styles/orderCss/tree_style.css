@@ -162,6 +162,10 @@
     /* גודל האייקון */
 }
 
+.tree-node-content {
+    transition: all 0.2s;
+}
+
 
 
 
@@ -283,7 +287,6 @@
     padding: 2px 5px;
     border-radius: 4px;
     margin-bottom: 2px;
-    transition: all 0.2s;
 }
 
 /* אפקט בריחוף מעל שורה בזמן מצב גרירה */

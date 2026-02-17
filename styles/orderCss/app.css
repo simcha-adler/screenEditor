@@ -345,6 +345,7 @@ aside.open {
     background-color: white;
     /* הטריק "לכליאת" אלמנטים עם position: fixed */
     transform: translate(0);
+    min-block-size: min-content;
 }
 
 
