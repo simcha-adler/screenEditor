@@ -1,7 +1,12 @@
+
 // ------------------------------------
 // 2. פונקציות עזר
 // ------------------------------------
 
+/**
+ * @param {string} rgb 
+ * @returns {string}
+ */
 function rgbToHex(rgb) {
     if (!rgb || rgb.startsWith('#')) return rgb;
     // טיפול בערך ברירת מחדל 'transparent' או 'rgba(0, 0, 0, 0)'
@@ -22,13 +27,15 @@ function rgbToHex(rgb) {
 
 function getSelectedElement() {
     const selection = window.getSelection();
-
+    if (!selection) return;
     // 1. אם אין בחירה, החזר את העורך
     if (selection.rangeCount === 0) {
         return editor;
     }
 
     const range = selection.getRangeAt(0);
+
+    /** @type {any} */
     let element = range.startContainer;
 
     // 2. אם התחלנו מצומת טקסט, עלה להורה שלו (האלמנט)
@@ -51,6 +58,11 @@ function getSelectedElement() {
     return element;
 }
 
+/**
+ * @param {string} selector 
+ * @param {string} prop 
+ * @returns {string}
+ */
 function getStyle(selector, prop) {
     // אם אין סלקטור כזה בסטייט, אין מה להחזיר
     if (!styleState[selector] || !styleState[selector].rule) {
@@ -89,6 +101,7 @@ function createRule(selector) {
 /**
  * מוודא שלאלמנט נתון יש ID ייחודי.
  * אם אין לו, יוצר עבורו ID ומחזיר אותו.
+ * @param {HTMLElement} element
  */
 function ensureElementId(element) {
     if (element.id) {
@@ -100,56 +113,18 @@ function ensureElementId(element) {
     return newId;
 }
 
-function applyEditorCommand(command, value = null) {
+/**
+ * @param {string} command 
+ * @param {string | undefined} value 
+ */
+
+function applyEditorCommand(command, value = undefined) {
     editor.focus();
     try {
         document.execCommand(command, false, value);
     } catch (error) {
         console.error(`Error executing command: ${command}`, error);
     }
-}
-
-
-// שריד לגירסאות ישנות. לבדוק אם צריך בכלל, ולבנות בהתאם לארכיטקטורה החדשה
-function changeBlockTag(newTag) {
-    const element = getSelectedElement();
-    const blockElement = element.closest('p, h1, h2, h3, h4, h5, h6, pre, div');
-
-    if (blockElement && editor.contains(blockElement) && blockElement.tagName.toLowerCase() !== newTag) {
-        const newBlock = document.createElement(newTag);
-        newBlock.id = blockElement.id;
-        newBlock.style.cssText = blockElement.style.cssText;
-
-        while (blockElement.firstChild) {
-            newBlock.appendChild(blockElement.firstChild);
-        }
-
-        blockElement.parentNode.replaceChild(newBlock, blockElement);
-
-        const selection = window.getSelection();
-        const range = document.createRange();
-        range.selectNodeContents(newBlock);
-        range.collapse(false);
-        selection.removeAllRanges();
-        selection.addRange(range);
-
-        updateSelectedElement(newBlock);
-    }
-}
-
-function insertNodeAtCursor(node) {
-    const selection = window.getSelection();
-    if (selection.rangeCount === 0) {
-        editor.appendChild(node);
-        return;
-    }
-    const range = selection.getRangeAt(0);
-    range.insertNode(node);
-
-    range.setStartAfter(node);
-    range.setEndAfter(node);
-    selection.removeAllRanges();
-    selection.addRange(range);
 }
 
 /**
@@ -159,6 +134,7 @@ function insertNodeAtCursor(node) {
  */
 function cloneElementWithUniqueIds(original, newId) {
     // 1. שכפול עמוק של ה-DOM
+    /**@type {any} */
     const clone = original.cloneNode(true);
 
     // 2. עדכון ה-ID של הראש
@@ -169,8 +145,7 @@ function cloneElementWithUniqueIds(original, newId) {
     const descendants = clone.$$('*');
     descendants.forEach(child => {
         if (child.id) {
-            // יצירת ID חדש: "copy_" + המקורי + מספר אקראי
-            child.id = child.id + '_ב' + newId;
+            child.id = newId + '_>_' + child.id;
         }
     });
 
@@ -503,14 +478,14 @@ function diagnoseElement(element) {
         while (ancestor && ancestor !== document.body) {
             const s = getComputedStyle(ancestor);
             if (s.overflow !== 'visible' && s.overflow !== '') {
-                issues.push("📌 הגדרת Sticky (דביק), אבל זה לא יעבוד. לאחד ההורים של האלמנט יש הגדרת גלילה (Overflow) שחוסמת את ההדבקה.");
+                addIssue('📌', 'הגדרת דביק לא פעילה', 'הגדרת Sticky (דביק), אבל זה לא יעבוד. לאחד ההורים של האלמנט יש הגדרת גלילה (Overflow) שחוסמת את ההדבקה.');
                 break;
             }
             ancestor = ancestor.parentElement;
         }
     }
     if (styles.zIndex !== 'auto' && styles.position === 'static') {
-        issues.push("🥞 נתת לאלמנט Z-Index (שכבות), אבל לא שינית את ה-Position שלו. Z-Index עובד רק על אלמנטים עם Position (כמו Relative, Absolute, Fixed).");
+        addIssue('🥞', 'פרמטר שכבות לא פעיל', 'נתת לאלמנט Z-Index (שכבות), אבל לא שינית את ה-Position שלו. Z-Index עובד רק על אלמנטים עם Position (כמו Relative, Absolute, Fixed).');
     }
 
 

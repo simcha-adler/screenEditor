@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        // "checkJs": true,
+        "target": "ES6"
+    },
+    "exclude": [
+        "עזר",
+        "ספר הפרויקט",
+        "*.pdf",
+        "*.dock"
+    ]
+}

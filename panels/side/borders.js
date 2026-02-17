@@ -149,7 +149,7 @@ const bordersSchema = [
             {
                 type: 'inputRow', label: 'סוג', inputType: 'select', prop: 'boxShadowInset',
                 options: [
-                    { value: '', text: 'חיצוני (רגיל)' },
+                    { value: ' ', text: 'חיצוני (רגיל)' },
                     { value: 'inset', text: 'פנימי' }
                 ]
             }

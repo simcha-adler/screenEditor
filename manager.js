@@ -1,6 +1,7 @@
 
 /**
  * מעדכן את המשתנים הרלוונטיים על זהות האלמנט הנבחר ותכונותיו
+ * @param {HTMLElement | null} newElement
  */
 function updateSelectedElement(newElement = null) {
     // כשהאלמנט נבחר מהעורך, לא נשלח ערך ומופעלת פונקציית מיקוד

@@ -382,7 +382,7 @@ function handleMenuAction(action) {
             break;
 
         case 'delete':
-            removetree.sincDo.delete();
+            tree.sincDo.delete();
             break;
 
         case 'empty':
