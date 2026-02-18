@@ -230,7 +230,6 @@ function importCSSRulesFromText(cssText) {
                 const propValue = rule.style.getPropertyValue(propName);
                 const propPriority = rule.style.getPropertyPriority(propName);
 
-                // המרה ל-CamelCase אם צריך, אבל הפרוקסי של style יודע לטפל בזה לרוב
                 // נשתמש ב-setProperty כדי לתמוך ב-important
                 newSystemRule.style.setProperty(propName, propValue, propPriority);
             }

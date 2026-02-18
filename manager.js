@@ -49,7 +49,9 @@ function updatePanel(panel) {
 
 function createRuleAndRef(selector) {
     if (!styleState[selector]) {
-        const rule = createRule(selector);
+        let rule;
+        rule = Array.from(sheet.cssRules).find(r => r.selectorText === selector);
+        if (!rule) rule = createRule(selector);
         styleState[selector] = { 'rule': rule };
         return rule;
     }
