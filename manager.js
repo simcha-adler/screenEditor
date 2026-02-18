@@ -96,7 +96,9 @@ function loadPage() {
 
     updateSelectedElement(editor);
     $$('.panel').addClass('hide');
-    //$$('.show').forEach(element => element.click()); // הפעלת כפתורי ברירת המחדל בסוויצ'רים
+    $$('.show').forEach(element => element.click()); // הפעלת כפתורי ברירת המחדל בסוויצ'רים
+    // $('fileUploadInput').files[0].name = 'site.html';
+    // $('fileUploadInput').sendInput();
 }
 
 loadPage();

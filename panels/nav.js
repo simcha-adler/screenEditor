@@ -25,13 +25,6 @@ const htmlNav = /* html */  `
 //nav.innerHTML = htmlNav;
 const navItems = $$('.nav-item');
 
-// // --- לוגיקה של תפריט "עריכה" ---
-// $('edit-menu-items').whenClick((e) => {
-//     const action = e.target.dataset.action;
-//     if (action) {
-//         applyEditorCommand(action);
-//     }
-// });
 
 // --- לוגיקה של תפריט "קובץ" ---
 $('newDoc').whenClick(() => {

@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
+const style = `
         #hero {
             padding: 60px 20px;
             font-family: 'Segoe UI', sans-serif;
@@ -82,11 +75,9 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-        }
-    </style>
-</head>
+        }`;
 
-<body>
+const body = `
     <section id="hero" class="hero-section">
         <div id="hero_content" class="hero-content">
             <h1 id="main_title" class="hero-title">בנה את העתיד שלך</h1>
@@ -111,7 +102,7 @@
                 <p id="desc_3">הגנה ברמה צבאית למידע.</p>
             </div>
         </div>
-    </section>
-</body>
+    </section>`;
 
-</html>
+$('styles').innerHTML = style;
+$('דף_הבסיס').innerHTML = body;

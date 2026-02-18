@@ -58,7 +58,7 @@ const designListeners = (e) => {
         value = `linear-gradient(${$('deg').value}deg, ${$('gradient1').value}, ${$('gradient2').value})`;
     }
 
-    if (prop.startsWith('boxShadow')) {
+    if (prop?.startsWith('boxShadow')) {
         // 1. קריאת המצב *הנוכחי* של האלמנט (כדי לא לאבד את ה-X אם שינינו את ה-Y)
         const currentComputed = getComputedStyle(theElement).boxShadow;
         const currentParts = ShadowParser.parse(currentComputed);

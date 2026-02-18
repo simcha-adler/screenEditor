@@ -52,6 +52,7 @@
     /* קריטי! מונע גלישה מתוך הגריד */
     transition: all 0.2s ease;
     outline: none;
+    color: var(--ui-80);
 }
 
 /* מצב פוקוס אחיד ויפה */

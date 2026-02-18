@@ -338,6 +338,7 @@ function saveThemeConfig(newConfig, isEdit) {
         themeDefinitions[idx] = newConfig;
     } else {
         themeDefinitions.push(newConfig);
+        refreshThemes();
     }
     // דרישה ג' חלק 2: עדכון כל האלמנטים התלויים בטווח
     updateAllLinkedElements(newConfig.id);

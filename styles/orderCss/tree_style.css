@@ -77,7 +77,7 @@
 }
 
 .tree-node-toggle:hover {
-    color: #01264e;
+    color: var(--ui-45);
 }
 
 .tree-children {

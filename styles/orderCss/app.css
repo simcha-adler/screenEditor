@@ -271,7 +271,7 @@ aside.open {
     display: flex;
     align-items: center;
     flex-direction: column;
-    background-image: linear-gradient(var(--ui-15) 0, transparent 0.4px),
+    background-image: linear-gradient(var(--ui-15) 0, transparent 0.5px),
         linear-gradient(90deg, var(--ui-10) 0, transparent 0.5px);
     background-size: 2px 2px;
     /* הוספת מעבר חלק כשהמקום הפנוי משתנה */
@@ -279,8 +279,8 @@ aside.open {
 }
 
 .editor-dark-mode .workspace {
-    background-image: linear-gradient(var(--ui-25) 0, transparent 0.4px),
-        linear-gradient(90deg, var(--ui-20) 0, transparent 0.5px);
+    background-image: linear-gradient(var(--ui-25) 0, transparent 0.6px),
+        linear-gradient(90deg, var(--ui-25) 0, transparent 0.6px);
 }
 
 
@@ -342,7 +342,8 @@ aside.open {
 .canvas {
     flex: 1;
     border-radius: 6px;
-    background-color: white;
+    color: initial;
+    background-color: initial;
     /* הטריק "לכליאת" אלמנטים עם position: fixed */
     transform: translate(0);
     min-block-size: min-content;

@@ -159,7 +159,7 @@ const build = {
             return element;
         },
 
-        color: () => createElement('select', { class: 'ui-select color-select', in: `<option value="free" selected>צבע חופשי</option>` }),
+        color: (item) => createSmartColorPicker(item),
 
         wrapper: (element, item) => {
             const wrapper = createElement('div', { class: item.label.length > 1 ? 'flex-col' : 'ui-control-row' });
@@ -193,10 +193,11 @@ const build = {
             const demoInput = createElement('input', { type: 'hidden', 'data-property': item.prop });
 
             wrapper.when('input', (e) => {
-                const [numInput, unitSelect, demoInput] = wrapper.children;
                 if (e.target === demoInput) return;
-                const num = numInput.value;
-                const unit = unitSelect.value;
+                e.stopPropagation();
+
+                const num = valInput.value;
+                const unit = unitInput.value;
                 let value;
 
                 // רשימת מילים שמותר להן להופיע לבד
@@ -205,14 +206,14 @@ const build = {
                 // 1. תרחיש א': מילת מפתח בודדת (כמו auto)
                 if (standaloneKeywords.includes(unit)) {
                     value = unit;
-                    if (num) numInput.value = ''; // ניקוי המספר כדי למנוע בלבול ויזואלי
+                    // if (num) numInput.value = ''; // ניקוי המספר כדי למנוע בלבול ויזואלי
+                    valInput.style.opacity = '0.1'; // חיווי ויזואלי שהמספר לא רלוונטי
                 } else if (num === '') {  // 2. תרחיש ב': יחידה ללא מספר (למשל 'px' כשהשדה ריק)
-                    e.stopPropagation(); // ערך שגוי. תתעלם.
-                    return;
+                    return; // ערך שגוי. תתעלם.
                 } else {  // 3. תרחיש ג' (המצב התקין): מספר + יחידה
                     value = num + unit;
+                    valInput.style.opacity = '1';
                 }
-                e.stopPropagation();
                 demoInput.value = value;
                 demoInput.sendInput();
             });
