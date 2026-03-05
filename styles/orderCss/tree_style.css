@@ -25,8 +25,7 @@
 }
 
 .tree-node {
-    padding: 2px 0;
-    cursor: pointer;
+    padding-bottom: 1px;
     font-size: 13px;
     user-select: none;
     line-height: 1.5;
@@ -35,8 +34,15 @@
     display: block;
 }
 
+.tree-life-wrapper {
+    display: flex;
+    padding: 2px 0;
+    cursor: pointer;
+}
+
 .tree-life {
-    display: inline-flex;
+    display: flex;
+    flex: 1;
     margin-left: 0;
     border-radius: 10px;
     justify-content: space-between;
@@ -44,25 +50,26 @@
 }
 
 .tree-life:hover {
-    background-color: var(--ui-15);
+    background-color: var(--ui-10);
 }
 
 .tree-life.selected {
     background-color: var(--ui-base);
+    color: var(--ui-accent);
     font-weight: bold;
 }
 
 .tree-node-content {
     min-width: 120px;
     display: inline-block;
-    flex: 1;
     padding: 0 14px 0 5px;
     border-radius: 10px;
+    overflow: hidden;
 }
 
 .tree-node-toggle {
     display: inline-block;
-    width: 15px;
+    min-width: 15px;
     font-size: 14px;
     /* הגדלת האייקון */
     background: none;
@@ -72,8 +79,6 @@
     align-self: flex-end;
     /* יישור לחלק התחתון של הפלקס */
     margin-left: 5px;
-    margin-right: auto;
-    /* דחיפה שמאלה (RTL) */
 }
 
 .tree-node-toggle:hover {
@@ -88,7 +93,7 @@
     padding-right: 7px;
     display: none;
     /* מוסתר כברירת מחדל */
-    border-right: 1px solid var(--ui-15);
+    border-right: 1px solid var(--ui-25);
 }
 
 .tree-node.open>.tree-children {
@@ -104,13 +109,15 @@
     font-size: 18px;
     line-height: 1;
     color: var(--ui-45);
-    /* דוחף את עצמו לצד השני (ב-RTL זה לשמאל) */
     border-radius: 10px;
+    text-align: end;
+    border-left: 3px solid transparent;
 }
 
 .tree-node-menu-btn:hover {
     color: var(--ui-80);
-    border-right: 3px solid var(--ui-5);
+    border-left: none;
+    border-right: 3px solid var(--ui-base);
     box-shadow: 2px 2px 5px rgba(248, 248, 248, 0.1);
     transition: border-width 0.1s;
 }
@@ -299,11 +306,11 @@
 }
 
 #panel-tree.drag-mode .tree-life:hover {
-    background-color: var(--ui-5);
+    background-color: transparent;
 }
 
 #panel-tree.drag-mode .tree-life.selected {
-    background: none;
+    background-color: transparent;
 }
 
 #panel-tree.drag-mode .tree-node-menu-btn:hover {

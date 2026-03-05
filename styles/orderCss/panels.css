@@ -1,4 +1,3 @@
-/* כאן יהיו בעז"ה כל עיצובי תוך הפאנלים */
 /* 1. הקונטיינר הראשי של הפאנלים */
 #panels {
     flex: 1;
@@ -74,6 +73,7 @@ select {
     /* מכריח להתאים לרוחב */
     min-width: 0;
     /* מונע תקיעה על רוחב דיפולטיבי */
+    color: var(--ui-80);
 }
 
 /* תיקון ספציפי ל-Color Input כדי שייראה טוב */
@@ -81,6 +81,7 @@ select {
     padding: 2px;
     height: 30px;
     cursor: pointer;
+    max-width: 140px;
 }
 
 
@@ -135,10 +136,11 @@ select {
 .ui-input,
 .ui-select {
     flex: 1;
-    height: 32px;
+    min-height: 32px;
     padding: 0 8px;
     border: 1px solid var(--ui-10);
     border-radius: var(--ui-radius);
+    color: var(--ui-80);
     background: var(--ui-base);
     font-size: 13px;
     transition: border-color 0.2s;
@@ -148,14 +150,16 @@ select {
 
 .ui-input:focus,
 .ui-select:focus {
-    border-color: var(--ui-accent-focus);
+    border-color: var(--ui-accent);
     outline: none;
 }
 
-.ui-control-row {
+.ui-control-row,
+.ui-grid {
 
-    >.ui-input,
-    >.ui-select {
+    .ui-input,
+    .ui-input-group,
+    .ui-smart-color-group {
         max-width: 140px;
     }
 }
@@ -251,7 +255,6 @@ select {
 
 /* --- Buttons --- */
 .ui-btn {
-    width: 100%;
     height: 32px;
     display: flex;
     justify-content: center;
@@ -265,20 +268,19 @@ select {
 }
 
 .ui-btn:hover {
-    background: var(--ui-5);
     transform: scale(0.95);
 }
 
 .ui-btn-primary {
-    /* background: hwb(220 0% 0%); */
     background: var(--ui-accent);
     color: var(--ui-base);
     border: none;
 }
 
+/* 
 .ui-btn-primary:hover {
-    background: var(--ui-accent-focus);
-}
+    background: rgba(255, 255, 255, 0.05);
+} */
 
 .ui-btn-danger {
     color: #ef4444;

@@ -1,15 +1,18 @@
+// import { tree } from "./panels/tree/tree";
+
 function loadDocumentListeners() {
 
     /**
  * מאזין האירועים הראשי לזיהוי האלמנט הנבחר.
  */
-    document.when('selectionchange', () => {
-        if (document.activeElement === editor || editor.contains(window.getSelection().anchorNode)) {
-            updateSelectedElement();
-        }
+    editor.whenClick((e) => {
+        let selected = e.target;
+        if (selected === theElement)
+            selected = selected.parentNode;
+        updateSelectedElement(selected);
     });
 
-    $('selectedElement').when('input', (e) => { updateSelectedElement($(`${e.target.value}`)) });
+    $('selectedElement').when('input', (e) => { updateSelectedElement($(e.target.value)) });
 
 
     $('menu').whenClick((e) => {
@@ -19,16 +22,19 @@ function loadDocumentListeners() {
 
     document.whenClick((e) => {
         tree.menu.hide();
-        if (!e.upTo('#menu')) $1('.dropdown-menu').addClass('collapsed');
+        // if (!e.upTo('#menu')) $1('.dropdown-menu').addClass('collapsed'); // תפריט המבורגר
+        $$('.popup').forEach(el => { if (!el.contains(e.target)) el.remove() });
+        $$('.hidable').forEach(el => { if (!el.contains(e.target)) el.addClass('hide') });
+        $$('.collapsedable').forEach(el => { if (!el.contains(e.target)) el.addClass('collapsed') });
     });
 
     // בשינוי ערכי צל, תופס את האירוע ובונה את כל הערכים הנדרשים לצל מתוך השדות
     // לבדוק איך לעשות את זה, כי הוא לא נותן לשנות את הטארגט. לשנות גם בבילד בחלק של הקלט המשולב
     $('shadow').when('input', (e) => {
         let shadowStr = '';
-        const inputs = $('shadow').$$('INPUT');
+        const inputs = /*$('shadow')*/this.$$('INPUT');
         inputs.forEach(input => shadowStr += ' ' + (input.value || 0) + (input.unit || ''));
-        $('shadow').value = shadowStr.slice(1, -3);
+        $('shadow').value = shadowStr.slice(1);
         // e.stopPropagation();
         // $('shadow').inputMode();
         // e.target = $('shadow');

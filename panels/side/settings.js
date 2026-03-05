@@ -71,9 +71,10 @@ const settings = {
 
         inputs.forEach(input => {
             const prop = input.dataset.property;
+            const value = settings.data[prop]
             if (input.type === 'checkbox') {
-                input.checked = settings.data[prop];
-            } else { input.value = settings.data[prop]; }
+                input.checked = value;
+            } else { input.value = value; }
         });
     },
 
@@ -91,6 +92,8 @@ const settings = {
     loadPanel: () => {
         build.panel('panel-settings', settingsSchema, settings.listener);
         settings.init();
+        // מילוי הגוון הנכון באקצנט. הוא חריג מכל אינפוטי הצבע ולכן נכתב במיוחד
+        $('panel-settings').$1('[data-property="accent"]').value = settings.data.accent;
     }
 }
 
@@ -119,8 +122,8 @@ const settingsSchema = [
 
             { type: 'smallTitle', label: 'צבע הדגשה' },
             {
-                type: 'inputRow', label: 'גוון',
-                inputType: 'color', prop: 'accent'
+                type: 'inputRow', label: 'גוון', inputType: 'color',
+                prop: 'accent', defaultValue: '#0078d4', hasGradient: false
             }
         ]
     },

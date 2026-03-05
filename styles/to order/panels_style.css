@@ -37,10 +37,7 @@
    ========================================================= */
 
 /* איפוס ועיצוב אחיד לכל האינפוטים והסלקטים בפאנלים */
-.panel input[type="text"],
-.panel input[type="number"],
-.panel input[type="color"],
-.panel select,
+.panel input .panel select,
 .panel textarea {
     height: 30px;
     /* גובה אחיד לכולם */
@@ -49,7 +46,6 @@
     border-radius: 4px;
     background-color: var(--ui-base);
     font-size: 13px;
-    /* קריטי! מונע גלישה מתוך הגריד */
     transition: all 0.2s ease;
     outline: none;
     color: var(--ui-80);

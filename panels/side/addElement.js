@@ -1,3 +1,4 @@
+// import { tree } from "../tree/tree";
 
 // ==========================================
 //   1. הגדרות הרכיבים
@@ -8,14 +9,14 @@ const elementsList = {
         label: '🇹 כותרת ראשית (H1)',
         fields: [
             { type: 'inputRow', label: 'תוכן', inputType: 'text', prop: 'text', value: 'כותרת ראשית' },
-            { type: 'inputRow', label: 'צבע', inputType: 'color', prop: 'color', value: '#333333' }
+            { type: 'inputRow', label: 'צבע', inputType: 'color', prop: 'color', defaultValue: '#333333' }
         ]
     },
     'h2': {
         label: '🇹 כותרת משנית (H2)',
         fields: [
             { type: 'inputRow', label: 'תוכן', inputType: 'text', prop: 'text', value: 'כותרת משנה' },
-            { type: 'inputRow', label: 'צבע', inputType: 'color', prop: 'color', value: '#555555' }
+            { type: 'inputRow', label: 'צבע', inputType: 'color', prop: 'color', defaultValue: '#555555' }
         ]
     },
     'p': {
@@ -52,15 +53,10 @@ const elementsList = {
         label: '🔘 כפתור (Button)',
         fields: [
             { type: 'inputRow', label: 'טקסט', inputType: 'text', prop: 'text', value: 'לחץ כאן' },
-            { type: 'inputRow', label: 'צבע רקע', inputType: 'color', prop: 'backgroundColor', value: '#0078d4' },
-            { type: 'inputRow', label: 'צבע טקסט', inputType: 'color', prop: 'color', value: '#ffffff' },
-            {
-                type: 'grid',
-                children: [
-                    { type: 'input', inputType: 'number', label: 'עיגול', prop: 'borderRadius', unit: 'px', value: '4' },
-                    { type: 'input', inputType: 'text', label: 'ריווח', prop: 'padding', value: '10px 20px' }
-                ]
-            }
+            { type: 'inputRow', label: 'צבע רקע', inputType: 'color', prop: 'backgroundColor', defaultValue: '#0078d4' },
+            { type: 'inputRow', label: 'צבע טקסט', inputType: 'color', prop: 'color', defaultValue: '#ffffff' },
+            { type: 'inputRow', inputType: 'number', label: 'עיגול פינות', prop: 'borderRadius', unit: 'px', value: '4' },
+            { type: 'inputRow', inputType: 'text', label: 'ריווח פנימי', prop: 'padding', value: '10px 20px' }
         ]
     },
     'a': {
@@ -69,14 +65,14 @@ const elementsList = {
             { type: 'inputRow', label: 'טקסט', inputType: 'text', prop: 'text', value: 'עבור לאתר' },
             { type: 'inputRow', label: 'כתובת (HREF)', inputType: 'text', prop: 'href', value: 'https://google.com' },
             { type: 'inputRow', label: 'חלון חדש', inputType: 'toggle', prop: 'target', v: true, x: false, value: true },
-            { type: 'inputRow', label: 'צבע', inputType: 'color', prop: 'color', value: '#0078d4' }
+            { type: 'inputRow', label: 'צבע', inputType: 'color', prop: 'color', defaultValue: '#0078d4' }
         ]
     },
     'div': {
         label: '🔲 קופסה (Container)',
         fields: [
             { type: 'inputRow', label: 'גובה מינימלי', inputType: 'number', prop: 'minHeight', unit: 'px', value: '100' },
-            { type: 'inputRow', label: 'צבע רקע', inputType: 'color', prop: 'backgroundColor', value: '#f9f9f9' },
+            { type: 'inputRow', label: 'צבע רקע', inputType: 'color', prop: 'backgroundColor', defaultValue: '#f9f9f9' },
             { type: 'inputRow', label: 'ריווח פנימי', inputType: 'text', prop: 'padding', value: '20px' },
             { type: 'inputRow', label: 'מסגרת', inputType: 'toggle', prop: 'border', v: true, x: false, value: true }
         ]
@@ -202,7 +198,7 @@ function executeAdd() {
     }
 
     // הוספה בפועל ל-DOM
-    tree.sincDo.add(result.element, parent, false);
+    tree.dual.add(result.element, parent, false);
 
     // יצירת חוקי CSS ושיוך שלהם
     Object.keys(result.rules).forEach(selector => {

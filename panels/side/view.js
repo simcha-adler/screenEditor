@@ -18,26 +18,21 @@ const viewSchema = [
     { type: 'smallTitle', label: 'גלישת תוכן' },
 
     {
-        type: 'grid',
-        children: [
-            {
-                type: 'input', inputType: 'select', label: 'אופקי', prop: 'overflowX',
-                options: [
-                    { value: 'visible', text: 'רגיל' },
-                    { value: 'hidden', text: 'חתוך' },
-                    { value: 'scroll', text: 'גלילה' },
-                    { value: 'auto', text: 'אוטומטי' }
-                ]
-            },
-            {
-                type: 'input', inputType: 'select', label: 'אנכי', prop: 'overflowY',
-                options: [
-                    { value: 'visible', text: 'רגיל' },
-                    { value: 'hidden', text: 'חתוך' },
-                    { value: 'scroll', text: 'גלילה' },
-                    { value: 'auto', text: 'אוטומטי' }
-                ]
-            }
+        type: 'inputRow', inputType: 'select', label: 'אופקי', prop: 'overflowX',
+        options: [
+            { value: 'visible', text: 'רגיל' },
+            { value: 'hidden', text: 'חתוך' },
+            { value: 'scroll', text: 'גלילה' },
+            { value: 'auto', text: 'אוטומטי' }
+        ]
+    },
+    {
+        type: 'inputRow', inputType: 'select', label: 'אנכי', prop: 'overflowY',
+        options: [
+            { value: 'visible', text: 'רגיל' },
+            { value: 'hidden', text: 'חתוך' },
+            { value: 'scroll', text: 'גלילה' },
+            { value: 'auto', text: 'אוטומטי' }
         ]
     },
 

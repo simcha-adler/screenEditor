@@ -63,17 +63,18 @@ function createTreeNode(realElement) {
     const li = createElement('li', {
         class: 'tree-node',
         'data-editor-id': id,
-        'tree.draggable': 'true'
+        'draggable': 'true'
     });
 
     // יצירת התוכן הפנימי (Toggle + Text)
-    const container = createElement('div', { class: 'tree-life' });
+    const wrapper = createElement('div', { class: 'tree-life-wrapper' });
 
     const toggle = createElement('span', {
         class: 'tree-node-toggle',
         in: hasChildren ? '&#9664;' : ''
     });
 
+    const life = createElement('div', { class: 'tree-life' });
     const content = createElement('span', {
         class: 'tree-node-content',
         in: displayName
@@ -87,10 +88,11 @@ function createTreeNode(realElement) {
     });
 
     // חיבור פנימי
-    toggle.into(li);
-    content.into(container);
-    menuBtn.into(container);
-    container.into(li);
+    toggle.into(wrapper);
+    content.into(life);
+    menuBtn.into(life);
+    life.into(wrapper);
+    wrapper.into(li);
 
     return li;
 }
@@ -170,7 +172,7 @@ function insertElementManager(node, parent, isTree) {
 
     // פתיחת ההורה החדש כדי שנראה את הילד שהתווסף, כולל גם את הוספת אייקון החץ.
     setTimeout(showChildren(parentTree), 50);
-    tree.sincDo.select(nodeTree);
+    tree.dual.select(nodeTree);
 }
 
 function removeElementManager() {
@@ -245,7 +247,7 @@ function initTreeListeners() {
         const contentSpan = e.upTo('.tree-node-content');
         if (contentSpan) {
             const node = contentSpan.closest('.tree-node');
-            tree.sincDo.select(node);
+            tree.dual.select(node);
             return;
         }
 
@@ -256,7 +258,7 @@ function initTreeListeners() {
             e.stopPropagation();
             const node = menuBtn.closest('.tree-node');
             // עדכון משתני הפעולה הגלובליים
-            tree.sincDo.select(node);
+            tree.dual.select(node);
             // פתיחת התפריט במיקום הכפתור
             if (node.dataset.editorId === 'דף_הבסיס')
                 hideItemsNotForEditor();
@@ -334,7 +336,7 @@ function initTreeListeners() {
             if (!parent || (parent === tree.actionTree)) return;
 
             const preParent = tree.actionTree.parentNode.closest('.tree-node');
-            tree.sincDo.add(tree.actionTree, parent, true);
+            tree.dual.add(tree.actionTree, parent, true);
             updateHasChildren(preParent);
 
             // ניקוי
@@ -382,18 +384,18 @@ function handleMenuAction(action) {
             break;
 
         case 'delete':
-            tree.sincDo.delete();
+            tree.dual.delete();
             break;
 
         case 'empty':
             if (confirm('למחוק את כל האלמנטים שבתוך אלמנט זה?')) {
                 $$(`#${tree.actionDom.id} *`).forEach(ch => ch.remove());
-                updateHasChildren(tree.actionTree, true);
+                updateHasChildren(tree.actionTree);
             }
             break;
 
         case 'duplicate':
-            tree.sincDo.duplicate();
+            tree.dual.duplicate();
             break;
 
         case 'diagnostic':
@@ -420,10 +422,10 @@ function hideChildren(parentTree) {
     parentTree.$1('.tree-node-toggle').innerHTML = '&#9664;';
 }
 
-function updateHasChildren(node, empty = false) {
+function updateHasChildren(node) {
     const list = node.$1('ul');
     if (!list) return;
-    if (empty || list.children.length === 0) {
+    if (list.children.length === 0) {
         list.remove();
         node.$1('.tree-node-toggle').innerHTML = '';
     }
@@ -460,9 +462,15 @@ function cleanDragClasses() {
         router: handleMenuAction,
     },
     build: {
+        tree: renderTree,
+        node: buildTreeDOM,
+        life: createTreeNode
+    },
+    operation: {
+        insertNode: appendNodeToTree,
 
     },
-    sincDo: {
+    dual: {
         select: selectTreeNode,
         add: insertElementManager,
         delete: removeElementManager,

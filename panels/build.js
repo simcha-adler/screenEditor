@@ -74,7 +74,7 @@ const build = {
 
         item.options.forEach(opt => {
             const btn = createElement('button', {
-                class: 'ui-btn ' + (opt.class ?? ''),
+                class: 'ui-btn width-full ' + (opt.class ?? ''),
                 text: opt.label
             });
 
@@ -116,7 +116,6 @@ const build = {
 
         element.appendChild(build.label(item));
         element.appendChild(build.input.manager(item));
-        // if (item.inputType === 'color') element.addClass('flex-col')
 
         return element;
     },
@@ -147,11 +146,13 @@ const build = {
             // הוספת פרטים
             if (item.id) element.id = item.id;
             if (item.prop) {
-                if (element.tagName !== 'LABEL')
+                if (element.tagName !== 'LABEL') // טיפול במתג
                     element.dataset.property = item.prop;
                 else
                     element.$1('input').dataset.property = item.prop;
             }
+
+            if (item.inputType !== 'color' && item.inputType !== 'toggle') element.addClass('ui-input');
 
             // עטיפה והוספת תווית מעל אם זה לא inputRow
             if (item.type === 'input' && item.label) return build.input.wrapper(element, item);
@@ -162,7 +163,8 @@ const build = {
         color: (item) => createSmartColorPicker(item),
 
         wrapper: (element, item) => {
-            const wrapper = createElement('div', { class: item.label.length > 1 ? 'flex-col' : 'ui-control-row' });
+            const wrapper = createElement('div', { class: 'ui-control-row' });
+            if (item.label.length > 1) wrapper.addClass('flex-col')
             const label = createElement('span', { class: 'ui-label', text: item.label });
             wrapper.append(label, element);
             return wrapper;
@@ -183,6 +185,7 @@ const build = {
                 select.appendChild(o);
                 if (opt.selected) o.selected = true;
             });
+            if (item.oninput) select.oninput = item.oninput;
             return select;
         },
 
@@ -214,8 +217,7 @@ const build = {
                     value = num + unit;
                     valInput.style.opacity = '1';
                 }
-                demoInput.value = value;
-                demoInput.sendInput();
+                demoInput.sendInput(value);
             });
 
             wrapper.append(valInput, unitInput, demoInput);
@@ -223,7 +225,7 @@ const build = {
         },
 
         text: (item) => {
-            const input = createElement('input', { type: 'text', class: 'ui-input' })
+            const input = createElement('input', { type: 'text'/*, class: 'ui-input'*/ })
             if (item.placeholder) input.placeholder = item.placeholder;
             return input;
         },
@@ -236,7 +238,7 @@ const build = {
         },
 
         number: (item) => {
-            const input = createElement('input', { type: 'number', class: 'ui-input' });
+            const input = createElement('input', { type: 'number'/*, class: 'ui-input' */ });
             return build.input.addValues(input, item);
         },
 

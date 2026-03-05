@@ -47,12 +47,12 @@ const designSchema = [
         type: 'section', label: 'צבעים ורקע', collapsed: false,
         children: [
             {
-                type: 'inputRow', label: 'צבע טקסט',
-                inputType: 'color', prop: 'color',
+                type: 'inputRow', label: 'צבע טקסט', inputType: 'color',
+                prop: 'color', defaultValue: '#000000', hasGradient: false
             },
             {
-                type: 'inputRow', label: 'צבע רקע',
-                inputType: 'color', prop: 'backgroundColor',
+                type: 'inputRow', label: 'צבע רקע', inputType: 'color',
+                prop: 'background', defaultValue: '#ffffff', hasGradient: true
             }
         ]
     }

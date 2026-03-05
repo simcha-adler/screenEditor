@@ -67,7 +67,7 @@ function updateActivityBarState(activeBtn) {
 /**
  * הפונקציה הראשית לניהול לחיצה על אייקון בסרגל
 */
-function toggleActivityPanel(btn) {
+function toggleActivityPanel(btn, open = false) {
     const panelId = btn.dataset.panel;
     const panel = $(panelId);
 
@@ -78,7 +78,7 @@ function toggleActivityPanel(btn) {
 
     else {
         // 1. אם לחצו על הפאנל שכבר פתוח -> סגור את אזור הפאנלים
-        if (thePanel === panel) {
+        if (thePanel === panel && !open) {
             panelLeft.removeClass('open');
             updateActivityBarState(null); // כיבוי האייקון הפעיל
             updatePanel(null);

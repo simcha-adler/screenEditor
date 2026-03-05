@@ -16,7 +16,10 @@ const bordersSchema = [
                     { value: 'double', text: 'כפול' }
                 ]
             },
-            { type: 'input', label: 'צבע', inputType: 'color', prop: 'borderColor' },
+            {
+                type: 'inputRow', label: 'צבע', inputType: 'color', prop: 'borderColor',
+                defaultValue: '#000000', hasGradient: false
+            },
             { type: 'inputRow', label: 'עובי', inputType: 'number', prop: 'borderWidth', unit: 'px' }
         ]
     },
@@ -145,7 +148,10 @@ const bordersSchema = [
                     { type: 'input', inputType: 'number', label: 'גודל', prop: 'boxShadowSpread', unit: 'px', default: 0 }
                 ]
             },
-            { type: 'input', inputType: 'color', label: 'צבע הצל', prop: 'boxShadowColor' },
+            {
+                type: 'inputRow', inputType: 'color', label: 'צבע הצל',
+                prop: 'boxShadowColor', defaultValue: '#000000', hasGradient: false
+            },
             {
                 type: 'inputRow', label: 'סוג', inputType: 'select', prop: 'boxShadowInset',
                 options: [

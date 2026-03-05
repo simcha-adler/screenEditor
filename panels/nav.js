@@ -121,7 +121,8 @@ function processImportedHTML(htmlString) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, 'text/html');
     let newContent = doc.body;
-    const base = newContent.$('דף_הבסיס');
+    const base = newContent.$('דף_הבסיס'); // טיפול במצב שיש id שהמערכת משתמשת בו.
+    //  צריך לטפל גם בשאר ה-id's אבל כרגע רק זה קריטי כי כשמורידים את האתר המוכן, זה הבסיס שלו.
     if (base) {
         if (newContent.children.length === 1 && newContent.children[0] === base)
             newContent = base;
@@ -136,10 +137,7 @@ function processImportedHTML(htmlString) {
         if (child.tagName !== 'STYLE' && child.tagName !== 'SCRIPT') {
             // שכפול האלמנט כדי לא להרוס את ה-doc המקורי
             const importedNode = child.cloneNode(true);
-            if (child.id === 'דף_הבסיס') {
-
-            } else
-                $('דף_הבסיס').appendChild(importedNode);
+            editor.appendChild(importedNode);
 
             // פונקציה רקורסיבית שעוברת על האלמנט וכל ילדיו
             convertInlineToInternalRecursively(importedNode);
@@ -147,26 +145,28 @@ function processImportedHTML(htmlString) {
     });
 
     // המעבר על תגיות ה-style שנמצאו בקובץ
-    newStyles.forEach(st => importCSSRulesFromText(st.textContent));
+    // newStyles.forEach(st => importCSSRulesFromText(st.textContent));
+    newStyles.forEach(st => $('styles').innerHTML += st.innerHTML);
+    sheet = $('styles').sheet; // רענון הרפרנס כך שיקלוט גם את הסטיילים החדשים
 
     // 4. סיום: רענון העץ והמאזינים
     renderTree();
-    updateSelectedElement($('דף_הבסיס')); // חזרה לבסיס
-    alert('הקובץ נטען והומר בהצלחה!');
+    updateSelectedElement(editor); // חזרה לבסיס
+    console.log('הקובץ נטען והומר בהצלחה!');
 }
 
 /**
- * הפונקציה הקסומה: לוקחת אלמנט, קוראת את ה-style שלו,
+ * הפונקציה לוקחת אלמנט, קוראת את ה-style שלו,
  * יוצרת חוק CSS במערכת, ומוחקת את ה-style מהאלמנט.
  */
 function convertInlineToInternalRecursively(element) {
-    // א. וידוא שיש ID (חובה בשביל המערכת שלך)
+    // א. וידוא שיש ID
     const id = ensureElementId(element);
 
     // ב. אם יש לאלמנט עיצוב אינליין
     if (element.getAttribute('style')) {
 
-        // יצירת הסלקטור (הנחה: אין state כמו hover בהעלאה רגילה)
+        // יצירת הסלקטור
         const selector = '#' + id;
         const rule = createRuleAndRef(selector);
 

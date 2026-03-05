@@ -24,7 +24,10 @@ function rgbToHex(rgb) {
     return "#" + hex(match[1]) + hex(match[2]) + hex(match[3]);
 }
 
-
+/**
+ * 
+ * @returns {HTMLElement}
+ */
 function getSelectedElement() {
     const selection = window.getSelection();
     if (!selection) return;
@@ -174,27 +177,6 @@ function parseUnit(cssValue) {
     return { value: floatVal, unit: unit }; // בלי ברירת מחדל של 'px'!
 }
 
-/**
- * מייצר HTML עבור אינפוט חכם עם בחירת יחידות
- */
-function createInputHTML(prop, label, defaultUnit = 'px') {
-    return /*html*/ `
-    <div class="control-wrapper">
-        <span class="ui-title small">${label}</span>
-        <div class="ui-input-group">
-            <input type="number" data-prop="${prop}" data-type="value" placeholder="-">
-            <select class="ui-select" data-prop="${prop}" data-type="unit">
-                <option value="px" ${defaultUnit === 'px' ? 'selected' : ''}>px</option>
-                <option value="%" ${defaultUnit === '%' ? 'selected' : ''}>%</option>
-                <option value="vh" ${defaultUnit === 'vh' ? 'selected' : ''}>vh</option>
-                <option value="vw" ${defaultUnit === 'vw' ? 'selected' : ''}>vw</option>
-                <option value="rem" ${defaultUnit === 'rem' ? 'selected' : ''}>rem</option>
-                <option value="em" ${defaultUnit === 'em' ? 'selected' : ''}>em</option>
-                <option value="" ${defaultUnit === '' ? 'selected' : ''}>-</option>
-            </select>
-        </div>
-    </div>`;
-}
 
 // פונקציה לטיפול באקורדיונים
 function initAccordions(panelElement) {
@@ -328,8 +310,8 @@ const fillValues = {
         }
 
         // 4. צבעים
-        else if (element.type === 'color'/* || prop.toLowerCase().includes('color')*/) {
-            element.value = rgbToHex(value);
+        else if (element.classList.contains('ui-smart-color-group')) {
+            colorPicker.fill(element, value);
         }
 
         // 5. מספרים (Range / Number)
@@ -459,7 +441,7 @@ function diagnoseElement(element) {
         addIssue('📏', 'תוכן גולש', ' יש בתוך האלמנט יותר תוכן מהגובה שלו והוא גולש למטה. נסה לשנות את הגדרות הגלישה');
     }
     if (parent && rect.width > parentRect.width) {
-        addIssue('📏', 'חריגה מהרוחב', 'האלמנט הזה רחב יותר מהאבא שלו, ולכן הוא "בורח" החוצה.');
+        addIssue('📏', 'חריגה מהרוחב', 'האלמנט הזה רחב יותר מהאבא שלו, ולכן הוא "בורח" החוצה. נסה לשנות את הגדרות הגלישה להגדרה הרצויה.');
     }
 
     // --- 2. בעיות מיקום (Position) ---
