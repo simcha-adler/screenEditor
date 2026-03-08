@@ -1,101 +1,6 @@
-
-/*=======================================
-            פונקציות לבניית עץ
-=========================================*/
-
-
-function buildTreeDOM(element) {
-    // סינון אלמנטים לא רצויים (כמו בקוד המקורי)
-    if (element.nodeType !== 1 || ['SCRIPT', 'STYLE'].includes(element.tagName))
-        return null;
-
-    // 1. יצירת הצומת הנוכחי
-    const li = createTreeNode(element);
-
-    // 2. אם יש ילדים - בנייה רקורסיבית
-    if (element.children.length > 0) {
-        const ul = createElement('ul', { class: 'tree-children' });
-
-        Array.from(element.children).forEach(child => {
-            const childLi = buildTreeDOM(child);
-            if (childLi) childLi.into(ul);
-        });
-
-        ul.into(li);
-    }
-
-    return li;
-}
-
-// הפונקציה הראשית שנקראת מבחוץ
-function renderTree() {
-    // ניקוי העץ
-    treePanel.innerHTML = '';
-
-    // יצירת העץ והכנסתו
-    const ulRoot = createElement('ul', { style: 'padding: 10px; margin: 0;' });
-    const rootLi = buildTreeDOM(editor); // מתחילים מהעורך
-
-    if (rootLi) {
-        rootLi.into(ulRoot);
-        // פתיחת רמת השורש כברירת מחדל
-        showChildren(rootLi);
-    }
-
-    ulRoot.into(treePanel);
-}
-
-
-/**
- * יצירת אלמנט ה-LI לעץ (ללא הכנסה לעץ)
- */
-function createTreeNode(realElement) {
-    const id = ensureElementId(realElement);
-    const hasChildren = realElement.children.length > 0;
-
-    // קביעת השם לתצוגה
-    let displayName = id.replaceAll("_", " ");
-    if (id.startsWith('auto_')) {
-        displayName = `<span style="opacity:0.8">${realElement.tagName.toLowerCase()}</span>`;
-    }
-
-    // יצירת ה-LI
-    const li = createElement('li', {
-        class: 'tree-node',
-        'data-editor-id': id,
-        'draggable': 'true'
-    });
-
-    // יצירת התוכן הפנימי (Toggle + Text)
-    const wrapper = createElement('div', { class: 'tree-life-wrapper' });
-
-    const toggle = createElement('span', {
-        class: 'tree-node-toggle',
-        in: hasChildren ? '&#9664;' : ''
-    });
-
-    const life = createElement('div', { class: 'tree-life' });
-    const content = createElement('span', {
-        class: 'tree-node-content',
-        in: displayName
-    });
-
-    // === כפתור התפריט ===
-    const menuBtn = createElement('span', {
-        class: 'tree-node-menu-btn',
-        text: '⋮', // תו של שלוש נקודות אנכיות
-        title: 'פעולות נוספות'
-    });
-
-    // חיבור פנימי
-    toggle.into(wrapper);
-    content.into(life);
-    menuBtn.into(life);
-    life.into(wrapper);
-    wrapper.into(li);
-
-    return li;
-}
+import { dual } from "./dualManager.js";
+import { build } from "./treeBuilder.js";
+import { menu } from "./treeMenu.js";
 
 
 /**
@@ -116,103 +21,6 @@ function appendNodeToTree(newNode, parent) {
 
     // הפעולה הסופית - הכנסה (או העברה אם כבר קיים)
     newNode.into(ul);
-}
-
-
-/*====================================================
-        פונקציות לניהול מקביל של העץ וה-dom
-======================================================*/
-
-
-
-function selectTreeNode(node) {
-    const src = $(node.dataset.editorId);
-    updateSelectedElement(src);
-
-    // עדכון משתנים גלובליים
-    tree.actionTree = node;
-    tree.actionDom = src;
-
-    // סימון ויזואלי בעץ
-    $$('.tree-life').removeClass('selected');
-    node.$1('.tree-life').addClass('selected');
-}
-
-function insertElementManager(node, parent, isTree) {
-    if (!node || !parent || node === parent) return;
-    let nodeTree, parentTree, nodeDom, parentDom;
-    if (isTree) {
-        nodeTree = node;
-        parentTree = parent;
-        nodeDom = $(nodeTree.dataset.editorId);
-        parentDom = $(parentTree.dataset.editorId);
-    } else {
-        nodeTree = treePanel.$1(`.tree-node[data-editor-id=${node.id}]`);
-        parentTree = treePanel.$1(`.tree-node[data-editor-id=${parent.id}]`);
-        nodeDom = node;
-        parentDom = parent;
-        if (!nodeTree) nodeTree = buildTreeDOM(nodeDom);
-    }
-
-    //  אם אלמנט האב אינו יכול להכיל אלמנטים בתוכו, עבור לאלמנט האב באישור המשתמש
-    const voidElements = ['IMG', 'INPUT', 'HR', 'BR', 'VIDEO'];
-    if (voidElements.includes(parentDom.tagName))
-        if (confirm("אין אפשרות להכניס בתוך האלמנט הנבחר. להכניס אחריו?")) {
-            parentDom = parentDom.parentNode;
-            parentTree = parentTree.parentNode.closest('.tree-node');
-        } else return;
-
-    // מניעת לולאות (הכנסת אבא לבן)
-    if (nodeDom.contains(parentDom))
-        return alert('שגיאה: לא ניתן להכניס אלמנט לתוך עצמו.');
-
-    // הכנסה בפועל ל-dom ולעץ
-    nodeDom.into(parentDom);
-    appendNodeToTree(nodeTree, parentTree);
-
-    // פתיחת ההורה החדש כדי שנראה את הילד שהתווסף, כולל גם את הוספת אייקון החץ.
-    setTimeout(showChildren(parentTree), 50);
-    tree.dual.select(nodeTree);
-}
-
-function removeElementManager() {
-    let del = false;
-    if (tree.actionDom.children.length === 0) {
-        del = confirm('למחוק את האלמנט?');
-    } else {
-        del = confirm('למחוק את האלמנט ואת כל האלמנטים שבו?');
-    }
-    if (del) {
-        const parent = tree.actionTree.closest('.tree-node');
-        tree.actionTree.remove();
-        tree.actionDom.remove();
-        tree.actionTree = null;
-        tree.actionDom = null;
-        updateHasChildren(parent);
-        updateSelectedElement(null); // איפוס בחירה
-    }
-}
-
-function duplicateElementManager() {
-    let newName = prompt('הכנס שם לאלמנט המשוכפל (מומלץ). השאר ריק ליצירה אוטומטית', tree.actionDom.id.replaceAll('_', ' ') + '_copy');
-    if (newName || newName === '') {
-        newName = createSafeId(newName, tree.actionDom.tagName);
-        if (!newName) return; // שם כפול!
-        // שימוש בפונקציית השכפול החכמה מ-servises.js
-        const newClone = cloneElementWithUniqueIds(tree.actionDom, newName);
-
-        if (newClone) {
-            // הוספה ל-DOM אחרי המקורי
-            tree.actionDom.after(newClone);
-            // יצירת השורות המקבילות בעץ
-            const newTreeItem = buildTreeDOM(newClone);
-            // הוספה לעץ אחרי המקורי
-            if (tree.actionTree)
-                tree.actionTree.after(newTreeItem);
-            // עדכון בחירה
-            updateSelectedElement(newClone);
-        }
-    }
 }
 
 
@@ -350,92 +158,34 @@ function initTreeListeners() {
 }
 
 
-
-/*=============================================
-        תצוגת וניהול פעולות התפריט הנפתח
-===============================================*/
-
-
-function showContextMenu(x, y) {
-    const menu = $('tree-menu');
-
-    menu.removeClass('hide');
-    menu.style.left = (x - 150) + 'px';
-    menu.style.top = y + 'px';
-}
-
-function hideContextMenu() {
-    $('tree-menu').addClass('hide');
-}
-
-// פונקציה גלובלית לטיפול בפעולות התפריט
-function handleMenuAction(action) {
-    if (!action) return;
-
-    switch (action) {
-        case 'add-inside':
-            toggleActivityPanel($1('.activity-btn[data-panel="panel-add-element"]'));
-            break;
-
-        case 'add-after':
-            // לסדר, כי עכשיו זה מוסיף לסוף האבא ולא אחרי הנבחר
-            updateSelectedElement(tree.actionDom.parentElement);
-            toggleActivityPanel($1('.activity-btn[data-panel="panel-add-element"]'));
-            break;
-
-        case 'delete':
-            tree.dual.delete();
-            break;
-
-        case 'empty':
-            if (confirm('למחוק את כל האלמנטים שבתוך אלמנט זה?')) {
-                $$(`#${tree.actionDom.id} *`).forEach(ch => ch.remove());
-                updateHasChildren(tree.actionTree);
-            }
-            break;
-
-        case 'duplicate':
-            tree.dual.duplicate();
-            break;
-
-        case 'diagnostic':
-            showDiagnosisUI(theElement);
-            break;
-
-        default:
-            break;
-    }
-};
-
-
 /*======================================
         פונקציות עזר קטנות
 ========================================*/
 
-function showChildren(parentTree) {
+export function showChildren(parentTree) {
     parentTree.addClass('open');
     parentTree.$1('.tree-node-toggle').innerHTML = '&#9660;';
 }
 
-function hideChildren(parentTree) {
+export function hideChildren(parentTree) {
     parentTree.removeClass('open');
     parentTree.$1('.tree-node-toggle').innerHTML = '&#9664;';
 }
 
-function updateHasChildren(node) {
+function updateHasChildren(node, del = false) {
     const list = node.$1('ul');
     if (!list) return;
-    if (list.children.length === 0) {
+    if (list.children.length === 0 || del) {
         list.remove();
         node.$1('.tree-node-toggle').innerHTML = '';
     }
 }
 
-function hideItemsNotForEditor() {
+export function hideItemsNotForEditor() {
     $('tree-menu').$$('.not-for-editor').forEach(row => row.addClass('hide'));
 }
 
-function showItemsNotForEditor() {
+export function showItemsNotForEditor() {
     $('tree-menu').$$('.not-for-editor').forEach(row => row.removeClass('hide'));
 }
 
@@ -444,7 +194,7 @@ function cleanDragClasses() {
 }
 
 
-/*export*/ const tree = {
+export const tree = {
 
     // משתנים גלובליים לניהול
     draggable: false,
@@ -452,28 +202,23 @@ function cleanDragClasses() {
     actionDom: null, // אלמנט ה-dom הפעיל
 
     init: () => {
-        renderTree();
+        tree.build.tree();
         initTreeListeners();
     },
 
-    menu: {
-        show: showContextMenu,
-        hide: hideContextMenu,
-        router: handleMenuAction,
-    },
-    build: {
-        tree: renderTree,
-        node: buildTreeDOM,
-        life: createTreeNode
-    },
-    operation: {
+    menu: menu,
+    build: build,
+    utils: {
         insertNode: appendNodeToTree,
-
+        showChildren: showChildren,
+        hideChildren: hideChildren,
+        showItemsNotForEditor: showItemsNotForEditor,
+        hideItemsNotForEditor: hideItemsNotForEditor,
+        cleanDragClasses: cleanDragClasses,
+        updateHasChildren: updateHasChildren
     },
-    dual: {
-        select: selectTreeNode,
-        add: insertElementManager,
-        delete: removeElementManager,
-        duplicate: duplicateElementManager
-    }
+    dual: dual
 }
+
+window.tree = tree;
+tree.init();

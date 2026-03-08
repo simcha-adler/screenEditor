@@ -59,7 +59,8 @@ function createRuleAndRef(selector) {
 }
 
 function restartPage() {
-    if (!confirm('הדף הנוכחי יימחק לחלוטין, ולא ניתן יהיה לשחזר אותו! האם אתם בטוחים? לשמירת הדף, ניתן להוריד אותו כ-html לפני האתחול.')) return false;
+    if (!confirm('הדף הנוכחי יימחק לחלוטין, ולא ניתן יהיה לשחזר אותו! האם אתם בטוחים? לשמירת הדף, ניתן להוריד אותו כ-html לפני האתחול.'))
+        return false;
 
     // נקה את העורך הנוכחי
     $('דף_הבסיס').innerHTML = '';
@@ -67,7 +68,7 @@ function restartPage() {
     $('styles').innerHTML = '';
     sheet = $('styles').sheet; // רענון הרפרנס
     styleState = {}; // איפוס אובייקט המידע
-    renderTree();
+    tree.build.tree();
     return true;
 }
 
@@ -90,11 +91,10 @@ function loadPage() {
     build.panel('panel-add-element', addElementSchema);
     build.panel('panel-classes', classesSchema);
     settings.loadPanel();
-    renderTree();
+    // tree.init();
 
     loadDocumentListeners();
     attachClassesListeners();
-    initTreeListeners();
 
     updateSelectedElement(editor);
     $$('.panel').addClass('hide');

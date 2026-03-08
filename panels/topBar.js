@@ -14,25 +14,15 @@ toggleBtn.addEventListener('click', () => {
 });
 
 // --- 2. כפתורי גודל מסך (Viewport) ---
-const artboard = $1('.canvas-scroller'); // או העוטף שלו
+const artboard = $1('.canvas-scroller');
 const vpBtns = $$('.vp-btn');
 
 vpBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-        // הסרת פעיל מכולם
         vpBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        // שינוי רוחב הארטבורד
-        const width = btn.dataset.width;
-        artboard.style.maxWidth = width;
-
-        // אנימציה קטנה של איפוס margin למרכז
-        if (width === '100%') {
-            artboard.style.width = '100%';
-        } else {
-            artboard.style.width = width;
-        }
+        artboard.style.width = btn.dataset.width;
     });
 });
 

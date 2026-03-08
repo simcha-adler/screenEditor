@@ -20,25 +20,20 @@ function loadDocumentListeners() {
         e.upTo('#menu').$1('.dropdown-menu').toggleClass('collapsed');
     });
 
+    // מחיקת, העלמת וגלילת תפריטים בעת לחיצה
     document.whenClick((e) => {
-        tree.menu.hide();
-        // if (!e.upTo('#menu')) $1('.dropdown-menu').addClass('collapsed'); // תפריט המבורגר
         $$('.popup').forEach(el => { if (!el.contains(e.target)) el.remove() });
         $$('.hidable').forEach(el => { if (!el.contains(e.target)) el.addClass('hide') });
         $$('.collapsedable').forEach(el => { if (!el.contains(e.target)) el.addClass('collapsed') });
     });
 
     // בשינוי ערכי צל, תופס את האירוע ובונה את כל הערכים הנדרשים לצל מתוך השדות
-    // לבדוק איך לעשות את זה, כי הוא לא נותן לשנות את הטארגט. לשנות גם בבילד בחלק של הקלט המשולב
     $('shadow').when('input', (e) => {
+        e.stopPropagation();
         let shadowStr = '';
         const inputs = /*$('shadow')*/this.$$('INPUT');
         inputs.forEach(input => shadowStr += ' ' + (input.value || 0) + (input.unit || ''));
-        $('shadow').value = shadowStr.slice(1);
-        // e.stopPropagation();
-        // $('shadow').inputMode();
-        // e.target = $('shadow');
-        // e.target.value = shadowStr;
+        $('shadow').$1('demoInput').sendValue(shadowStr.slice(1));
     });
 }
 

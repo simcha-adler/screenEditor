@@ -88,13 +88,13 @@ function createColorPicker(selector, prop) {
         // ניתוק קשר אם עוברים למצב רגיל
         if (m === 'solid') {
             removeLink(selector, prop);
-            updateStyle(getActiveSelectorKey(), prop, solidInput.value); // עדכון רגיל
+            updateStyle(getStyleSelector(), prop, solidInput.value); // עדכון רגיל
         }
     });
 
     // שינוי צבע רגיל
     solidInput.when('input', (e) => {
-        updateStyle(getActiveSelectorKey(), prop, e.target.value);
+        updateStyle(getStyleSelector(), prop, e.target.value);
     });
 
     // בחירת טווח

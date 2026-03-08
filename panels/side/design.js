@@ -72,7 +72,7 @@ function loadDesignListeners() {
 function buildDesignPanel() {
     const inputs = $$('.color-picker-wrapper')
     // שליחת הסלקטור הנוכחי
-    const selector = getActiveSelectorKey(); // (פונקציית עזר שקיימת ב-borders.js וצריך להנגיש אותה)
+    const selector = getStyleSelector(); // (פונקציית עזר שקיימת ב-borders.js וצריך להנגיש אותה)
 
 
     inputs.forEach(container => {
