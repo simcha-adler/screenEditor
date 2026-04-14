@@ -8,6 +8,7 @@ import { showDiagnosisUI } from "./doctor.js";
 
 
 function showContextMenu(x, y) {
+    if (!tree.actionTree) return; // למניעת קריסה במקרה תקלה
     const menu = $('tree-menu');
 
     menu.removeClass('hide');

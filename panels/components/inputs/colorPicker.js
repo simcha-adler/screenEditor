@@ -14,12 +14,12 @@ const colorPicker = {
 
         // טיפול ייחודי בפיקר שבהגדרות
         if (prop === 'accent') {
-            return createElement('input', { type: 'color', 'data-prop': prop });
+            return createElement('input', { type: 'color', 'data-property': prop });
         }
 
         // מעטפת ראשית
         const group = createElement('div', {
-            class: 'ui-smart-color-group', 'data-prop': prop,
+            class: 'ui-smart-color-group', /*'data-property': prop,*/
             'data-defaultValue': item.defaultValue, 'data-gradient': item.hasGradient
         });
 
@@ -220,8 +220,8 @@ const colorPicker = {
             const settingsGrid = createElement('div', { class: 'ui-grid' });
 
             // שימוש ב-build ליצירת שדות
-            let typeSel = build.input.manager({ type: 'input', label: 'סוג', inputType: 'select', options: [{ value: 'linear', text: 'קווי' }, { value: 'radial', text: 'עגול' }] });
-            let angleInp = build.input.manager({ type: 'input', label: 'זווית', inputType: 'number', value: 90 });
+            let typeSel = new UI.wrapInput({ label: 'סוג', input: new UI.input.select({ options: [{ value: 'linear', text: 'קווי' }, { value: 'radial', text: 'עגול' }] }) }).build();
+            let angleInp = new UI.wrapInput({ label: 'זווית', input: new UI.input.number({ defaultValue: 90 }) }).build();
             settingsGrid.append(typeSel, angleInp);
 
             typeSel = typeSel.$1('SELECT');

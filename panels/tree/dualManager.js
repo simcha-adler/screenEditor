@@ -7,6 +7,7 @@ import { tree } from "./tree.js";
 
 function selectTreeNode(node) {
     const src = $(node.dataset.editorId);
+    if (!src) { deleteTreeNode(node); return; }
     updateSelectedElement(src);
 
     // עדכון משתנים גלובליים
@@ -63,14 +64,18 @@ function removeElementManager() {
         del = confirm('למחוק את האלמנט ואת כל האלמנטים שבו?');
     }
     if (del) {
-        const parent = tree.actionTree.parentNode.closest('.tree-node');
-        tree.actionTree.remove();
         tree.actionDom.remove();
-        tree.actionTree = null;
         tree.actionDom = null;
-        tree.utils.updateHasChildren(parent);
         updateSelectedElement(null); // איפוס בחירה
+        deleteTreeNode(tree.actionTree);
     }
+}
+
+function deleteTreeNode(node) {
+    const parent = node.parentNode.closest('.tree-node');
+    node.remove();
+    tree.actionTree = null;
+    tree.utils.updateHasChildren(parent);
 }
 
 function duplicateElementManager() {

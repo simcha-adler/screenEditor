@@ -20,6 +20,9 @@ function loadDocumentListeners() {
         e.upTo('#menu').$1('.dropdown-menu').toggleClass('collapsed');
     });
 
+    // עדכון שדות הקלט בפאנל הוספת אלמנט לפי הרכיב הנבחר
+    $('elementTypeSelect').when('input', () => renderDynamicFields($('elementTypeSelect').value));;
+
     // מחיקת, העלמת וגלילת תפריטים בעת לחיצה
     document.whenClick((e) => {
         $$('.popup').forEach(el => { if (!el.contains(e.target)) el.remove() });
@@ -32,7 +35,7 @@ function loadDocumentListeners() {
         e.stopPropagation();
         let shadowStr = '';
         const inputs = /*$('shadow')*/this.$$('INPUT');
-        inputs.forEach(input => shadowStr += ' ' + (input.value || 0) + (input.unit || ''));
+        inputs.forEach(input => shadowStr += ' ' + (input.value || 0) + (input.dataset.unit || ''));
         $('shadow').$1('demoInput').sendValue(shadowStr.slice(1));
     });
 }
@@ -47,7 +50,7 @@ const designListeners = (e) => {
     const data = input.dataset;
 
     let prop = data.property;
-    const unit = input.unit || ''; // למשל 'px'
+    const unit = input.dataset.unit || ''; // למשל 'px'
     let value = input.value;
 
     if (input.type === 'checkbox') {

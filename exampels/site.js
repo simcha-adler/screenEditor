@@ -77,12 +77,11 @@ const style = `
             border-radius: 50%;
         }`;
 
-const body = `
+const body = /*html */`
     <section id="hero" class="hero-section">
         <div id="hero_content" class="hero-content">
             <h1 id="main_title" class="hero-title">בנה את העתיד שלך</h1>
-            <p id="hero_text" class="hero-subtitle">הפלטפורמה המתקדמת ביותר לבניית מוצרים דיגיטליים
-                במהירות ובקלות.</p>
+            <p id="hero_text" class="hero-subtitle">הפלטפורמה המתקדמת ביותר לבניית מוצרים דיגיטליים במהירות ובקלות.</p>
             <button id="cta_btn">התחל עכשיו</button>
         </div>
         <div id="features" class="features-grid">

@@ -10,51 +10,6 @@ const cls = {
     }
 }
 
-const classesSchema = [
-    { type: 'title', label: 'ניהול קלאסים (CSS Classes)' },
-
-    // --- אזור קלאסים פעילים ---
-    { type: 'smallTitle', label: 'קלאסים משויכים:' },
-    {
-        type: 'div',
-        id: 'activeClassesList',
-        class: 'ui-tags-container', // קלאס שקיים ב-panel2.css או panels_style.css
-        style: 'min-height: 35px; padding: 5px; background: var(--ui-5); border: 1px solid var(--ui-10); border-radius: 4px; display: flex; flex-wrap: wrap; gap: 5px;'
-    },
-
-    // --- אזור הוספה ---
-    { type: 'smallTitle', label: 'הוסף קלאס חדש' },
-    {
-        type: 'inputRow',
-        inputType: 'text',
-        id: 'classInput',
-        placeholder: 'לדוגמה: my-button'
-    },
-    {
-        type: 'button',
-        id: 'btnConnectClass',
-        label: 'שייך',
-        class: 'ui-btn-primary'
-    },
-    {
-        type: 'button',
-        id: 'btnCreateRule',
-        label: '🛠️ צור הגדרה חדשה לקלאס זה',
-        class: 'ui-btn-full', // כפתור ברוחב מלא
-        style: 'margin-bottom: 15px; font-size: 11px;'
-    },
-
-    // --- ספריית קלאסים ---
-    { type: 'title', label: 'ספריית קלאסים' },
-    {
-        type: 'div',
-        id: 'systemClassesList',
-        class: 'ui-class-list-container',
-        style: 'max-height: 150px; overflow-y: auto; border: 1px solid var(--ui-10); border-radius: 4px; background: var(--ui-base); padding: 5px;'
-    }
-];
-
-
 
 //=========לוגיקה==========
 
@@ -113,8 +68,9 @@ function refreshClassesView() {
 }
 
 function attachClassesListeners() {
-    // הוספת קלאס בלחיצה
+    const input = $('classInput');
 
+    // הוספת קלאס בלחיצה
     const createOrAddClass = (toElement = false) => {
         const selector = cls.ensureName(input.value);
         if (!selector) return;
@@ -127,7 +83,6 @@ function attachClassesListeners() {
         input.value = '';
         refreshClassesView();
     };
-    const input = $('classInput');
 
     $('btnConnectClass').whenClick(() => createOrAddClass(true));
 

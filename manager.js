@@ -103,4 +103,11 @@ function loadPage() {
     // $('fileUploadInput').sendInput();
 }
 
-loadPage();
+
+let timer = setInterval(() => {
+    console.log(window.schemas);
+    if (window.schemas) {
+        clearInterval(timer);
+        loadPage();
+    }
+}, 50)
