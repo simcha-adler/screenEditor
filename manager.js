@@ -62,15 +62,15 @@ function restartPage() {
 
 function loadPage() {
     // טעינת פאנלים
-    build.panel('panel-display', schemas.view, designListeners);
-    build.panel('panel-layout', schemas.layout, designListeners);
-    build.panel('panel-design', schemas.design, designListeners);
-    build.panel('panel-borders', schemas.borders, designListeners);
-    build.panel('panel-position', schemas.position, designListeners);
-    build.panel('panel-animations', schemas.animations, designListeners);
-    build.panel('panel-theme', schemas.theme);
-    build.panel('panel-add-element', schemas.addElement);
-    build.panel('panel-classes', schemas.classes);
+    UI.buildPanel('panel-display', schemas.view, designListeners);
+    UI.buildPanel('panel-layout', schemas.layout, designListeners);
+    UI.buildPanel('panel-design', schemas.design, designListeners);
+    UI.buildPanel('panel-borders', schemas.borders, designListeners);
+    UI.buildPanel('panel-position', schemas.position, designListeners);
+    UI.buildPanel('panel-animations', schemas.animations, designListeners);
+    UI.buildPanel('panel-theme', schemas.theme);
+    UI.buildPanel('panel-add-element', schemas.addElement);
+    UI.buildPanel('panel-classes', schemas.classes);
     settings.loadPanel();
     // tree.init();
 
@@ -84,7 +84,7 @@ function loadPage() {
     // $('fileUploadInput').sendInput();
 }
 
-
+//  הפעלה מותנית של המערכת. ממתין עד שכל קבצי הפאנלים ייטענו ואז מפעיל את המערכת.
 let timer = setInterval(() => {
     console.log(window.schemas);
     if (window.schemas) {

@@ -5,7 +5,7 @@
 function renderDynamicFields(type) {
     const config = schemas.elementsList[type];
     if (config && config.fields) {
-        build.panel('dynamicFormFields', config.fields);
+        UI.fillChildren('dynamicFormFields', config.fields);
     }
 }
 

@@ -21,21 +21,25 @@ import { UIColorInput } from './inputs/color.js';
 
 
 
-export const build = {
-    /** @param {HTMLElement} panel; @param {Object} schema; @param {function} [listener] */
-    panel: (panel, schema, listener) => {
-        panel = $(panel);
-        panel.innerHTML = '';
-        schema.forEach(/** @param {UIComponent} item */ item => { panel.append(item.build()) })
+const build = {
+    /** @param {string} panelName; @param {Object} schema; @param {function} [listener] */
+    panel: (panelName, schema, listener) => {
+        const panel = build.fillChildren(panelName, schema);
         if (listener) {
             // @ts-ignore
             panel.when('input', (/** @type {Event} */ e) => listener(e));
         }
         fillValues.panel(panel);
+    },
+
+    /** @param {string} containerName; @param {Object} schema; */
+    fillChildren: (containerName, schema) => {
+        const container = $(containerName);
+        container.innerHTML = '';
+        schema.forEach(/** @param {UIComponent} item */ item => { container.append(item.build()) });
+        return container;
     }
 }
-
-window.build = build;
 
 export const UI = {
     component: UIComponent,
@@ -56,7 +60,9 @@ export const UI = {
         text: UITextInput,
         combinated: UICombinatedInput,
         color: UIColorInput
-    }
+    },
+    buildPanel: build.panel,
+    fillChildren: build.fillChildren
 }
 
 // @ts-ignore

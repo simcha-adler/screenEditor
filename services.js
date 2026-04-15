@@ -181,24 +181,21 @@ const fillValues = {
         if (!panel || !theStyles) return;
         switch (panelId) {
             case 'panel-settings':
-                settings.fillValues();
-                break;
+                return settings.fillValues();
 
             case 'panel-add-element':
-                renderDynamicFields($('elementTypeSelect').value);
-                break;
+                return renderDynamicFields($('elementTypeSelect').value);
 
             case 'panel-classes':
-                refreshClassesView();
-                break;
+                return refreshClassesView();
 
             case 'panel-theme':
-                renderThemeList();
-                break;
+                return renderThemeList();
 
             default:
                 const inputs = panel.$$('[data-property]');
                 const styles = theStyles;
+                if (!styles) return;
 
                 inputs.forEach(element => {
                     const prop = element.dataset.property;
