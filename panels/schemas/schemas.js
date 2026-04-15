@@ -12,30 +12,17 @@ import { viewSchema } from "./view.js";
 
 
 export const schemas = {
-    themeSchema: themeSchema,
-    animationsSchema: animationsSchema,
-    bordersSchema: bordersSchema,
-    classesSchema: classesSchema,
-    designSchema: designSchema,
-    layoutSchema: layoutSchema,
-    positionSchema: positionSchema,
-    settingsSchema: settingsSchema,
-    addElementSchema: addElementSchema,
-    viewSchema: viewSchema,
+    theme: themeSchema,
+    animations: animationsSchema,
+    borders: bordersSchema,
+    classes: classesSchema,
+    design: designSchema,
+    layout: layoutSchema,
+    position: positionSchema,
+    settings: settingsSchema,
+    addElement: addElementSchema,
+    view: viewSchema,
     elementsList: elementsList
 }
 
 window.schemas = schemas;
-
-window.themeSchema = themeSchema;
-window.animationsSchema = animationsSchema;
-window.bordersSchema = bordersSchema;
-window.classesSchema = classesSchema;
-window.designSchema = designSchema;
-window.layoutSchema = layoutSchema;
-window.positionSchema = positionSchema;
-window.settingsSchema = settingsSchema;
-window.addElementSchema = addElementSchema;
-window.addElementSchema = addElementSchema;
-window.viewSchema = viewSchema;
-window.elementsList = elementsList;

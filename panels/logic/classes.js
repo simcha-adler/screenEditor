@@ -21,7 +21,7 @@ function refreshClassesView() {
     container.innerHTML = '';
 
     theElement.classList.forEach(cls => {
-        if (styleState['.' + cls]) {
+        if (Style.state['.' + cls]) {
             const tag = createElement('div', {
                 class: 'ui-class-tag',
                 in: `<span>${cls}</span>
@@ -41,7 +41,7 @@ function refreshClassesView() {
     systemList.innerHTML = '';
     const knownClasses = new Set();
 
-    Object.keys(styleState).forEach(selector => {
+    Object.keys(Style.state).forEach(selector => {
         if (selector.startsWith('.')) {
             // מציג גם פסאודו סלקטורים
             const cleanName = selector.substring(1);
@@ -75,8 +75,8 @@ function attachClassesListeners() {
         const selector = cls.ensureName(input.value);
         if (!selector) return;
         // אם לא קיים, להוסיף לרשימת הקלאסים
-        if (!styleState[selector])
-            createRuleAndRef(selector);
+        if (!Style.state[selector])
+            Style.createRule(selector);
         else if (!toElement) // נשלח להוספה לרשימה וקיים בה כבר
             return alert('עיצוב בשם זה כבר קיים במערכת.');
         if (toElement) theElement.addClass(selector.substring(1));

@@ -306,7 +306,7 @@ function updateAllLinkedElements(themeId) {
     themeLinks.forEach(link => {
         if (link.themeId === themeId) {
             const finalColor = colorPicker.range.calculate(theme, link.relativeValue);
-            updateStyle(link.selector, link.prop, finalColor);
+            Style.update(link.selector, link.prop, finalColor);
 
             // אם האלמנט הנבחר כרגע הוא זה שמתעדכן, נרענן לו את ה-UI של הפיקר
             const activeSelector = getStyleSelector();

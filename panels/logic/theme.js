@@ -33,7 +33,7 @@ function updateAllLinkedElements(themeId) {
                 else finalColor = Color.mixColors(theme.anchors[1], theme.anchors[2], (p - 50) * 2);
             }
 
-            updateStyle(link.selector, link.prop, finalColor);
+            Style.update(link.selector, link.prop, finalColor);
         }
     });
 }

@@ -3,10 +3,9 @@
  * מעדכן את המשתנים הרלוונטיים על זהות האלמנט הנבחר ותכונותיו
  * @param {HTMLElement | null} newElement
  */
-function updateSelectedElement(newElement = null) {
-    // כשהאלמנט נבחר מהעורך, לא נשלח ערך ומופעלת פונקציית מיקוד
-    if (!newElement)
-        newElement = getSelectedElement();
+function updateSelectedElement(newElement) {
+
+    if (!newElement) newElement = editor;
     // אם האלמנט לא השתנה או שהוא מחוץ לעורך, חזור
     if (theElement === newElement ||
         (newElement !== 'editor' && !editor.contains(newElement))) return;
@@ -47,17 +46,6 @@ function updatePanel(panel) {
     thePanel = panel;
 }
 
-function createRuleAndRef(selector) {
-    if (!styleState[selector]) {
-        let rule;
-        rule = Array.from(sheet.cssRules).find(r => r.selectorText === selector);
-        if (!rule) rule = createRule(selector);
-        styleState[selector] = { 'rule': rule };
-        return rule;
-    }
-    return styleState[selector]['rule'];
-}
-
 function restartPage() {
     if (!confirm('הדף הנוכחי יימחק לחלוטין, ולא ניתן יהיה לשחזר אותו! האם אתם בטוחים? לשמירת הדף, ניתן להוריד אותו כ-html לפני האתחול.'))
         return false;
@@ -66,30 +54,23 @@ function restartPage() {
     $('דף_הבסיס').innerHTML = '';
     // נקה את ה-CSS ואת ה-State
     $('styles').innerHTML = '';
-    sheet = $('styles').sheet; // רענון הרפרנס
-    styleState = {}; // איפוס אובייקט המידע
+    Style.refreshSheet(); // רענון הרפרנס
+    Style.restart(); // איפוס אובייקט המידע
     tree.build.tree();
     return true;
 }
 
-function createRefRule(rule) {
-    const selector = rule.selectorText;
-    if (!selector) return null;
-    styleState[selector] = { 'rule': rule };
-    return rule;
-}
-
 function loadPage() {
     // טעינת פאנלים
-    build.panel('panel-display', viewSchema, designListeners);
-    build.panel('panel-layout', layoutSchema, designListeners);
-    build.panel('panel-design', designSchema, designListeners);
-    build.panel('panel-borders', bordersSchema, designListeners);
-    build.panel('panel-position', positionSchema, designListeners);
-    build.panel('panel-animations', animationsSchema, designListeners);
-    build.panel('panel-theme', themeSchema);
-    build.panel('panel-add-element', addElementSchema);
-    build.panel('panel-classes', classesSchema);
+    build.panel('panel-display', schemas.view, designListeners);
+    build.panel('panel-layout', schemas.layout, designListeners);
+    build.panel('panel-design', schemas.design, designListeners);
+    build.panel('panel-borders', schemas.borders, designListeners);
+    build.panel('panel-position', schemas.position, designListeners);
+    build.panel('panel-animations', schemas.animations, designListeners);
+    build.panel('panel-theme', schemas.theme);
+    build.panel('panel-add-element', schemas.addElement);
+    build.panel('panel-classes', schemas.classes);
     settings.loadPanel();
     // tree.init();
 

@@ -3,7 +3,7 @@
  * מרנדר את השדות של האלמנט הנבחר
  */
 function renderDynamicFields(type) {
-    const config = elementsList[type];
+    const config = schemas.elementsList[type];
     if (config && config.fields) {
         build.panel('dynamicFormFields', config.fields);
     }
@@ -14,7 +14,7 @@ function renderDynamicFields(type) {
  */
 function executeAdd() {
     const type = $('elementTypeSelect').value;
-    const blueprint = elementsList[type];
+    const blueprint = schemas.elementsList[type];
 
     // 1. יצירת ID בטוח
     let baseId = createSafeId($('newElementId').value, type);
@@ -34,7 +34,7 @@ function executeAdd() {
     $('styles').innerHTML += rawCss;
 
     // רענון רפרנס ה-sheet כדי שיכיר את החוקים החדשים
-    sheet = $('styles').sheet;
+    Style.refreshSheet();
 
     // 4. יצירת ה-HTML והזרקה לעץ (דרך ה-Dual Manager שלך)
     const rawHtml = blueprint.html(data);

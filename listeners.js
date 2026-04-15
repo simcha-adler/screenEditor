@@ -71,11 +71,11 @@ const designListeners = (e) => {
         const newBoxShadowString = ShadowParser.assemble(currentParts, prop, value);
 
         // 3. שליחת הפקודה האמיתית למערכת (מעדכנים את 'boxShadow' הכללי)
-        updateStyle(selector, 'boxShadow', newBoxShadowString);
+        Style.update(selector, 'boxShadow', newBoxShadowString);
         return;
     }
 
 
     if (prop && selector)
-        updateStyle(selector, prop, value + unit);
+        Style.update(selector, prop, value + unit);
 };

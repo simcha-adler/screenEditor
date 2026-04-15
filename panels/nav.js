@@ -1,30 +1,12 @@
 const htmlNav = /* html */  `
 
 <!--=======תפריט עריכה=========-->
-<div class="nav-item">
-    <button class="nav-button">עריכה</button>
-    <div class="dropdown-menu" id="edit-menu-items">
-        <div class="dropdown-item" data-action="undo">בטל (Undo)</div>
-        <div class="dropdown-item" data-action="redo">חזור (Redo)</div>
-        <div class="dropdown-item" data-action="paste">הדבק</div>
-        <div class="dropdown-item" data-action="selectAll">בחר הכל</div>
-    </div>
-</div>
-
-<!--=======תפריט תצוגה=========-->
-<div class="nav-item" id="view-nav">
-    <button class="nav-button">תצוגה</button>
-    <div class="dropdown-menu">
-        <div class="dropdown-item" id="toggleToolbar">הצג/הסתר סרגל כלים</div>
-        <div class="dropdown-item" id="fullscreen">מצב מסך מלא</div>
-        <div class="dropdown-item" id="toggleSidebar">הצג/הסתר סרגל צד</div>
-    </div>
-</div>
+<div class="dropdown-item" data-action="undo">בטל (Undo)</div>
+<div class="dropdown-item" data-action="redo">חזור (Redo)</div>
+<div class="dropdown-item" data-action="paste">הדבק</div>
+<div class="dropdown-item" data-action="selectAll">בחר הכל</div>
+<div class="dropdown-item" id="fullscreen">מצב מסך מלא</div>
 `
-
-//nav.innerHTML = htmlNav;
-const navItems = $$('.nav-item');
-
 
 // --- לוגיקה של תפריט "קובץ" ---
 $('newDoc').whenClick(() => {
@@ -80,9 +62,6 @@ $('downloadHTML').whenClick(() => {
 
 
 // // --- לוגיקה של תפריט "תצוגה" ---
-// $('toggleToolbar').whenClick(() => {
-//     toolbar.toggleClass('hide');
-// });
 // $('fullscreen').whenClick(() => {
 //     if (!document.fullscreenElement) {
 //         document.documentElement.requestFullscreen().catch(err => {
@@ -92,9 +71,7 @@ $('downloadHTML').whenClick(() => {
 //         document.exitFullscreen();
 //     }
 // });
-// $('toggleSidebar').whenClick(() => {
-//     sidebar.toggleClass('hide');
-// });
+
 
 
 
@@ -147,7 +124,7 @@ function processImportedHTML(htmlString) {
     // המעבר על תגיות ה-style שנמצאו בקובץ
     // newStyles.forEach(st => importCSSRulesFromText(st.textContent));
     newStyles.forEach(st => $('styles').innerHTML += st.innerHTML);
-    sheet = $('styles').sheet; // רענון הרפרנס כך שיקלוט גם את הסטיילים החדשים
+    Style.refreshSheet(); // רענון הרפרנס כך שיקלוט גם את הסטיילים החדשים
 
     // 4. סיום: רענון העץ והמאזינים
     renderTree();
@@ -168,7 +145,7 @@ function convertInlineToInternalRecursively(element) {
 
         // יצירת הסלקטור
         const selector = '#' + id;
-        const rule = createRuleAndRef(selector);
+        const rule = Style.createRule(selector);
 
         // מעבר על כל התכונות ב-style
         for (let i = 0; i < element.style.length; i++) {
@@ -196,7 +173,7 @@ function convertInlineToInternalRecursively(element) {
 
 /**
  * פונקציה שמקבלת טקסט של CSS, מפרקת אותו לחוקים,
- * ומכניסה אותם למערכת ה-styleState שלך.
+ * ומכניסה אותם למערכת ה-Style.state שלך.
  */
 function importCSSRulesFromText(cssText) {
     // טריק: יצירת אלמנט style זמני כדי שהדפדפן יפרסר את ה-CSS עבורנו
@@ -220,9 +197,9 @@ function importCSSRulesFromText(cssText) {
             const selector = rule.selectorText;
 
             // יצירת החוק במערכת שלך
-            // הפונקציה createRuleAndRef מתוך manager.js תיצור את החוק ב-sheet האמיתי
-            // ותוסיף אותו ל-styleState
-            const newSystemRule = createRuleAndRef(selector);
+            // הפונקציה Style.createRule מתוך manager.js תיצור את החוק ב-sheet האמיתי
+            // ותוסיף אותו ל-Style.state
+            const newSystemRule = Style.createRule(selector);
 
             // העתקת כל התכונות מהחוק המיובא לחוק החדש
             for (let j = 0; j < rule.style.length; j++) {
