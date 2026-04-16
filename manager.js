@@ -7,7 +7,7 @@ function updateSelectedElement(newElement) {
 
     if (!newElement) newElement = editor;
     // אם האלמנט לא השתנה או שהוא מחוץ לעורך, חזור
-    if (theElement === newElement ||
+    if (theElement === newElement || Selector.isLocked() ||
         (newElement !== 'editor' && !editor.contains(newElement))) return;
     // מחזיר id. אם אין, יוצר ומחזיר.
     const Id = ensureElementId(newElement);
@@ -72,7 +72,7 @@ function loadPage() {
     UI.buildPanel('panel-add-element', schemas.addElement);
     UI.buildPanel('panel-classes', schemas.classes);
     settings.loadPanel();
-    // tree.init();
+    tree.init();
 
     loadDocumentListeners();
     attachClassesListeners();
@@ -82,6 +82,9 @@ function loadPage() {
     $$('.show').forEach(element => element.click()); // הפעלת כפתורי ברירת המחדל בסוויצ'רים
     // $('fileUploadInput').files[0].name = 'site.html';
     // $('fileUploadInput').sendInput();
+    Style.refreshSheet(); // אתחול ראשוני של Style.sheet
+    const classes = Style.getAllClasses();
+    classes.forEach(cls => Style.createRule(cls)); // עדכון הקלאסים בסטייט לצורך ניהול תקין של הקלאסים
 }
 
 //  הפעלה מותנית של המערכת. ממתין עד שכל קבצי הפאנלים ייטענו ואז מפעיל את המערכת.

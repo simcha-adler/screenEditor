@@ -1,6 +1,6 @@
 
 /** @type {CSSStyleSheet} */
-let sheet = $('styles').sheet;
+let sheet;
 let state = {};
 
 /** @param {string} selector; @returns {CSSRule} */
@@ -45,14 +45,20 @@ function insertNewRule(selector) {
 };
 
 export const Style = {
-    sheet: sheet,
     state: state,
+    getSheet: () => sheet,
     createRule: createRule,
     update: updateStyle,
-    refreshSheet: () => { sheet = $('styles').sheet; },
+    /**  שליפת הגיליון האמיתי מתוך האובייקט בזיכרון (ולא מה-HTML הריק) */
+    refreshSheet: () => { sheet = Array.from(document.styleSheets).find(sheet => sheet.ownerNode.id === 'styles') },
     /** מאפס את state!! להשתמש בזהירות */
-    restart: () => { state = {}; }
+    restart: () => { state = {}; Style.state = state },
+    /**@returns {CSSRule} - מחזיר חוק לפי סלקטור */
+    findRules: (selector) => Array.from(sheet.cssRules).filter(rule => rule.selectorText === selector),
+    /**@returns {CSSRule} - מחזיר חוק לפי סלקטור */
+    findRulesById: (id) => Array.from(sheet.cssRules).filter(rule => { let d = rule.selectorText.split(':')[0]; console.log(d); return d === '#' + id }),
+    /**  קריאה של כל הקלאסים הנוכחיים */
+    getAllClasses: () => Array.from(sheet.cssRules).filter(rule => rule.selectorText.startsWith('.')).map(rule => rule.selectorText.split(':')[0]),
 }
 
 window.Style = Style;
-window.sheet = sheet;

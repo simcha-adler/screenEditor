@@ -57,6 +57,23 @@
     width: 80px;
 }
 
+#lockSelector {
+    align-self: self-end;
+    font-size: large;
+}
+
+
+#lockSelector#lockSelector>.lockLabel {
+    font-size: large;
+}
+
+/*
+#lock:checked+.lockLabel::after {
+    content: '🔒';
+    font-size: 50px;
+    translate: rotate(90deg);
+} */
+
 /* === עיצוב אלמנטים בתוך הפאנלים === */
 
 .panel {
@@ -365,6 +382,14 @@ input:checked+.ui-slider:before {
 
 .ui-remove-class-btn:hover {
     color: red;
+}
+
+.ui-edit-class-btn {
+    cursor: pointer;
+}
+
+.ui-edit-class-btn:hover {
+    color: blue;
 }
 
 .ui-class-list-container {

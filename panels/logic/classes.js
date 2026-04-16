@@ -25,7 +25,8 @@ function refreshClassesView() {
             const tag = createElement('div', {
                 class: 'ui-class-tag',
                 in: `<span>${cls}</span>
-                    <span class="ui-remove-class-btn" data-class="${cls}">×</span>`,
+                    <span class="ui-remove-class-btn" data-class="${cls}">×</span>
+                    <span class="ui-edit-class-btn" data-class="${cls}">✎</span>`,
             });
             tag.into(container);
         }
@@ -57,9 +58,9 @@ function refreshClassesView() {
         knownClasses.forEach(clsName => {
             const item = createElement('div', {
                 class: 'ui-class-list-item',
-                in: `<span>${clsName}</span> 
-                <span style="font-size:10px; color:green; cursor:pointer;">הוסף +</span>`,
-                'data-class': clsName
+                in: `<span>${clsName}</span> <span>
+                <span class="connect-class" style="font-size:10px; color:green; cursor:pointer;" data-class="${clsName}">הוסף +</span>
+                <span class="ui-edit-class-btn" data-class="${clsName}">✎</span></span>`,
             });
             item.into(systemList);
         });
@@ -84,6 +85,12 @@ function attachClassesListeners() {
         refreshClassesView();
     };
 
+    const editClass = (selector) => {
+        // כאן צריכה להיות לוגיקת עריכת הקלאס וסימון האלמנטים המושפעים
+        // צריך להפריד את לוגיקת העריכה בפונקציית עדכון האלמנט הנבחר מלוגיקת בחירת האלמנט
+        Selector.lock();
+    }
+
     $('btnConnectClass').whenClick(() => createOrAddClass(true));
 
     // הוספת קלאס ב-Enter
@@ -95,20 +102,20 @@ function attachClassesListeners() {
     $('btnCreateRule').whenClick(() => createOrAddClass());
 
     $('systemClassesList').whenClick((e) => {
-        const cls = e.upTo('.ui-class-list-item');
+        const cls = e.upTo('.connect-class');
         if (cls) {
             theElement.addClass(cls.dataset.class);
             refreshClassesView();
-        }
+        } else if (e.upTo('.ui-edit-class-btn')) editClass(e.target.dataset.class);
     })
 
     // הסרת קלאס (Event Delegation)
     $('activeClassesList').whenClick((e) => {
-        if (e.target.classList.contains('ui-remove-class-btn')) {
+        if (e.upTo('.ui-remove-class-btn')) {
             const cls = e.target.dataset.class;
             theElement.removeClass(cls);
             refreshClassesView();
-        }
+        } else if (e.upTo('.ui-edit-class-btn')) editClass(e.target.dataset.class);
     });
 }
 

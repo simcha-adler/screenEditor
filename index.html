@@ -94,6 +94,10 @@
 
         <aside id="panel-left" class="panel-left">
             <div class="panel-header" id="panel-header">
+                <div id="lockSelector" class="panel-header-content">
+                    <label class="lockLabel" for="lock" style="cursor: pointer;">🔓</label>
+                    <input type="checkbox" id="lock" class="hide">
+                </div>
                 <div id="selectedElement" class="panel-header-content">
                     <label for="theElement">אלמנט נבחר:</label>
                     <input type="text" id="theElement" placeholder="לא נבחר אלמנט" readonly>
@@ -136,20 +140,23 @@
     </div>
 
     <div id="tree-menu" class="hide hidable">
-        <div class="tree-menu-item" data-action='diagnostic'><span>📑</span> אבחן תקלות </div>
+        <div class="tree-menu-item not-for-editor" data-action='rename'><span>💫</span> החלף מזהה לאלמנט </div>
+        <div class="tree-menu-item" data-action='diagnostic'><span>🚨</span> אבחן תקלות </div>
         <div class="tree-menu-item not-for-editor" data-action='duplicate'><span>📑</span> שכפל אלמנט</div>
+        <div class="tree-menu-item not-for-editor" data-action='to-class'><span>🪄</span> הפוך עיצוב פרטי לקלאס</div>
         <div class="menu-hr not-for-editor"></div>
         <div class="tree-menu-item" data-action='add-inside'><span>↳</span> הוסף בתוך</div>
         <div class="tree-menu-item not-for-editor" data-action='add-after'><span>⬇</span> הוסף אחרי</div>
         <div class="menu-hr"></div>
         <div class="tree-menu-item not-for-editor" data-action='delete' style="color: red;"><span>🗑️</span> מחק
         </div>
-        <div class="tree-menu-item" data-action='empty' style="color: red;"><span>🗑️</span> רוקן תוכן</div>
+        <div class="tree-menu-item" data-action='empty' style="color: red;"><span>🪫</span> רוקן תוכן</div>
     </div>
 
     <script src="./exampels/site.js"></script>
     <script src="./data_center.js"></script>
     <script type="module" src="./styleState.js"></script>
+    <script type="module" src="./selector.js"></script>
     <script src="./services.js"></script>
     <script src="./listeners.js"></script>
     <script src="./panels/nav.js"></script>

@@ -38,6 +38,11 @@ function loadDocumentListeners() {
         inputs.forEach(input => shadowStr += ' ' + (input.value || 0) + (input.dataset.unit || ''));
         $('shadow').$1('demoInput').sendValue(shadowStr.slice(1));
     });
+
+    $('lockSelector').when('input', () => {
+        if ($('lock').checked === true) Selector.lock();
+        else Selector.unlock();
+    })
 }
 
 const designListeners = (e) => {
