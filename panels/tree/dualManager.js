@@ -79,7 +79,7 @@ function deleteTreeNode(node) {
 }
 
 function duplicateElementManager() {
-    let newName = prompt('הכנס שם לאלמנט המשוכפל (מומלץ). השאר ריק ליצירה אוטומטית', tree.actionDom.id.replaceAll('_', ' ') + '_copy');
+    let newName = prompt('הכנס שם לאלמנט המשוכפל (מומלץ). השאר ריק ליצירה אוטומטית', tree.actionDom.id.replaceAll('_', ' ') + ' copy');
     if (newName || newName === '') {
         newName = createSafeId(newName, tree.actionDom.tagName);
         if (!newName) return; // שם כפול!

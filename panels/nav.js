@@ -21,12 +21,8 @@ $('upload').whenClick(() => $('fileUploadInput').click());
 $('fileUploadInput').when('change', handleFileUpload);
 
 $('downloadHTML').whenClick(() => {
-    // 1. שליפת ה-CSS האמיתי מתוך האובייקט בזיכרון (ולא מה-HTML הריק)
-    let currentStyles = '';
-    // עוברים על כל החוקים שנצברו ב-sheet
-    for (let i = 0; i < sheet.cssRules.length; i++) {
-        currentStyles += sheet.cssRules[i].cssText + '\n';
-    }
+    let cssText = '';
+    Array.from(Style.getSheet().cssRules).forEach(rule => cssText += rule.cssText);
 
     // 2. שליפת ה-HTML של העורך
     const editorContent = $('canvas-scroller').innerHTML;
@@ -40,7 +36,7 @@ $('downloadHTML').whenClick(() => {
     <meta charset="UTF-8">
             <title>האתר שלי</title>
             <style id='styles'>             
-                ${currentStyles}
+                ${cssText}
             </style>
             </head>
             <body>
@@ -127,7 +123,7 @@ function processImportedHTML(htmlString) {
     Style.refreshSheet(); // רענון הרפרנס כך שיקלוט גם את הסטיילים החדשים
 
     // 4. סיום: רענון העץ והמאזינים
-    renderTree();
+    tree.build.tree();
     updateSelectedElement(editor); // חזרה לבסיס
     console.log('הקובץ נטען והומר בהצלחה!');
 }
@@ -187,7 +183,7 @@ function importCSSRulesFromText(cssText) {
     doc.head.appendChild(style);
 
     // עכשיו יש לנו גישה ל-rules המפורסרים
-    const rules = style.sheet.cssRules;
+    const rules = style.getSheet().cssRules;
 
     for (let i = 0; i < rules.length; i++) {
         const rule = rules[i];

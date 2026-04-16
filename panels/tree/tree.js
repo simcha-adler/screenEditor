@@ -221,4 +221,3 @@ export const tree = {
 }
 
 window.tree = tree;
-tree.init();
