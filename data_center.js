@@ -6,7 +6,5 @@ const panelLeft = $('panel-left');
 const panelRight = $('panel-right');
 const panels = $('panels');
 const treePanel = $('panel-tree');
-let theElement = null;
-let theStyles = null;
 let thePanel = null;
 let openedMenu = null;

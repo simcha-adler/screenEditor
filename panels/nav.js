@@ -21,8 +21,7 @@ $('upload').whenClick(() => $('fileUploadInput').click());
 $('fileUploadInput').when('change', handleFileUpload);
 
 $('downloadHTML').whenClick(() => {
-    let cssText = '';
-    Array.from(Style.getSheet().cssRules).forEach(rule => cssText += rule.cssText);
+    const cssText = Style.getCssText();
 
     // 2. שליפת ה-HTML של העורך
     const editorContent = $('canvas-scroller').innerHTML;
@@ -124,13 +123,14 @@ function processImportedHTML(htmlString) {
 
     // 4. סיום: רענון העץ והמאזינים
     tree.build.tree();
-    updateSelectedElement(editor); // חזרה לבסיס
+    Edit.elementSelected(editor); // חזרה לבסיס
     console.log('הקובץ נטען והומר בהצלחה!');
 }
 
 /**
  * הפונקציה לוקחת אלמנט, קוראת את ה-style שלו,
  * יוצרת חוק CSS במערכת, ומוחקת את ה-style מהאלמנט.
+ * @param {HTMLElement} element 
  */
 function convertInlineToInternalRecursively(element) {
     // א. וידוא שיש ID
@@ -141,7 +141,8 @@ function convertInlineToInternalRecursively(element) {
 
         // יצירת הסלקטור
         const selector = '#' + id;
-        const rule = Style.createRule(selector);
+        /** @type {CSSStyleRule} */
+        const rule = Style.ensureRule(selector);
 
         // מעבר על כל התכונות ב-style
         for (let i = 0; i < element.style.length; i++) {
@@ -169,7 +170,7 @@ function convertInlineToInternalRecursively(element) {
 
 /**
  * פונקציה שמקבלת טקסט של CSS, מפרקת אותו לחוקים,
- * ומכניסה אותם למערכת ה-Style.state שלך.
+ * ומכניסה אותם למערכת ה-Style.
  */
 function importCSSRulesFromText(cssText) {
     // טריק: יצירת אלמנט style זמני כדי שהדפדפן יפרסר את ה-CSS עבורנו
@@ -183,7 +184,7 @@ function importCSSRulesFromText(cssText) {
     doc.head.appendChild(style);
 
     // עכשיו יש לנו גישה ל-rules המפורסרים
-    const rules = style.getSheet().cssRules;
+    const rules = doc.styleSheets[0].cssRules;
 
     for (let i = 0; i < rules.length; i++) {
         const rule = rules[i];
@@ -192,20 +193,10 @@ function importCSSRulesFromText(cssText) {
         if (rule.type === 1) { // CSSStyleRule
             const selector = rule.selectorText;
 
-            // יצירת החוק במערכת שלך
-            // הפונקציה Style.createRule מתוך manager.js תיצור את החוק ב-sheet האמיתי
-            // ותוסיף אותו ל-Style.state
-            const newSystemRule = Style.createRule(selector);
+            // יצירת החוק
+            const newSystemRule = Style.ensureRule(selector);
+            newSystemRule.cssText = rule.cssText
 
-            // העתקת כל התכונות מהחוק המיובא לחוק החדש
-            for (let j = 0; j < rule.style.length; j++) {
-                const propName = rule.style[j]; // שם התכונה (למשל background-color)
-                const propValue = rule.style.getPropertyValue(propName);
-                const propPriority = rule.style.getPropertyPriority(propName);
-
-                // נשתמש ב-setProperty כדי לתמוך ב-important
-                newSystemRule.style.setProperty(propName, propValue, propPriority);
-            }
         }
     }
 

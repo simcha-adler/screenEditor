@@ -16,15 +16,17 @@
     <!-- <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="./lib/icons/RemixIcon_Fonts_v4.8.0/fonts/remixicon.css">
     <script src="./lib/short.js"></script>
+    <script src="./lib/pickers/iro.js-master/iro.js-master/dist/iro.min.js"></script>
 
 
 </head>
 
-<body>
+<body class="coloring">
     <header class="app-header">
         <div class="header-section">
             <div class="header-icon-btn" title="חזרה לבית"><i class="ri-home-4-line"></i></div>
             <div class="app-logo">SiteBuilder</div>
+            <div id="picker"></div>
         </div>
 
         <div class="header-section center">
@@ -155,8 +157,9 @@
 
     <script src="./exampels/site.js"></script>
     <script src="./data_center.js"></script>
-    <script type="module" src="./styleState.js"></script>
-    <script type="module" src="./selector.js"></script>
+    <script type="module" src="./modules/styles.js"></script>
+    <script type="module" src="./modules/selector.js"></script>
+    <script type="module" src="./modules/edit.js"></script>
     <script src="./services.js"></script>
     <script src="./listeners.js"></script>
     <script src="./panels/nav.js"></script>
@@ -165,13 +168,14 @@
     <script src="./panels/logic/addElement.js"></script>
     <script src="./panels/logic/classes.js"></script>
     <script src="./panels/logic/points.js"></script>
-    <script src="./panels/logic/settings.js" type="module"></script>
+    <script type="module" src="./panels/logic/settings.js"></script>
     <script src="./panels/logic/theme.js"></script>
-    <script src="./panels/tree/tree.js" type="module"></script>
-    <script src="./panels/schemas/schemas.js" type="module"></script>
-    <script src="./panels/components/base.js" type="module"></script>
+    <script type="module" src="./panels/tree/tree.js"></script>
+    <script type="module" src="./panels/schemas/schemas.js"></script>
+    <script type="module" src="./panels/components/base.js"></script>
     <script src="./manager.js"></script>
     <script src="./panels/topBar.js"></script>
+    <script>var colos = new iro.ColorPicker('#דף_הבסיס');</script>
 </body>
 
 </html>

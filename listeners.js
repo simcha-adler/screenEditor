@@ -7,12 +7,12 @@ function loadDocumentListeners() {
  */
     editor.whenClick((e) => {
         let selected = e.target;
-        if (selected === theElement)
+        if (selected === Edit.getElement())
             selected = selected.parentNode;
-        updateSelectedElement(selected);
+        Edit.elementSelected(selected);
     });
 
-    $('selectedElement').when('input', (e) => { updateSelectedElement($(e.target.value)) });
+    $('selectedElement').when('input', (e) => { Edit.elementSelected($(e.target.value)) });
 
 
     $('menu').whenClick((e) => {
@@ -40,17 +40,16 @@ function loadDocumentListeners() {
     });
 
     $('lockSelector').when('input', () => {
-        if ($('lock').checked === true) Selector.lock();
-        else Selector.unlock();
+        if ($('lock').checked === true) SelectorLock.on();
+        else SelectorLock.off();
     })
 }
 
 const designListeners = (e) => {
-    if (!theElement) return;
+    const selector = Selector.get();
+    const theElement = Edit.getElement();
+    if (!selector) return;
 
-    //  קבע את הסלקטור
-    const state = $('dropdown-states').value; // ':hover', ':focus' או ""
-    const selector = '#' + theElement.id + state; // '#כותרת-לדוגמא:hover'
     const input = e.target;
     const data = input.dataset;
 

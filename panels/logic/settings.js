@@ -2,6 +2,7 @@
 
 
 const defaultData = {
+    colorMod: false,
     darkMod: false,
     showOutlines: false,  // האם להציג גבולות לכל האלמנטים בדף (לעזרה בעיצוב)
     autoSave: true,       // האם לשמור אוטומטית
@@ -45,6 +46,13 @@ function apply() {
         body.addClass('editor-dark-mode');
     } else {
         body.removeClass('editor-dark-mode');
+    }
+
+    // --- יישום מצב צבעוני ---
+    if (data.colorMod === true) {
+        body.addClass('coloring');
+    } else {
+        body.removeClass('coloring');
     }
 
     document.documentElement.style.setProperty('--h', data.huePrimary);

@@ -1,7 +1,9 @@
 {
     "compilerOptions": {
         // "checkJs": true,
-        "target": "ES6"
+        "target": "ESNext",
+        "moduleResolution": "node",
+        "lib": "es2025"
     },
     "exclude": [
         "עזר",
@@ -9,5 +11,9 @@
         "*.pdf",
         "*.dock",
         "panels/newBuild.js",
+    ],
+    "include": [
+        "**/*.js",
+        "**/*.d.ts"
     ]
 }

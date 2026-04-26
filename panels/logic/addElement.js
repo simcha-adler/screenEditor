@@ -43,7 +43,7 @@ function executeAdd() {
     const newEl = temp.firstElementChild;
 
     // הוספה ל-DOM ולעץ הויזואלי
-    tree.dual.add(newEl, theElement || editor, false);
+    tree.dual.add(newEl, Edit.getElement() || editor, false);
 
     // 5. ניקוי וסגירה
     $('newElementId').value = '';

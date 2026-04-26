@@ -8,7 +8,7 @@ import { tree } from "./tree.js";
 function selectTreeNode(node) {
     const src = $(node.dataset.editorId);
     if (!src) { deleteTreeNode(node); return; }
-    updateSelectedElement(src);
+    Edit.elementSelected(src);
 
     // עדכון משתנים גלובליים
     tree.actionTree = node;
@@ -66,7 +66,7 @@ function removeElementManager() {
     if (del) {
         tree.actionDom.remove();
         tree.actionDom = null;
-        updateSelectedElement(null); // איפוס בחירה
+        Edit.elementSelected(null); // איפוס בחירה
         deleteTreeNode(tree.actionTree);
     }
 }
@@ -95,7 +95,7 @@ function duplicateElementManager() {
             if (tree.actionTree)
                 tree.actionTree.after(newTreeItem);
             // עדכון בחירה
-            updateSelectedElement(newClone);
+            Edit.elementSelected(newClone);
         }
     }
 }

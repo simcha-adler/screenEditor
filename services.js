@@ -29,6 +29,7 @@ function rgbToHex(rgb) {
  * מוודא שלאלמנט נתון יש ID ייחודי.
  * אם אין לו, יוצר עבורו ID ומחזיר אותו.
  * @param {HTMLElement} element
+ * @returns {string} id
  */
 function ensureElementId(element) {
     if (element.id) {
@@ -63,6 +64,7 @@ function cloneElementWithUniqueIds(original, newId) {
     // 1. שכפול עמוק של ה-DOM
     /**@type {any} */
     const clone = original.cloneNode(true);
+    clone.addClass(convertToClass(clone.id, true));
 
     // 2. עדכון ה-ID של הראש
     clone.id = newId;
@@ -72,11 +74,28 @@ function cloneElementWithUniqueIds(original, newId) {
     const descendants = clone.$$('*');
     descendants.forEach(child => {
         if (child.id) {
-            child.id = newId + '_>_' + child.id;
+            const className = convertToClass(child.id, true);
+            child.addClass(className);
+            child.id = newId + '_➜_' + child.id;
         }
     });
 
     return clone;
+}
+
+function convertToClass(id, autoClass = false) {
+    const rules = Style.getRulesById(id);
+    if (!rules) return console.log(`לא נמצאו חוקים תואמים ל-${id}`);
+    let className = '';
+    if (!autoClass) className = prompt('הזן שם רצוי לקלאס. השאר ריק ליצירה אוטומטית (לא מומלץ):  ');
+    if (!className) className = `class_${id}_` + Math.random().toString(36).substring(2, 9);
+    rules.forEach(rule => {
+        Style.reconnectRule(rule.selectorText);
+        rule.selectorText = rule.selectorText.replace('#' + id, '.' + className);
+        Style.connectRule(rule);
+    });
+    $(id).addClass(className);
+    return className;
 }
 
 
@@ -178,7 +197,7 @@ const Color = {
 const fillValues = {
     panel: (panelId) => {
         const panel = $(panelId);
-        if (!panel || !theStyles) return;
+        if (!panel || !Edit.getStyles()) return;
         switch (panelId) {
             case 'panel-settings':
                 return settings.fillValues();
@@ -194,7 +213,7 @@ const fillValues = {
 
             default:
                 const inputs = panel.$$('[data-property]');
-                const styles = theStyles;
+                const styles = Edit.getStyles();
                 if (!styles) return;
 
                 inputs.forEach(element => {
@@ -253,13 +272,6 @@ const fillValues = {
     }
 }
 
-
-
-function getStyleSelector() {
-    if (!theElement) return '';
-    const state = $('dropdown-states').value || '';
-    return '#' + theElement.id + state;
-}
 
 const ShadowParser = {
     /**

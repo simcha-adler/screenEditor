@@ -1,31 +1,5 @@
 
 /**
- * מעדכן את המשתנים הרלוונטיים על זהות האלמנט הנבחר ותכונותיו
- * @param {HTMLElement | null} newElement
- */
-function updateSelectedElement(newElement) {
-
-    if (!newElement) newElement = editor;
-    // אם האלמנט לא השתנה או שהוא מחוץ לעורך, חזור
-    if (theElement === newElement || Selector.isLocked() ||
-        (newElement !== 'editor' && !editor.contains(newElement))) return;
-    // מחזיר id. אם אין, יוצר ומחזיר.
-    const Id = ensureElementId(newElement);
-    // 3. ניקוי הסימון מהאלמנט הקודם (אם היה)
-    if (theElement) {
-        theElement.removeClass('selected-element');
-    }
-    // עדכן את כל התוכנית שהאלמנט השתנה
-    theElement = newElement;
-    theStyles = window.getComputedStyle(theElement);
-    if (thePanel && thePanel !== treePanel)
-        restartPanel(thePanel);
-    $('theElement').value = Id.replaceAll('_', ' ');
-    // סמן את האלמנט הנבחר
-    theElement.addClass('selected-element');
-}
-
-/**
  * טעינת התוכן לפאנל
 */
 function updatePanel(panel) {
@@ -53,7 +27,7 @@ function restartPage() {
     // נקה את העורך הנוכחי
     $('דף_הבסיס').innerHTML = '';
     // נקה את ה-CSS ואת ה-State
-    $('styles').innerHTML = '';
+    $('styles').innerHTML = ''; // להכניס לתוך פונקציית ריסטארט
     Style.refreshSheet(); // רענון הרפרנס
     Style.restart(); // איפוס אובייקט המידע
     tree.build.tree();
@@ -77,14 +51,14 @@ function loadPage() {
     loadDocumentListeners();
     attachClassesListeners();
 
-    updateSelectedElement(editor);
+    Style.refreshSheet();
+    Edit.elementSelected(editor);
     $$('.panel').addClass('hide');
     $$('.show').forEach(element => element.click()); // הפעלת כפתורי ברירת המחדל בסוויצ'רים
     // $('fileUploadInput').files[0].name = 'site.html';
     // $('fileUploadInput').sendInput();
     Style.refreshSheet(); // אתחול ראשוני של Style.sheet
-    const classes = Style.getAllClasses();
-    classes.forEach(cls => Style.createRule(cls)); // עדכון הקלאסים בסטייט לצורך ניהול תקין של הקלאסים
+    Style.connectAllRules();
 }
 
 //  הפעלה מותנית של המערכת. ממתין עד שכל קבצי הפאנלים ייטענו ואז מפעיל את המערכת.

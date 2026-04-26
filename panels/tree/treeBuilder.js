@@ -46,6 +46,13 @@ function renderTree() {
     ulRoot.into(treePanel);
 }
 
+function createNodeName(id) {
+    let displayName = id.replaceAll("_", " ");
+    if (id.startsWith('auto_')) {
+        displayName = `<span style="opacity:0.8">${$(id).tagName.toLowerCase()}</span>`;
+    };
+    return displayName;
+}
 
 /**
  * יצירת אלמנט ה-LI לעץ (ללא הכנסה לעץ)
@@ -55,10 +62,7 @@ function createTreeNode(realElement) {
     const hasChildren = realElement.children.length > 0;
 
     // קביעת השם לתצוגה
-    let displayName = id.replaceAll("_", " ");
-    if (id.startsWith('auto_')) {
-        displayName = `<span style="opacity:0.8">${realElement.tagName.toLowerCase()}</span>`;
-    }
+    const displayName = createNodeName(id);
 
     // יצירת ה-LI
     const li = createElement('li', {
@@ -101,5 +105,6 @@ function createTreeNode(realElement) {
 export const build = {
     tree: renderTree,
     node: buildTreeDOM,
-    life: createTreeNode
+    life: createTreeNode,
+    nodeName: createNodeName
 }
