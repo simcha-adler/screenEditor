@@ -99,7 +99,7 @@ const colorPicker = {
             magic.addClass('hide');
 
             if (mode === 'free') {
-                const currentVal = theStyles ? theStyles[prop] : group.dataset.defaultValue;
+                const currentVal = Edit.getStyles() ? Edit.getStyles()[prop] : group.dataset.defaultValue;
                 circle.style.background = rgbToHex(currentVal);
             }
             else if (mode.startsWith('theme_')) {
@@ -120,7 +120,7 @@ const colorPicker = {
         const sourceSelect = group.$1('select');
 
         // 1. בדיקה האם קיים קשר לטווח (Theme Link)
-        const selector = getStyleSelector();
+        const selector = Selector.get();
         const link = themeLinks.find(l => l.selector === selector && l.prop === prop);
 
         if (link) {
@@ -163,7 +163,7 @@ const colorPicker = {
     range: {
         open: (anchor, theme, group) => {
             const prop = group.dataset.prop;
-            const selector = getStyleSelector();
+            const selector = Selector.get();
 
             // מציאת ערך קיים אם יש
             const link = themeLinks.find(l => l.selector === selector && l.prop === prop);
@@ -278,7 +278,7 @@ const colorPicker = {
      * פונקציות עזר לניהול הקשרים
      */
     removeThemeLink: (prop) => {
-        const selector = getStyleSelector();
+        const selector = Selector.get();
         removeLink(selector, prop);
     }
 };
@@ -309,7 +309,7 @@ function updateAllLinkedElements(themeId) {
             Style.update(link.selector, link.prop, finalColor);
 
             // אם האלמנט הנבחר כרגע הוא זה שמתעדכן, נרענן לו את ה-UI של הפיקר
-            const activeSelector = getStyleSelector();
+            const activeSelector = Selector.get();
             if (link.selector === activeSelector) {
                 const group = $1(`.ui-smart-color-group[data-prop="${link.prop}"]`);
                 if (group) colorPicker.refreshUI(group);
