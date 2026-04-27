@@ -16,12 +16,13 @@
     <!-- <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="./lib/icons/RemixIcon_Fonts_v4.8.0/fonts/remixicon.css">
     <script src="./lib/short.js"></script>
-    <script src="./lib/pickers/iro.js-master/iro.js-master/dist/iro.min.js"></script>
-
 
 </head>
 
 <body class="coloring">
+
+    <!-- שורת הכותרת -->
+
     <header class="app-header">
         <div class="header-section">
             <div class="header-icon-btn" title="חזרה לבית"><i class="ri-home-4-line"></i></div>
@@ -50,6 +51,9 @@
         </div>
     </header>
 
+
+    <!-- תפריט נפתח עליון -->
+
     <div id="topBar" class="edit-actions-bar collapsed">
         <div class="action-group">
             <label class="action-toggle" title="אפשר הקלדה חופשית על הדף">
@@ -73,6 +77,9 @@
 
     <div class="main-layout">
 
+
+        <!-- פאנל ימני -->
+
         <aside id="panel-right" class="panel-right">
             <div id="tree-header" class="tree-header">
                 <h4 style="padding: 0; margin: 0;">מבנה המסמך</h4>
@@ -82,6 +89,9 @@
             <div id="panel-tree" class="tree-body"></div>
         </aside>
 
+
+        <!-- איזור התצוגה והעריכה -->
+
         <main class="workspace">
             <div class="width-screen">
                 <div class="vp-btn active" data-width="100%" title="דסקטופ"><i class="ri-computer-line"></i></div>
@@ -89,10 +99,14 @@
                 <div class="vp-btn" data-width="375px" title="מובייל"><i class="ri-smartphone-line"></i></div>
             </div>
 
-            <div id="canvas-scroller" class="canvas-scroller">
+            <div id="canvas-window" class="canvas-window">
+                <!-- <iframe src="./exampels/support.html" frameborder="0" id="דף_הבסיס" class="canvas"></iframe> -->
                 <div id="דף_הבסיס" class="canvas"></div>
             </div>
         </main>
+
+
+        <!-- פאנל שמאלי -->
 
         <aside id="panel-left" class="panel-left">
             <div class="panel-header" id="panel-header">
@@ -116,10 +130,9 @@
                         <option value=":last-child">ילד אחרון</option>
                         <option value=":nth-child(even)">ילדים זוגיים</option>
                         <option value=":nth-child(odd)">ילדים אי-זוגיים</option>
-                        !--
                         <hr>
                         <option value="::before">לפני האלמנט</option>
-                        <option value="::after">אחרי האלמנט</option>--
+                        <option value="::after">אחרי האלמנט</option>
                     </select>
                 </div>
             </div>
@@ -138,10 +151,52 @@
             </div>
         </aside>
 
-        <div id="sidebar" class="sidebar-icons"></div>
+
+        <!-- טור כפתורי הפאנלים -->
+
+        <div id="sidebar" class="sidebar-icons">
+            <button class="activity-btn" data-panel="panel-tree" title="מבנה העמוד">
+                <i class="ri-node-tree"></i>
+            </button>
+            <button class="activity-btn" data-panel="panel-add-element" title="הוספת אלמנטים">
+                <i class="ri-add-circle-line"></i>
+            </button>
+            <button class="activity-btn" data-panel="panel-design" title="עיצוב (צבעים וטקסט)">
+                <i class="ri-brush-line"></i>
+            </button>
+            <button class="activity-btn" data-panel="panel-borders" title="גבולות וריווח">
+                <i class="ri-layout-line"></i>
+            </button>
+            <button class="activity-btn" data-panel="panel-layout" title="פריסה (Flex/Grid)">
+                <i class="ri-layout-masonry-line"></i>
+            </button>
+            <button class="activity-btn" data-panel="panel-position" title="מיקום (Position)">
+                <i class="ri-drag-move-2-line"></i>
+            </button>
+            <button class="activity-btn" data-panel="panel-display" title="תצוגה ואפקטים">
+                <i class="ri-eye-line"></i>
+            </button>
+            <button class="activity-btn" data-panel="panel-animations" title="אנימציות">
+                <i class="ri-movie-line"></i>
+            </button>
+            <button class="activity-btn" data-panel="panel-classes" title="ניהול קלאסים">
+                <i class="ri-code-s-slash-line"></i>
+            </button>
+            <button class="activity-btn" data-panel="panel-theme" title="ערכת נושא">
+                <i class="ri-palette-line"></i>
+            </button>
+            <div class="spacer" style="flex-grow: 1;"></div>
+            <button class="activity-btn" data-panel="panel-settings" title="הגדרות">
+                <i class="ri-settings-3-line"></i>
+            </button>
+            </input>
+        </div>
     </div>
 
-    <div id="tree-menu" class="hide hidable">
+
+    <!-- פריטי אבסולוט -->
+
+    <div id="tree-menu" class="visibi">
         <div class="tree-menu-item not-for-editor" data-action='rename'><span>💫</span> החלף מזהה לאלמנט </div>
         <div class="tree-menu-item" data-action='diagnostic'><span>🚨</span> אבחן תקלות </div>
         <div class="tree-menu-item not-for-editor" data-action='duplicate'><span>📑</span> שכפל אלמנט</div>
@@ -163,11 +218,9 @@
     <script src="./services.js"></script>
     <script src="./listeners.js"></script>
     <script src="./panels/nav.js"></script>
-    <script src="./panels/sidebar.js"></script>
     <script src="./panels/components/inputs/colorPicker.js"></script>
     <script src="./panels/logic/addElement.js"></script>
     <script src="./panels/logic/classes.js"></script>
-    <script src="./panels/logic/points.js"></script>
     <script type="module" src="./panels/logic/settings.js"></script>
     <script src="./panels/logic/theme.js"></script>
     <script type="module" src="./panels/tree/tree.js"></script>
@@ -175,7 +228,6 @@
     <script type="module" src="./panels/components/base.js"></script>
     <script src="./manager.js"></script>
     <script src="./panels/topBar.js"></script>
-    <script>var colos = new iro.ColorPicker('#דף_הבסיס');</script>
 </body>
 
 </html>

@@ -42,7 +42,23 @@ function loadDocumentListeners() {
     $('lockSelector').when('input', () => {
         if ($('lock').checked === true) SelectorLock.on();
         else SelectorLock.off();
-    })
+    });
+
+
+    sidebar.whenClick((e) => {
+        const btn = e.upTo('.activity-btn');
+        if (btn) Panel.update(btn.dataset.panel, btn);
+    });
+
+
+    // שינוי קצב האנימציה אוטומטית אם אין קצב, כדי שהאנימציה תופעל
+    $('panel-animations').when('input', (e) => {
+        /** @type {HTMLInputElement} */
+        const dur = $('animationDuration');
+        if (dur.value === '0' && e.target.id !== 'animationDuration') {
+            dur.sendInput('1'); // מעדכן את תיבת הקלט ושולח אירוע אינפוט
+        }
+    });
 }
 
 const designListeners = (e) => {

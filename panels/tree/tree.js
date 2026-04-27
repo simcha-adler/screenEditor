@@ -37,7 +37,7 @@ function initTreeListeners() {
         לחיצה על שורה בעץ. טיפול מתאים לפי מיקום הלחיצה
     -------------------------------------------------------------*/
 
-    treePanel.whenClick((e) => {
+    treePanel.whenClick((/**@param {MouseEvent}*/e) => {
         // טיפול בפתיחה/סגירה (החץ)
         const toggleBtn = e.upTo('.tree-node-toggle');
         if (toggleBtn) {
@@ -72,7 +72,7 @@ function initTreeListeners() {
                 hideItemsNotForEditor();
             else
                 showItemsNotForEditor();
-            tree.menu.show(e.pageX, e.pageY);
+            popoverPosition($('tree-menu'), e.pageX, e.pageY);
         }
     });
 
@@ -210,12 +210,12 @@ export const tree = {
     build: build,
     utils: {
         insertNode: appendNodeToTree,
-        showChildren: showChildren,
-        hideChildren: hideChildren,
-        showItemsNotForEditor: showItemsNotForEditor,
-        hideItemsNotForEditor: hideItemsNotForEditor,
-        cleanDragClasses: cleanDragClasses,
-        updateHasChildren: updateHasChildren
+        showChildren,
+        hideChildren,
+        showItemsNotForEditor,
+        hideItemsNotForEditor,
+        cleanDragClasses,
+        updateHasChildren
     },
     dual: dual
 }

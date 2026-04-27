@@ -10,6 +10,7 @@ export const settingsSchema = [
         label: 'גווני האתר', collapsed: false,
         children: [
             new UI.smallTitle({ label: 'צבע ראשי' }),
+            new UI.inputRow({ label: 'מצב צבעוני', input: new UI.input.toggle({ prop: 'colorMod', v: true, x: false }) }),
             new UI.inputRow({ label: 'מצב כהה', input: new UI.input.toggle({ prop: 'darkMod', v: true, x: false }) }),
             new UI.inputRow({ label: 'גוון', input: new UI.input.range({ prop: 'huePrimary', min: 0, max: 360 }) }),
             new UI.inputRow({ label: 'רוויה', input: new UI.input.range({ prop: 'saturationPrimary', min: 0, max: 100 }) }),

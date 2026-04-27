@@ -1,25 +1,4 @@
 
-/**
- * טעינת התוכן לפאנל
-*/
-function updatePanel(panel) {
-    if (thePanel === panel) return;
-
-    // צריך לתמוך במצב פתיחת פאנל, סגירה ויזואלית, והחלפה מיידית
-    if (panel) {
-        if (thePanel) thePanel.addClass('hide');
-        panel.removeClass('hide');
-        fillValues.panel(panel.id);
-    } else if (thePanel) {
-        const temp = thePanel;
-        setTimeout(() => {
-            if (!panelLeft.classList.contains('open')) //כדי למנוע תקלות בסגירה ופתיחה מיידית
-                temp.addClass('hide');
-        }, 300);
-    }
-    thePanel = panel;
-}
-
 function restartPage() {
     if (!confirm('הדף הנוכחי יימחק לחלוטין, ולא ניתן יהיה לשחזר אותו! האם אתם בטוחים? לשמירת הדף, ניתן להוריד אותו כ-html לפני האתחול.'))
         return false;

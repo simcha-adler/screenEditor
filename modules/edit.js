@@ -4,6 +4,7 @@ import { Selector } from "./selector.js";
 import { SelectorLock } from "./lock.js";
 import { Style } from "./styles.js";
 import { Mode } from "./mode.js";
+import { Panel } from "./panel.js";
 
 let theElement = null;
 let theStyles = null
@@ -47,8 +48,7 @@ function _changeSelected(selector) {
     $$('.selected-element').removeClass('selected-element');
     Selector.update(selector);
     _updateStyles();
-    if (thePanel && thePanel !== treePanel)
-        restartPanel(thePanel);
+    if (Panel.get()) Panel.restart(Panel.get());
 }
 
 function _updateStyles() {

@@ -45,10 +45,10 @@ export const layoutSchema = [
         input: new UI.input.select({
             prop: 'alignItems',
             options: [
-                { value: 'flex-start', text: 'התחלה' },
-                { value: 'center', text: 'מרכז' },
-                { value: 'stretch', text: 'מתיחה' },
-                { value: 'baseline', text: 'קו בסיס' }
+                { value: 'stretch', text: ' ↕ מתיחה' },
+                { value: 'center', text: ' ⬟ מרכז' },
+                { value: 'flex-start', text: ' ⤒ התחלה' },
+                { value: 'flex-end', text: ' ⤓ סוף' }
             ]
         })
     }),

@@ -46,10 +46,10 @@ function renderTree() {
     ulRoot.into(treePanel);
 }
 
-function createNodeName(id) {
+function createNodeName(id, element) {
     let displayName = id.replaceAll("_", " ");
     if (id.startsWith('auto_')) {
-        displayName = `<span style="opacity:0.8">${$(id).tagName.toLowerCase()}</span>`;
+        displayName = `<span style="opacity:0.8">${element.tagName.toLowerCase()}</span>`;
     };
     return displayName;
 }
@@ -62,7 +62,7 @@ function createTreeNode(realElement) {
     const hasChildren = realElement.children.length > 0;
 
     // קביעת השם לתצוגה
-    const displayName = createNodeName(id);
+    const displayName = createNodeName(id, realElement);
 
     // יצירת ה-LI
     const li = createElement('li', {

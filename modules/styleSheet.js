@@ -60,15 +60,12 @@ function refreshSheet() {
 
 
 /**
- * מחזיר את כל החוקים לפי id 
+ * מחזיר את כל החוקים שכוללים את ה-id 
  * @param {string} id 
  * @returns {CSSRule[]}
 */
 function findRulesById(id) {
-    return Array.from(sheet.cssRules).filter(rule => {
-        let d = rule.selectorText.split(':')[0];
-        return d === '#' + id;
-    });
+    return Array.from(sheet.cssRules).filter(rule => rule.selectorText.includes('#' + id));
 }
 
 /**
@@ -88,9 +85,6 @@ function getAllClasses() {
  * @returns {string}
  */
 function getCssText() {
-    let text = '';
-    Array.from(sheet.cssRules).forEach(rule => text += rule.cssText)
-    return text;
     return Array.from(sheet.cssRules).map(rule => rule.cssText).join('/n');
 }
 

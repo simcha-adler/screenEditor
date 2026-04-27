@@ -37,6 +37,29 @@ body.editor-dark-mode {
     --ui-80: hwb(var(--h) calc(85% - var(--d)) 15%);
 }
 
+body.editor-dark-mode.coloring {
+    --ui-base: hwb(var(--h) 5% var(--d));
+    --ui-5: hwb(var(--h) 10% var(--d));
+    --ui-10: hwb(var(--h) 15% var(--d));
+    --ui-15: hwb(var(--h) 20% var(--d));
+    --ui-20: hwb(var(--h) 25% var(--d));
+    --ui-25: hwb(var(--h) 30% var(--d));
+    --ui-45: hwb(var(--h) 50% var(--d));
+    --ui-80: hwb(var(--h) 85% var(--d));
+}
+
+body.coloring {
+    --ui-base: hwb(var(--h) 100% var(--d));
+    --ui-5: hwb(var(--h) 95% var(--d));
+    --ui-10: hwb(var(--h) 90% var(--d));
+    --ui-15: hwb(var(--h) 85% var(--d));
+    --ui-20: hwb(var(--h) 80% var(--d));
+    --ui-25: hwb(var(--h) 75% var(--d));
+    --ui-45: hwb(var(--h) 55% var(--d));
+    --ui-80: hwb(var(--h) 20% var(--d));
+    --d: calc((100 - var(--c)) * 1%)
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -51,7 +74,7 @@ body {
 }
 
 .selected-element {
-    outline: 1px solid black;
+    outline: 1px dashed var(--ui-accent);
     outline-offset: -1px;
 }
 
@@ -91,6 +114,11 @@ input[type="range"]:focus {
 
 .hide {
     display: none !important;
+}
+
+.visibi {
+    position: fixed;
+    visibility: hidden;
 }
 
 /*=========================
@@ -177,8 +205,13 @@ input[type="range"]:focus {
     align-items: center;
 }
 
+.dropdown-menu .dropdown-item {
+    /* למנוע הבהרה של הפריטים כאשר ההמבורגר הובר */
+    color: var(--ui-80);
+}
+
 .dropdown-item:hover {
-    background-color: var(--ui-20);
+    color: var(--ui-45);
 }
 
 /*=====================
@@ -192,6 +225,7 @@ input[type="range"]:focus {
     height: 50px;
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 0 20px;
     gap: 20px;
     position: absolute;
@@ -349,18 +383,20 @@ aside.open {
     color: var(--ui-base);
 }
 
-.canvas-scroller {
+.canvas-window {
+    max-width: 100%;
+    width: 100%;
     flex: 1;
     display: flex;
     overflow: auto;
     background-color: white;
     transition: all 0.4s;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
 }
 
 .canvas {
     flex: 1;
-    border-radius: 6px;
     color: initial;
     background-color: initial;
     /* הטריק "לכליאת" אלמנטים עם position: fixed */
@@ -369,9 +405,9 @@ aside.open {
 }
 
 
-.canvas-scroller:focus-visible,
+.canvas-window:focus-visible,
 .canvas:focus-visible,
-.canvas .canvas-scroller {
+.canvas .canvas-window {
     outline: none;
 }
 
@@ -405,6 +441,7 @@ aside.open {
     border-radius: 5px;
     transition: background-color 0.1s;
     background-color: var(--ui-10);
+    border: none;
 }
 
 .activity-btn:hover {

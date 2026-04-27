@@ -7,18 +7,8 @@ import { Style } from "../../modules/styles.js"
 ===============================================*/
 
 
-
-function showContextMenu(x, y) {
-    if (!tree.actionTree) return; // למניעת קריסה במקרה תקלה
-    const menu = $('tree-menu');
-
-    menu.removeClass('hide');
-    menu.style.left = (x - 150) + 'px';
-    menu.style.top = y + 'px';
-}
-
 function hideContextMenu() {
-    $('tree-menu').addClass('hide');
+    $('tree-menu').addClass('visibi');
 }
 
 // פונקציה גלובלית לטיפול בפעולות התפריט
@@ -28,13 +18,13 @@ function handleMenuAction(action) {
 
     switch (action) {
         case 'add-inside':
-            toggleActivityPanel($1('.activity-btn[data-panel="panel-add-element"]'));
+            Panel.update('panel-add-element');
             break;
 
         case 'add-after':
             // לסדר, כי עכשיו זה מוסיף לסוף האבא ולא אחרי הנבחר
             Edit.elementSelected(tree.actionDom.parentElement);
-            toggleActivityPanel($1('.activity-btn[data-panel="panel-add-element"]'));
+            Panel.update('panel-add-element');
             break;
 
         case 'delete':
@@ -62,7 +52,7 @@ function handleMenuAction(action) {
                 const old = theElement.id;
                 theElement.id = id;
                 tree.actionTree.dataset.editorId = id;
-                let displayName = tree.build.nodeName(id);
+                let displayName = tree.build.nodeName(id, theElement);
                 tree.actionTree.$1('.tree-node-content').innerText = displayName;
                 const rules = Array.from(Style.getRulesById('#' + old));
                 rules.forEach(rule => rule.selectorText = '#' + id);
@@ -83,7 +73,6 @@ function handleMenuAction(action) {
 
 
 export const menu = {
-    show: showContextMenu,
     hide: hideContextMenu,
     router: handleMenuAction,
 }

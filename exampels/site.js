@@ -28,22 +28,6 @@ const style = `
             margin-right: auto;
         }
 
-        #cta_btn {
-            padding: 15px 40px;
-            font-size: 18px;
-            background-color: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
-            transition: transform 0.2s;
-        }
-
-        #cta_btn:hover {
-            transform: translateY(-2px);
-        }
-
         #features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -82,7 +66,6 @@ const body = /*html */`
         <div id="hero_content" class="hero-content">
             <h1 id="main_title" class="hero-title">בנה את העתיד שלך</h1>
             <p id="hero_text" class="hero-subtitle">הפלטפורמה המתקדמת ביותר לבניית מוצרים דיגיטליים במהירות ובקלות.</p>
-            <button id="cta_btn">התחל עכשיו</button>
         </div>
         <div id="features" class="features-grid">
             <div id="card_1" class="feature-card">

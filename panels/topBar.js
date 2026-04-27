@@ -5,18 +5,10 @@ const toggleBtn = $('btnToggleEditBar');
 toggleBtn.whenClick(() => {
     editBar.toggleClass('collapsed');
     toggleBtn.toggleClass('active');
-    // const isClosed = editBar.classList.contains('collapsed');
-    // if (isClosed) {
-    //     editBar.removeClass('collapsed');
-    //     toggleBtn.addClass('active'); // החץ מסתובב
-    // } else {
-    //     editBar.addClass('collapsed');
-    //     toggleBtn.removeClass('active');
-    // }
 });
 
 // --- 2. כפתורי גודל מסך (Viewport) ---
-const artboard = $1('.canvas-scroller');
+const artboard = $1('.canvas-window');
 const vpBtns = $$('.vp-btn');
 
 vpBtns.forEach(btn => {
@@ -58,10 +50,11 @@ $('toggleDragDrop').when('change', (e) => {
 // --- 4. זום (Zoom) ---
 const zoomRange = $('zoomRange');
 const zoomValue = $('zoomValue');
+const base = $('דף_הבסיס');
 
 zoomRange.when('input', (e) => {
     const scale = e.target.value / 100;
-    artboard.style.transform = `scale(${scale})`;
-    artboard.style.transformOrigin = 'top center'; // הזום מתחיל מלמעלה
+    base.style.transform = `scale(${scale})`;
+    base.style.transformOrigin = 'top center'; // הזום מתחיל מלמעלה
     zoomValue.textContent = e.target.value + '%';
 });

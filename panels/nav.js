@@ -24,7 +24,7 @@ $('downloadHTML').whenClick(() => {
     const cssText = Style.getCssText();
 
     // 2. שליפת ה-HTML של העורך
-    const editorContent = $('canvas-scroller').innerHTML;
+    const editorContent = $('canvas-window').innerHTML;
     editorContent.replace('contenteditable="true"', 'contenteditable="false"');
 
     // 3. יצירת מבנה של דף אינטרנט מלא

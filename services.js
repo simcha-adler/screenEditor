@@ -195,8 +195,8 @@ const Color = {
  * ממלאת את כל השדות בפאנל באופן אוטומטי לפי הסטייל של האלמנט הנבחר
  */
 const fillValues = {
-    panel: (panelId) => {
-        const panel = $(panelId);
+    panel: (panel) => {
+        const panelId = panel.id;
         if (!panel || !Edit.getStyles()) return;
         switch (panelId) {
             case 'panel-settings':
@@ -340,3 +340,18 @@ const ShadowParser = {
         return `${x}px ${y}px ${blur}px ${spread}px ${color} ${inset}`.trim();
     }
 };
+
+/**
+ * 
+ * @param {HTMLElement} popap 
+ * @param {number} x 
+ * @param {number} y 
+ */
+function popoverPosition(popap, x, y) {
+    const computed = getComputedStyle(popap);
+    const width = computed['width'];
+    const height = computed['height'];
+    popap.removeClass('visibi');
+    popap.style.left = (x - parseInt(width)) + 'px';
+    popap.style.top = y + 'px';
+}

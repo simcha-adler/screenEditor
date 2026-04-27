@@ -168,3 +168,25 @@ function saveThemeConfig(newConfig, isEdit) {
     updateAllLinkedElements(newConfig.id);
 }
 
+
+
+
+
+/**
+ * בונה את כל הפיקרים בכל שינוי של טווח שמור
+ * מטופש להחריד!! אבל מותאם לפיקר הנוכחי. שבהתפריט שלו לא דינמי, וגרוע מכך - שמקבל סלקטור! זה לא התפקיד שלו בכלל.
+ * בעז"ה בפיקר המעוצב החדש זה לא יהיה
+ */
+function buildDesignPanel() {
+    const inputs = $$('.color-picker-wrapper')
+    // שליחת הסלקטור הנוכחי
+    const selector = Selector.get();
+
+
+    inputs.forEach(container => {
+        const picker = createColorPicker(selector, 'color');
+        container = container.parentNode;
+        container.children[1].remove();
+        container.appendChild(picker);
+    });
+}
