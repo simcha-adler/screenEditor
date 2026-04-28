@@ -37,7 +37,7 @@ body.editor-dark-mode {
     --ui-80: hwb(var(--h) calc(85% - var(--d)) 15%);
 }
 
-body.editor-dark-mode.coloring {
+body.editor-dark-mode.color {
     --ui-base: hwb(var(--h) 5% var(--d));
     --ui-5: hwb(var(--h) 10% var(--d));
     --ui-10: hwb(var(--h) 15% var(--d));
@@ -48,7 +48,7 @@ body.editor-dark-mode.coloring {
     --ui-80: hwb(var(--h) 85% var(--d));
 }
 
-body.coloring {
+body.color {
     --ui-base: hwb(var(--h) 100% var(--d));
     --ui-5: hwb(var(--h) 95% var(--d));
     --ui-10: hwb(var(--h) 90% var(--d));
@@ -73,19 +73,7 @@ body {
     overflow: hidden;
 }
 
-.selected-element {
-    outline: 1px dashed var(--ui-accent);
-    outline-offset: -1px;
-}
 
-/* גבולות עזר. מציג גבול רק כשהקלאס קיים על העורך */
-.show-outlines * {
-    outline: 1px dashed rgba(0, 120, 212, 0.3) !important;
-}
-
-.show-outlines *:hover {
-    outline: 1px solid rgba(0, 120, 212, 0.6) !important;
-}
 
 input,
 button {
