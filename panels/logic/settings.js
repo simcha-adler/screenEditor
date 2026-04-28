@@ -50,14 +50,15 @@ function apply() {
 
     // --- יישום מצב צבעוני ---
     if (data.colorMod === true) {
-        body.addClass('coloring');
+        body.addClass('color');
     } else {
-        body.removeClass('coloring');
+        body.removeClass('color');
     }
 
     document.documentElement.style.setProperty('--h', data.huePrimary);
     document.documentElement.style.setProperty('--c', data.saturationPrimary);
     document.documentElement.style.setProperty('--ui-accent', data.accent);
+    // canvasDoc.documentElement.style.setProperty('--ui-accent', data.accent);
     // --- יישום גבולות עזר ---
     // מוסיף קלאס לקונטיינר של העורך
     if (data.showOutlines) {

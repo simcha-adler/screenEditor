@@ -94,7 +94,7 @@ function convertToClass(id, autoClass = false) {
         rule.selectorText = rule.selectorText.replace('#' + id, '.' + className);
         Style.connectRule(rule);
     });
-    $(id).addClass(className);
+    editorDoc.$(id).addClass(className);
     return className;
 }
 

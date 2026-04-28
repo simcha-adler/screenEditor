@@ -12,7 +12,7 @@ function loadDocumentListeners() {
         Edit.elementSelected(selected);
     });
 
-    $('selectedElement').when('input', (e) => { Edit.elementSelected($(e.target.value)) });
+    $('selectedElement').when('input', (e) => { Edit.elementSelected($(e.target.value)) });// בחירת אלמנט מתיבת הקלט. לא ממומש כרגע
 
 
     $('menu').whenClick((e) => {
@@ -25,6 +25,7 @@ function loadDocumentListeners() {
 
     // מחיקת, העלמת וגלילת תפריטים בעת לחיצה
     document.whenClick((e) => {
+        tree.menu.hide();
         $$('.popup').forEach(el => { if (!el.contains(e.target)) el.remove() });
         $$('.hidable').forEach(el => { if (!el.contains(e.target)) el.addClass('hide') });
         $$('.collapsedable').forEach(el => { if (!el.contains(e.target)) el.addClass('collapsed') });
@@ -75,11 +76,6 @@ const designListeners = (e) => {
 
     if (input.type === 'checkbox') {
         value = input.checked ? data.v : data.x;
-    }
-
-    if (prop === 'gradient') {
-        prop = 'background'
-        value = `linear-gradient(${$('deg').value}deg, ${$('gradient1').value}, ${$('gradient2').value})`;
     }
 
     if (prop?.startsWith('boxShadow')) {

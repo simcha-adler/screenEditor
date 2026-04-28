@@ -4,9 +4,9 @@ function restartPage() {
         return false;
 
     // נקה את העורך הנוכחי
-    $('דף_הבסיס').innerHTML = '';
+    editor.innerHTML = '';
     // נקה את ה-CSS ואת ה-State
-    $('styles').innerHTML = ''; // להכניס לתוך פונקציית ריסטארט
+    editorStyle.innerHTML = ''; // להכניס לתוך פונקציית ריסטארט
     Style.refreshSheet(); // רענון הרפרנס
     Style.restart(); // איפוס אובייקט המידע
     tree.build.tree();

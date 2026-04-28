@@ -22,6 +22,10 @@ interface HTMLElement {
     into(parent: string | HTMLElement): this;
 }
 
+interface Document {
+    $(selector: string): HTMLElement | null;
+}
+
 interface NodeList {
     addClass(className: string): this;
     removeClass(className: string): this;

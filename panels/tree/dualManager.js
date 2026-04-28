@@ -6,7 +6,7 @@ import { tree } from "./tree.js";
 
 
 function selectTreeNode(node) {
-    const src = $(node.dataset.editorId);
+    const src = editorDoc.$(node.dataset.editorId);
     if (!src) { deleteTreeNode(node); return; }
     Edit.elementSelected(src);
 
@@ -15,7 +15,7 @@ function selectTreeNode(node) {
     tree.actionDom = src;
 
     // סימון ויזואלי בעץ
-    $$('.tree-life').removeClass('selected');
+    treePanel.$$('.selected').removeClass('selected');
     node.$1('.tree-life').addClass('selected');
 }
 
@@ -25,8 +25,8 @@ function insertElementManager(node, parent, isTree) {
     if (isTree) {
         nodeTree = node;
         parentTree = parent;
-        nodeDom = $(nodeTree.dataset.editorId);
-        parentDom = $(parentTree.dataset.editorId);
+        nodeDom = editorDoc.$(nodeTree.dataset.editorId);
+        parentDom = editorDoc.$(parentTree.dataset.editorId);
     } else {
         nodeTree = treePanel.$1(`.tree-node[data-editor-id=${node.id}]`);
         parentTree = treePanel.$1(`.tree-node[data-editor-id=${parent.id}]`);

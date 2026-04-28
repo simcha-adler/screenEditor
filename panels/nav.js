@@ -24,7 +24,7 @@ $('downloadHTML').whenClick(() => {
     const cssText = Style.getCssText();
 
     // 2. שליפת ה-HTML של העורך
-    const editorContent = $('canvas-window').innerHTML;
+    const editorContent = editorDoc.innerHTML;
     editorContent.replace('contenteditable="true"', 'contenteditable="false"');
 
     // 3. יצירת מבנה של דף אינטרנט מלא
@@ -34,7 +34,7 @@ $('downloadHTML').whenClick(() => {
     <head>
     <meta charset="UTF-8">
             <title>האתר שלי</title>
-            <style id='styles'>             
+            <style id='user_styles'>             
                 ${cssText}
             </style>
             </head>
@@ -118,7 +118,8 @@ function processImportedHTML(htmlString) {
 
     // המעבר על תגיות ה-style שנמצאו בקובץ
     // newStyles.forEach(st => importCSSRulesFromText(st.textContent));
-    newStyles.forEach(st => $('styles').innerHTML += st.innerHTML);
+    // עדיף לאסוף הכול ואז להכניס לתגית. בנוסף, לבדוק איך לבצע בצורה בטיחותית
+    newStyles.forEach(st => editorDoc.$('user_styles').innerHTML += st.innerHTML);
     Style.refreshSheet(); // רענון הרפרנס כך שיקלוט גם את הסטיילים החדשים
 
     // 4. סיום: רענון העץ והמאזינים

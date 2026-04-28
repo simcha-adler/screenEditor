@@ -23,9 +23,9 @@ vpBtns.forEach(btn => {
 // --- 3. הפעלות עריכה (הקלדה חופשית / גרירה) ---
 $('toggleContentEditable').when('change', (e) => {
     const isEditable = e.target.checked;
-    artboard.setAttribute('contenteditable', isEditable);
+    editor.setAttribute('contenteditable', isEditable);
     if (isEditable) {
-        artboard.focus();
+        editor.focus();
         // הערה: כדאי לבטל את ה-Drag כשההקלדה פעילה למניעת התנגשויות
         $('toggleDragDrop').checked = false;
         // כאן תקרא לפונקציה שמבטלת גרירה
@@ -40,7 +40,7 @@ $('toggleDragDrop').when('change', (e) => {
     if (isDraggable) {
         // ביטול הקלדה חופשית
         $('toggleContentEditable').checked = false;
-        artboard.setAttribute('contenteditable', 'false');
+        editor.setAttribute('contenteditable', 'false');
         artboard.addClass('drag-mode-active'); // לקלאס CSS שמראה גבולות
     } else {
         artboard.removeClass('drag-mode-active');
@@ -50,11 +50,10 @@ $('toggleDragDrop').when('change', (e) => {
 // --- 4. זום (Zoom) ---
 const zoomRange = $('zoomRange');
 const zoomValue = $('zoomValue');
-const base = $('דף_הבסיס');
 
 zoomRange.when('input', (e) => {
     const scale = e.target.value / 100;
-    base.style.transform = `scale(${scale})`;
-    base.style.transformOrigin = 'top center'; // הזום מתחיל מלמעלה
+    editor.style.transform = `scale(${scale})`;
+    editor.style.transformOrigin = 'top center'; // הזום מתחיל מלמעלה
     zoomValue.textContent = e.target.value + '%';
 });

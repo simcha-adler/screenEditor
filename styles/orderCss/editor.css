@@ -1,0 +1,30 @@
+:root {
+    --ui-accent: hwb(206 0% 16%);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    min-height: 100vh;
+}
+
+.selected-element {
+    outline: 1px dashed var(--ui-accent);
+    outline-offset: -1px;
+}
+
+/* גבולות עזר. מציג גבול רק כשהקלאס קיים על העורך */
+.show-outlines * {
+    outline: 1px dashed rgba(0, 120, 212, 0.3) !important;
+}
+
+.show-outlines *:hover {
+    outline: 1px solid rgba(0, 120, 212, 0.6) !important;
+}
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}

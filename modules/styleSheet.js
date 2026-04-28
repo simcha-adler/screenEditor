@@ -55,7 +55,7 @@ function deleteRule(selector) {
 /** רענון ההפניה לגיליון */
 function refreshSheet() {
     // @ts-ignore
-    sheet = Array.from(document.styleSheets).find(sheet => sheet.ownerNode.id === 'styles')
+    sheet = Array.from(editorDoc.styleSheets).find(sheet => sheet.ownerNode.id === 'user_styles')
 }
 
 

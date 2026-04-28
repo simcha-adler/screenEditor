@@ -34,7 +34,7 @@ function deleteRule(selector) {
     if (!result.success) return null;
 
     if (stylesList[selector]) delete stylesList[selector];
-    const nodes = $$(selector)
+    const nodes = editor.$$(selector)
     nodes.removeClass(selector);
 
     return { rule: result.rule, nodes };

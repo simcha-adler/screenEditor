@@ -30,8 +30,9 @@ function executeAdd() {
     const data = { ...formData, id: baseId };
 
     // 3. הזרקת CSS ישירות לתגית הסטייל (הדפדפן יפרסר לבד)
+    // לבדוק איך לעשות את זה הן מבחינת אובייקט החוקים (טעינה עצלה, אז כרגע אין בעיה, אבל לחשוב על זה) והן מבחינת כימוס
     const rawCss = blueprint.css(data);
-    $('styles').innerHTML += rawCss;
+    editorDoc.$('user_styles').innerHTML += rawCss;
 
     // רענון רפרנס ה-sheet כדי שיכיר את החוקים החדשים
     Style.refreshSheet();
@@ -57,11 +58,11 @@ function createSafeId(nameFromUser, tagName) {
     let safeId;
     if (nameFromUser) {
         safeId = nameFromUser.trim().replace(/\s+/g, '_');
-        if ($(safeId)) return alert('שגיאה: קיים כבר אלמנט עם השם הזה. אנא בחר שם אחר.');
+        if (editorDoc.$(safeId)) return alert('שגיאה: קיים כבר אלמנט עם השם הזה. אנא בחר שם אחר.');
     } else {
         do {
             safeId = 'auto_' + tagName + '_' + Math.random().toString(36).substring(2, 9);
-        } while ($(safeId));
+        } while (editorDoc.$(safeId));
     }
     return safeId;
 }

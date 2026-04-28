@@ -11,6 +11,7 @@ let theStyles = null
 
 // משימה! ליצור עוד תגית סטייל בפריים של הנערך לצורך סטיילי עזר.
 // אחר כך, במקום להוסיף קלאס של הסלקטד, פשוט ליצור חוק עם העיצוב ולשנות לו את הסלקטור
+// כך זה יחסוך את המעבר על כל האלמנטים הקודמים עם הקלאס
 
 function elementSelected(newElement = editor) {
     if (SelectorLock.getState() || // אם נעול או נבחר אלמנט שגוי (במקרה תקלה! לא אמור להיות)
@@ -33,7 +34,7 @@ function classSelected(className) {
     Mode.update('class');
 
     _changeSelected(selector);
-    $$('.' + className).addClass('selected-element');
+    editor.$$('.' + className).addClass('selected-element');
 }
 
 function tagSelected(tagName) {
@@ -41,11 +42,11 @@ function tagSelected(tagName) {
     const selector = tagName + $('dropdown-states').value || '';
     Mode.update('tag');
     _changeSelected(selector);
-    $$(tagName).addClass('selected-element');
+    editor.$$(tagName).addClass('selected-element');
 }
 
 function _changeSelected(selector) {
-    $$('.selected-element').removeClass('selected-element');
+    editorDoc.body.$$('.selected-element').removeClass('selected-element');
     Selector.update(selector);
     _updateStyles();
     if (Panel.get()) Panel.restart(Panel.get());

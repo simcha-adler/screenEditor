@@ -33,7 +33,7 @@ function handleMenuAction(action) {
 
         case 'empty':
             if (tree.actionTree.$1('UL') && confirm('למחוק את כל האלמנטים שבתוך אלמנט זה?')) {
-                $$(`#${tree.actionDom.id} *`).forEach(ch => ch.remove());
+                editor.$$(`#${tree.actionDom.id} *`).forEach(ch => ch.remove());
                 tree.utils.updateHasChildren(tree.actionTree, true);
             }
             break;
@@ -54,9 +54,10 @@ function handleMenuAction(action) {
                 tree.actionTree.dataset.editorId = id;
                 let displayName = tree.build.nodeName(id, theElement);
                 tree.actionTree.$1('.tree-node-content').innerText = displayName;
-                const rules = Array.from(Style.getRulesById('#' + old));
+                const rules = Array.from(Style.getRulesById(old));
                 rules.forEach(rule => rule.selectorText = '#' + id);
                 Style.refreshSheet();
+                Edit.elementSelected(theElement); // רענון הפאנלים עם השם החדש
             }
             break;
 

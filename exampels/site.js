@@ -86,5 +86,5 @@ const body = /*html */`
         </div>
     </section>`;
 
-$('styles').innerHTML = style;
-$('דף_הבסיס').innerHTML = body;
+editorStyle.innerHTML = style;
+editor.innerHTML = body;
