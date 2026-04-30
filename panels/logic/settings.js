@@ -7,9 +7,9 @@ const defaultData = {
     showOutlines: false,  // האם להציג גבולות לכל האלמנטים בדף (לעזרה בעיצוב)
     autoSave: true,       // האם לשמור אוטומטית
     language: 'he',       // שפת ממשק
-    huePrimary: 300,
+    huePrimary: 240,
     saturationPrimary: 100,
-    accent: 'hwb(240 0% 0%)',
+    accent: 'hwb(0 0% 0%)',
 };
 
 let data = {};
