@@ -16,9 +16,11 @@
 .panel-header {
     width: 279px;
     display: flex;
+    flex-direction: column;
     flex-wrap: nowrap;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
+    align-items: stretch;
     padding: 15px;
     background-color: var(--ui-base);
     border-bottom: 1px solid var(--ui-15);
@@ -26,10 +28,8 @@
 
 .panel-header-content label {
     display: flex;
-    flex-direction: column;
-    gap: 5px;
     font-size: 11px;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
     font-weight: bold;
 }
 
@@ -42,6 +42,12 @@
     background-color: var(--ui-base);
 }
 
+.floor {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    justify-content: space-between;
+}
 
 /* הגדרות ספציפיות */
 #selectedElement {
@@ -50,7 +56,7 @@
 
 #theElement {
     background-color: var(--ui-5);
-    /* רקע אפרפר לאינפוט קריאה בלבד */
+    /* רקע כהה לאינפוט קריאה בלבד */
 }
 
 #edition-states select {
@@ -67,12 +73,30 @@
     font-size: large;
 }
 
-/*
-#lock:checked+.lockLabel::after {
-    content: '🔒';
-    font-size: 50px;
-    translate: rotate(90deg);
-} */
+.segmented-control {
+    & {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        border-radius: 6px;
+        background: var(--ui-10);
+    }
+
+    label {
+        cursor: pointer;
+        font-weight: normal;
+        padding: 4px 6px;
+        margin: 0;
+        justify-content: center;
+        border-radius: 6px;
+    }
+
+    input:checked+label {
+        position: relative;
+        scale: 1.05;
+        background: var(--ui-base);
+        box-shadow: 0 0 5px -1px var(--ui-accent);
+    }
+}
 
 /* === עיצוב אלמנטים בתוך הפאנלים === */
 

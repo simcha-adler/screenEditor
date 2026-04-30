@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="./styles/orderCss/panels.css">
     <link rel="stylesheet" href="./styles/orderCss/color picker.css">
     <link rel="stylesheet" href="./styles/orderCss/animation.css">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"> -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="./lib/icons/RemixIcon_Fonts_v4.8.0/fonts/remixicon.css">
     <script src="./lib/short.js"></script>
 
@@ -108,30 +108,45 @@
 
         <aside id="panel-left" class="panel-left">
             <div class="panel-header" id="panel-header">
-                <div id="lockSelector" class="panel-header-content">
-                    <label class="lockLabel" for="lock" style="cursor: pointer;">🔓</label>
-                    <input type="checkbox" id="lock" class="hide">
+                <div class="floor">
+                    <div id="lockSelector" class="panel-header-content">
+                        <label class="lockLabel" for="lock" style="cursor: pointer;">🔓</label>
+                        <input type="checkbox" id="lock" class="hide">
+                    </div>
+                    <div id="selectedElement" class="panel-header-content">
+                        <label for="theElement">סלקטור נבחר:</label>
+                        <input type="text" id="theElement" placeholder="לא נבחר אלמנט" readonly>
+                    </div>
                 </div>
-                <div id="selectedElement" class="panel-header-content">
-                    <label for="theElement">אלמנט נבחר:</label>
-                    <input type="text" id="theElement" placeholder="לא נבחר אלמנט" readonly>
-                </div>
+                <div class="floor">
+                    <div class="panel-header-content">
+                        <label>ערוך עיצוב עבור:</label>
+                        <div class="segmented-control">
+                            <input type="radio" name="selector-mode" class="hide" id="id-mode" checked />
+                            <label for="id-mode">אלמנט</label>
+                            <input type="radio" name="selector-mode" class="hide" id="class-mode" />
+                            <label for="class-mode">קלאס</label>
+                            <input type="radio" name="selector-mode" class="hide" id="tag-mode" />
+                            <label for="tag-mode">תג</label>
+                        </div>
+                    </div>
 
-                <div id="edition-states" class="panel-header-content">
-                    <label for="dropdown-states">מצב:</label>
-                    <select id="dropdown-states">
-                        <option value="">בסיסי</option>
-                        <option value=":hover">מעבר עכבר</option>
-                        <option value=":focus">פוקוס</option>
-                        <option value=":active">לחיצה</option>
-                        <option value=":first-child">ילד ראשון</option>
-                        <option value=":last-child">ילד אחרון</option>
-                        <option value=":nth-child(even)">ילדים זוגיים</option>
-                        <option value=":nth-child(odd)">ילדים אי-זוגיים</option>
-                        <hr>
-                        <option value="::before">לפני האלמנט</option>
-                        <option value="::after">אחרי האלמנט</option>
-                    </select>
+                    <div id="edition-states" class="panel-header-content">
+                        <label for="dropdown-states">מצב:</label>
+                        <select id="dropdown-states">
+                            <option value="">בסיסי</option>
+                            <option value=":hover">מעבר עכבר</option>
+                            <option value=":focus">פוקוס</option>
+                            <option value=":active">לחיצה</option>
+                            <option value=":first-child">ילד ראשון</option>
+                            <option value=":last-child">ילד אחרון</option>
+                            <option value=":nth-child(even)">ילדים זוגיים</option>
+                            <option value=":nth-child(odd)">ילדים אי-זוגיים</option>
+                            <hr>
+                            <option value="::before">לפני האלמנט</option>
+                            <option value="::after">אחרי האלמנט</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 

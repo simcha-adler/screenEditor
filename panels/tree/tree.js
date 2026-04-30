@@ -66,6 +66,7 @@ function initTreeListeners() {
             e.stopPropagation();
             const node = menuBtn.closest('.tree-node');
             // עדכון משתני הפעולה הגלובליים
+            if (node !== tree.actionTree && SelectorLock.getState()) return;
             tree.dual.select(node);
             // פתיחת התפריט במיקום הכפתור
             if (node.dataset.editorId === 'דף_הבסיס')
@@ -204,6 +205,7 @@ export const tree = {
     init: () => {
         tree.build.tree();
         initTreeListeners();
+        tree.dual.select(treePanel.$1('[data-editor-id="דף_הבסיס"]'))
     },
 
     menu: menu,

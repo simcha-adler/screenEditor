@@ -2,12 +2,6 @@
 
 let thePanel = null;
 
-/**
- * פונקציה לצביעת הכפתור הפעיל בלבד
-*/
-function updateActivityBarState(activeBtn) {
-
-}
 
 /**
  * הפונקציה הראשית לניהול לחיצה על אייקון בסרגל

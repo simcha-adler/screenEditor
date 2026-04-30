@@ -17,6 +17,7 @@ function initIframe() {
         <head>
             <style id="user_styles"></style>
             <link rel="stylesheet" href="./styles/orderCss/editor.css">
+            <link rel="stylesheet" href="./styles/orderCss/animation.css">
         </head>
         <body>
             <div id="דף_הבסיס" style="min-height: 100vh;"></div>

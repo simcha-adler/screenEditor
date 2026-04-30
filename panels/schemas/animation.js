@@ -79,6 +79,18 @@ export const animationsSchema = [
                 })
             }),
             new UI.inputRow({
+                label: 'כיוון',
+                input: new UI.input.select({
+                    prop: 'animationDirection',
+                    options: [
+                        { value: 'normal', text: 'רגיל' },
+                        { value: 'reverse', text: 'מהסוף' },
+                        { value: 'alternate', text: 'הלוך ושוב' },
+                        { value: 'alternate-reverse', text: 'הלוך ושוב מהסוף' }
+                    ]
+                })
+            }),
+            new UI.inputRow({
                 label: 'מצב סיום',
                 input: new UI.input.select({
                     prop: 'animationFillMode',

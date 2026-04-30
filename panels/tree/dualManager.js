@@ -1,3 +1,4 @@
+import { SelectorLock } from "../../modules/lock.js";
 import { tree } from "./tree.js";
 
 /*====================================================
@@ -6,6 +7,7 @@ import { tree } from "./tree.js";
 
 
 function selectTreeNode(node) {
+    if (node === tree.actionTree || SelectorLock.getState()) return;
     const src = editorDoc.$(node.dataset.editorId);
     if (!src) { deleteTreeNode(node); return; }
     Edit.elementSelected(src);
@@ -52,7 +54,7 @@ function insertElementManager(node, parent, isTree) {
     tree.utils.insertNode(nodeTree, parentTree);
 
     // פתיחת ההורה החדש כדי שנראה את הילד שהתווסף, כולל גם את הוספת אייקון החץ.
-    setTimeout(tree.utils.showChildren(parentTree), 50);
+    setTimeout(() => tree.utils.showChildren(parentTree), 50);
     tree.dual.select(nodeTree);
 }
 
