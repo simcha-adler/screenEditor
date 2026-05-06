@@ -104,6 +104,15 @@ function getRuleBySelector(selector) {
     return rule;
 }
 
+/**
+ * מחזיר רשימת קלאסים הקיימים באלמנט ובגיליון עיצובי הלקוח. נועד לסינון קלאסי מערכת
+ * @param {HTMLElement} element
+ * @returns {string[]} 
+ */
+function getElementClasses(element) {
+    return Array.from(element.classList).filter(cls => stylesList['.' + cls] !== undefined)
+}
+
 export const Style = {
     createRule,
     ensureRule,
@@ -117,11 +126,13 @@ export const Style = {
     getRuleBySelector,
     getRulesById: StyleSheet.getRulesById,
     getAllClasses: StyleSheet.getAllClasses,
+    getElementClasses,
     hasRule: (selector) => stylesList[selector] !== undefined,
     replaceSelector,
     update: updateStyle,
     /** מאפס את stylesList!! להשתמש בזהירות */
-    restart: () => { stylesList = {}; Style.stylesList = stylesList },
+    restart: () => { stylesList = {}; StyleSheet.restart() },
+    insertIntoTag: (cssText) => { StyleSheet.insertIntoStyleTag(cssText); connectAllRules(); }
 }
 
 //@ts-ignore

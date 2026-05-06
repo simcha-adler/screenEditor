@@ -1,0 +1,108 @@
+export const developer = {
+    css: /*css */`
+        #profile_container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 20px;
+        }
+
+        #card_box {
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 40px;
+        border-radius: 24px;
+        text-align: center;
+        width: 100%;
+        max-width: 350px;
+        color: white;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        #avatar_wrap {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 20px;
+        border-radius: 50%;
+        border: 4px solid rgba(255, 255, 255, 0.5);
+        overflow: hidden;
+        }
+
+        #avatar_img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        }
+
+        #name_txt {
+        margin: 0;
+        font-size: 28px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        #job_txt {
+        margin: 10px 0 25px;
+        opacity: 0.9;
+        font-weight: 300;
+        }
+
+        #stats_row {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 30px;
+        background: rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        border-radius: 12px;
+        }
+
+        #social_links {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        }
+
+        .link-btn {
+        background: white;
+        color: #764ba2;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+        }
+
+        .link-btn:hover {
+        background: #f0f0f0;
+        transform: scale(1.02);
+        }`,
+
+    html: /*html*/`
+        <div id="profile_container" class="profile-wrapper">
+            <div id="card_box" class="glass-card">
+                <div id="avatar_wrap" class="avatar-container">
+                    <img id="avatar_img" src="https://via.placeholder.com/150" alt="Profile">
+                </div>
+                <h2 id="name_txt">אלכס כהן</h2>
+                <p id="job_txt">מעצב מוצר & מפתח Fullstack</p>
+
+                <div id="stats_row" class="stats">
+                    <div id="stat_1">
+                        <strong>120+</strong> פרויקטים
+                    </div>
+                    <div id="stat_2">
+                        <strong>5k</strong> עוקבים
+                    </div>
+                </div>
+
+                <div id="social_links" class="links-col">
+                    <button id="btn_web" class="link-btn">🌐 אתר אישי</button>
+                    <button id="btn_li" class="link-btn">💼 לינקדאין</button>
+                    <button id="btn_ig" class="link-btn">📷 אינסטגרם</button>
+                </div>
+            </div>
+        </div>`
+}

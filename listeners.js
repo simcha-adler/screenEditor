@@ -27,7 +27,7 @@ function loadDocumentListeners() {
     document.whenClick((e) => {
         tree.menu.hide();
         $$('.popup').forEach(el => { if (!el.contains(e.target)) el.remove() });
-        $$('.hidable').forEach(el => { if (!el.contains(e.target)) el.addClass('hide') });
+        $$('.hidable').forEach(el => { if (!el.contains(e.target)) el.addClass('d-none') });
         $$('.collapsedable').forEach(el => { if (!el.contains(e.target)) el.addClass('collapsed') });
     });
 
@@ -60,6 +60,9 @@ function loadDocumentListeners() {
             dur.sendInput('1'); // מעדכן את תיבת הקלט ושולח אירוע אינפוט
         }
     });
+
+    // שינוי סוג הסלקטור הנערך
+    $1('.segmented-control').when('change', (e) => { Mode.update(e.target.value) });
 }
 
 const designListeners = (e) => {

@@ -21,16 +21,14 @@ function refreshClassesView() {
     const container = $('activeClassesList');
     container.innerHTML = '';
 
-    theElement.classList.forEach(cls => {
-        if (Style.hasRule('.' + cls)) { // לסינון קלאסי מערכת
-            const tag = createElement('div', {
-                class: 'ui-class-tag',
-                in: `<span>${cls}</span>
+    Style.getElementClasses(theElement).forEach(cls => {
+        const tag = createElement('div', {
+            class: 'ui-class-tag',
+            in: `<span>${cls}</span>
                 <span class="ui-remove-class-btn" data-class="${cls}">×</span>
                 <span class="ui-edit-class-btn" data-class="${cls}">✎</span>`,
-            });
-            tag.into(container);
-        }
+        });
+        tag.into(container);
     });
 
     if (!container.innerHTML) {

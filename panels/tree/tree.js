@@ -183,11 +183,11 @@ function updateHasChildren(node, del = false) {
 }
 
 export function hideItemsNotForEditor() {
-    $('tree-menu').$$('.not-for-editor').forEach(row => row.addClass('hide'));
+    $('tree-menu').$$('.not-for-editor').forEach(row => row.addClass('d-none'));
 }
 
 export function showItemsNotForEditor() {
-    $('tree-menu').$$('.not-for-editor').forEach(row => row.removeClass('hide'));
+    $('tree-menu').$$('.not-for-editor').forEach(row => row.removeClass('d-none'));
 }
 
 function cleanDragClasses() {

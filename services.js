@@ -121,18 +121,6 @@ function parseUnit(cssValue) {
 }
 
 
-// פונקציה לטיפול באקורדיונים
-function initAccordions(panelElement) {
-    const headers = panelElement.$$('.ui-section-head');
-    headers.forEach(header => {
-        header.addEventListener('click', () => {
-            header.parentElement.toggleClass('collapsed');
-        });
-    });
-}
-
-
-
 
 
 
@@ -351,7 +339,7 @@ function popoverPosition(popap, x, y) {
     const computed = getComputedStyle(popap);
     const width = computed['width'];
     const height = computed['height'];
-    popap.removeClass('visibi');
+    popap.removeClass('hide');
     popap.style.left = (x - parseInt(width)) + 'px';
     popap.style.top = y + 'px';
 }

@@ -8,7 +8,7 @@ import { Style } from "../../modules/styles.js"
 
 
 function hideContextMenu() {
-    $('tree-menu').addClass('visibi');
+    $('tree-menu').addClass('hide');
 }
 
 // פונקציה גלובלית לטיפול בפעולות התפריט
@@ -55,7 +55,7 @@ function handleMenuAction(action) {
                 let displayName = tree.build.nodeName(id, theElement);
                 tree.actionTree.$1('.tree-node-content').innerText = displayName;
                 const rules = Array.from(Style.getRulesById(old));
-                rules.forEach(rule => rule.selectorText = '#' + id);
+                rules.forEach(rule => Style.replaceSelector(rule, '#' + id));
                 Style.refreshSheet();
                 Edit.elementSelected(theElement); // רענון הפאנלים עם השם החדש
             }

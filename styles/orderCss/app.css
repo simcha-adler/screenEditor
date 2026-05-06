@@ -100,11 +100,11 @@ input[type="range"]:focus {
     box-sizing: border-box;
 }
 
-.hide {
+.d-none {
     display: none !important;
 }
 
-.visibi {
+.hide {
     position: fixed;
     visibility: hidden;
 }

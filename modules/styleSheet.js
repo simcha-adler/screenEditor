@@ -94,6 +94,19 @@ function getCssText() {
  */
 function getAllRules() { return sheet.cssRules; }
 
+/**
+ * מכניס את טקסט החוקים לתגית. אובייקט ה-cssom מתעדכן אוטומטית
+ * @param {string} cssText 
+ */
+function insertIntoStyleTag(cssText) {
+    editorStyle.innerHTML += cssText;
+    refreshSheet();
+}
+
+function restart() {
+    editorStyle.innerHTML = '';
+    refreshSheet();
+}
 
 /** אחראי על תקשורת עם גיליון העיצוב */
 export const StyleSheet = {
@@ -104,5 +117,7 @@ export const StyleSheet = {
     getCssText,
     getRulesById: findRulesById,
     getAllClasses,
-    getAllRules
+    getAllRules,
+    insertIntoStyleTag,
+    restart
 }

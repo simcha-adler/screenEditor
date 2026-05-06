@@ -1,6 +1,9 @@
 //@ts-check
 
+import { Edit } from "./edit.js";
 import { SelectorLock } from "./lock.js";
+import { Selector } from "./selector.js";
+import { Style } from "./styles.js";
 
 
 /** @type {number} - אינדקס המצב הנוכחי ברשימת המצבים */
@@ -32,15 +35,18 @@ function updateState(nameState) {
 };
 
 function toElementMode() {
-    SelectorLock.off();
+    Edit.elementSelected(Edit.getElement());
 }
 
 function toClassMode() {
-    SelectorLock.on();
+    const className = Style.getElementClasses(Edit.getElement())[0];
+    if (className) { Edit.classSelected(className); return; }
+    $('theElement').placeholder = 'אין עדיין קלאסים לאלמנט זה';
+    Selector.update('')
 }
 
 function toTagMode() {
-    SelectorLock.on();
+    Edit.tagSelected(Edit.getElement().tagName);
 }
 
 export const Mode = {

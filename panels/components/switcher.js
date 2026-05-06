@@ -20,14 +20,14 @@ export class UISwitcher extends UIComponent {
                     const parent = container.closest('.ui-section-body');
                     if (!parent) return;
 
-                    parent.$$('.switch-body').addClass('hide');
+                    parent.$$('.switch-body').addClass('d-none');
 
                     let open = parent.$1(`.g${opt.value}`);
                     if (open) {
                         if (open.tagName === 'INPUT' && open.type !== 'color') {
                             open = open.closest('.ui-control-row') || open;
                         }
-                        open.removeClass('hide');
+                        open.removeClass('d-none');
                     }
 
                     container.$$('.ui-btn').removeClass('active');

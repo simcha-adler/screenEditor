@@ -30,12 +30,8 @@ function executeAdd() {
     const data = { ...formData, id: baseId };
 
     // 3. הזרקת CSS ישירות לתגית הסטייל (הדפדפן יפרסר לבד)
-    // לבדוק איך לעשות את זה הן מבחינת אובייקט החוקים (טעינה עצלה, אז כרגע אין בעיה, אבל לחשוב על זה) והן מבחינת כימוס
     const rawCss = blueprint.css(data);
-    editorDoc.$('user_styles').innerHTML += rawCss;
-
-    // רענון רפרנס ה-sheet כדי שיכיר את החוקים החדשים
-    Style.refreshSheet();
+    Style.insertIntoTag(rawCss);
 
     // 4. יצירת ה-HTML והזרקה לעץ (דרך ה-Dual Manager שלך)
     const rawHtml = blueprint.html(data);

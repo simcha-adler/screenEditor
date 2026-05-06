@@ -27,7 +27,7 @@ const colorPicker = {
         const trigger = createElement('button', { class: 'ui-button ui-color-trigger' });
         const circle = createElement('div', { class: 'color-preview-circle' });
         const hiddenPicker = createElement('input', { type: 'color', class: 'hidden-picker' });
-        const gradientButton = createElement('i', { class: "ri-magic-line hide", style: "font-size:16px" });
+        const gradientButton = createElement('i', { class: "ri-magic-line d-none", style: "font-size:16px" });
 
         trigger.append(circle, hiddenPicker, gradientButton);
 
@@ -92,11 +92,11 @@ const colorPicker = {
         const prop = group.dataset.prop;
 
         if (mode === 'gradient') {
-            circle.addClass('hide');
-            magic.removeClass('hide')
+            circle.addClass('d-none');
+            magic.removeClass('d-none')
         } else {
-            circle.removeClass('hide')
-            magic.addClass('hide');
+            circle.removeClass('d-none')
+            magic.addClass('d-none');
 
             if (mode === 'free') {
                 const currentVal = Edit.getStyles() ? Edit.getStyles()[prop] : group.dataset.defaultValue;

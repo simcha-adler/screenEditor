@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+export const support = {
+    css: /*css*/ `
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
         #contact_wrapper {
             background: linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%);
             color: white;
@@ -76,11 +71,9 @@
         .send-btn:hover {
             opacity: 0.9;
             transform: scale(0.98);
-        }
-    </style>
-</head>
+        }`,
 
-<body>
+    html: /*html*/ `
     <div id="contact_wrapper" class="contact-box">
         <h2 id="c_title" class="contact-title">צור קשר</h2>
         <p id="c_desc" class="contact-desc">יש לך שאלה? אנחנו כאן בשבילך.</p>
@@ -91,7 +84,5 @@
             <textarea id="inp_msg" class="modern-input full-width" placeholder="ההודעה שלך..."></textarea>
             <button id="btn_send" class="send-btn">שלח הודעה 🚀</button>
         </div>
-    </div>
-</body>
-
-</html>
+    </div>`
+}

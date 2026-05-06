@@ -58,15 +58,15 @@ function updatePanel(panel) {
     // צריך לתמוך במצב פתיחת פאנל, סגירה ויזואלית, והחלפה מיידית
     if (panel) { // פתיחה או החלפה מיידית
         panelLeft.addClass('open');
-        if (thePanel) thePanel.addClass('hide');
-        panel.removeClass('hide');
+        if (thePanel) thePanel.addClass('d-none');
+        panel.removeClass('d-none');
         fillValues.panel(panel);
     } else if (thePanel) {
         panelLeft.removeClass('open');
         const temp = thePanel;
         setTimeout(() => {
             if (!panelLeft.classList.contains('open')) //כדי למנוע תקלות בסגירה ופתיחה מיידית
-                temp.addClass('hide'); // מסתיר את הפאנל רק אחרי הסגירה באנימציה
+                temp.addClass('d-none'); // מסתיר את הפאנל רק אחרי הסגירה באנימציה
         }, 300);
     }
     thePanel = panel;

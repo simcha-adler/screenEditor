@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+export const service = {
+    css: /*css*/`
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <style>
         #pricing_section {
             display: flex;
             justify-content: center;
@@ -82,12 +76,9 @@
         .plan-btn.primary {
             background: #3b82f6;
             color: white;
-        }
-    </style>
-</head>
+        }`,
 
-<body>
-
+    html: /*html*/ `
     <section id="pricing_section" class="pricing-container">
         <div id="plan_basic" class="pricing-card">
             <h3 id="p_title_1" class="plan-title">בסיסי</h3>
@@ -111,7 +102,5 @@
             </ul>
             <button id="p_btn_2" class="plan-btn primary">הצטרף עכשיו</button>
         </div>
-    </section>
-</body>
-
-</html>
+    </section>`
+}

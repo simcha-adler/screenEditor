@@ -5,15 +5,13 @@ function restartPage() {
 
     // נקה את העורך הנוכחי
     editor.innerHTML = '';
-    // נקה את ה-CSS ואת ה-State
-    editorStyle.innerHTML = ''; // להכניס לתוך פונקציית ריסטארט
-    Style.refreshSheet(); // רענון הרפרנס
-    Style.restart(); // איפוס אובייקט המידע
+    Style.restart(); //  איפוס כל הסטיילים
     tree.build.tree();
     return true;
 }
 
 function loadPage() {
+    loadToEditor();
     // טעינת פאנלים
     UI.buildPanel('panel-display', schemas.view, designListeners);
     UI.buildPanel('panel-layout', schemas.layout, designListeners);
@@ -29,22 +27,26 @@ function loadPage() {
 
     loadDocumentListeners();
     attachClassesListeners();
+    initHamburgerListeners();
 
     Style.refreshSheet();
-    Edit.elementSelected(editor);
-    $$('.panel').addClass('hide');
-    $$('.show').forEach(element => element.click()); // הפעלת כפתורי ברירת המחדל בסוויצ'רים
-    // $('fileUploadInput').files[0].name = 'site.html';
-    // $('fileUploadInput').sendInput();
-    Style.refreshSheet(); // אתחול ראשוני של Style.sheet
     Style.connectAllRules();
+    Edit.elementSelected(editor);
+    $$('.panel').addClass('d-none');
+    $$('.show').forEach(element => element.click()); // הפעלת כפתורי ברירת המחדל בסוויצ'רים
 }
 
-//  הפעלה מותנית של המערכת. ממתין עד שכל קבצי הפאנלים ייטענו ואז מפעיל את המערכת.
+
+function initEeditorReferenses() {
+    editor = editorDoc.getElementById('דף_הבסיס');
+    editorStyle = editorDoc.getElementById('user_styles');
+}
+
+//  הפעלה מותנית של המערכת. ממתין עד שכל קבצי הפאנלים והפריים ייטענו ואז מפעיל את המערכת.
 let timer = setInterval(() => {
-    console.log(window.schemas);
-    if (window.schemas) {
+    initEeditorReferenses();
+    if (window.schemas && editorDoc && editorStyle) {
         clearInterval(timer);
         loadPage();
     }
-}, 50)
+}, 50);

@@ -1,4 +1,5 @@
-const style = `
+export const site = {
+    css: /*css */`
         #hero {
             padding: 60px 20px;
             font-family: 'Segoe UI', sans-serif;
@@ -59,9 +60,9 @@ const style = `
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-        }`;
+        }`,
 
-const body = /*html */`
+    html: /*html */`
     <section id="hero" class="hero-section">
         <div id="hero_content" class="hero-content">
             <h1 id="main_title" class="hero-title">בנה את העתיד שלך</h1>
@@ -84,7 +85,5 @@ const body = /*html */`
                 <p id="desc_3">הגנה ברמה צבאית למידע.</p>
             </div>
         </div>
-    </section>`;
-
-editorStyle.innerHTML = style;
-editor.innerHTML = body;
+    </section>`
+}

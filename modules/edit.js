@@ -34,7 +34,7 @@ function classSelected(className) {
     Mode.update('class');
 
     _changeSelected(selector);
-    editor.$$('.' + className).addClass('selected-element');
+    editorDoc.body.$$('.' + className).addClass('selected-element');
 }
 
 function tagSelected(tagName) {
@@ -42,7 +42,7 @@ function tagSelected(tagName) {
     const selector = tagName + $('dropdown-states').value || '';
     Mode.update('tag');
     _changeSelected(selector);
-    editor.$$(tagName).addClass('selected-element');
+    editorDoc.body.$$(tagName).addClass('selected-element');
 }
 
 function _changeSelected(selector) {
@@ -66,7 +66,26 @@ function _updateStyles() {
 }
 
 
+$('dropdown-states').when('change', () => {
+    const mode = Mode.get();
+    switch (mode) {
+        case 'element':
+            elementSelected($(Selector.get()));
+            break;
+        case 'class':
+            classSelected(Selector.get());
+            break;
+        case 'element':
+            tagSelected(Selector.get());
+            break;
+
+        default:
+            break;
+    }
+})
+
 export const Edit = {
+    /**@returns {HTMLElement} */
     getElement: () => theElement,
     getStyles: () => theStyles,
     elementSelected,
