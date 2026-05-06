@@ -167,7 +167,7 @@ input[type="range"]:focus {
 
 /* תפריט המבורגר */
 .dropdown-menu {
-    height: 140px;
+    height: 175px;
     position: absolute;
     top: 100%;
     left: 30px;
@@ -381,6 +381,18 @@ aside.open {
     transition: all 0.4s;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     border-radius: 6px;
+}
+
+*::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 6px;
+    height: 6px;
+}
+
+*::-webkit-scrollbar-thumb {
+    -webkit-appearance: none;
+    background: var(--ui-45);
+    border-radius: 3px;
 }
 
 .canvas {

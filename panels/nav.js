@@ -1,3 +1,5 @@
+//@ts-check
+
 const htmlNav = /* html */  `
 
 <!--=======תפריט עריכה=========-->
@@ -8,74 +10,77 @@ const htmlNav = /* html */  `
 <div class="dropdown-item" id="fullscreen">מצב מסך מלא</div>
 `
 
-// --- לוגיקה של תפריט "קובץ" ---
-$('newDoc').whenClick(() => {
-    restartPage()
-});
-$('saveDoc').whenClick(() => {
-    alert('המסמך נשמר מקומית בדפדפן (פונקציונליות LocalStorage דורשת הטמעה).');
-});
+function initHamburgerListeners() {
+    // --- לוגיקה של תפריט "קובץ" ---
+    $('newDoc').whenClick(restartPage);
 
-$('upload').whenClick(() => $('fileUploadInput').click());
+    $('saveDoc').whenClick(saveDocInLocalStorage);
 
-$('fileUploadInput').when('change', handleFileUpload);
+    $('upload').whenClick(() => $('fileUploadInput').click());
 
-$('downloadHTML').whenClick(() => {
-    const cssText = Style.getCssText();
+    $('fileUploadInput').when('change', handleFileUpload);
 
-    // 2. שליפת ה-HTML של העורך
-    const editorContent = editorDoc.innerHTML;
-    editorContent.replace('contenteditable="true"', 'contenteditable="false"');
+    $('downloadHTML').whenClick(() => {
+        // 3. יצירת מבנה של דף אינטרנט מלא
+        const fullDoc = convertToHTMLPage();
 
-    // 3. יצירת מבנה של דף אינטרנט מלא
-    const fullDoc = `
-    <!DOCTYPE html>
-    <html lang="he" dir="rtl">
-    <head>
-    <meta charset="UTF-8">
-            <title>האתר שלי</title>
-            <style id='user_styles'>             
-                ${cssText}
-            </style>
-            </head>
-            <body>
-                ${editorContent}
-            </body>
-            </html>`;
+        // 4. יצירת ההורדה
+        const blob = new Blob([fullDoc], { type: 'text/html;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'website.html';
+        link.click();
 
-    // 4. יצירת ההורדה
-    const blob = new Blob([fullDoc], { type: 'text/html;charset=utf-8' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'website.html';
-    link.click();
-
-    // שחרור זיכרון
-    URL.revokeObjectURL(link.href);
-    alert('המסמך הורד כקובץ HTML.');
-});
+        // שחרור זיכרון
+        URL.revokeObjectURL(link.href);
+        alert('הדף הורד כקובץ HTML.');
+    });
 
 
-// // --- לוגיקה של תפריט "תצוגה" ---
-// $('fullscreen').whenClick(() => {
-//     if (!document.fullscreenElement) {
-//         document.documentElement.requestFullscreen().catch(err => {
-//             alert(`שגיאה במעבר למסך מלא: ${err.message}`);
-//         });
-//     } else {
-//         document.exitFullscreen();
-//     }
-// });
-
+    // --- לוגיקה של תפריט "תצוגה" ---
+    $('fullscreen').whenClick(() => {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                alert(`שגיאה במעבר למסך מלא: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    });
+}
 
 
 
 /*=====================*/
 
+
+
+
+function saveDocInLocalStorage() {
+    localStorage.setItem('screenEditor_page', convertToHTMLPage());
+}
+
+
+function convertToHTMLPage() {
+    return `
+    <!DOCTYPE html>
+    <html lang="he" dir="rtl">
+    <head>
+        <meta charset="UTF-8">
+        <title>האתר שלי</title>
+        <style id='user_styles'>             
+            ${Style.getCssText()}
+        </style>
+    </head>
+    <body>
+        ${editor.outerHTML.replaceAll('contenteditable="true"', '')}
+    </body>
+    </html>`;
+}
+
 function handleFileUpload(event) {
     const file = event.target.files[0];
-    if (!file) return;
-    if (!restartPage()) return;
+    if (!file || !restartPage()) return;
 
     const reader = new FileReader();
     reader.onload = function (e) {
@@ -93,15 +98,20 @@ function processImportedHTML(htmlString) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, 'text/html');
     let newContent = doc.body;
+    let hasProblemId = false; // האם יש אלמנט עם מזהה "דף_הבסיס" שאינו עוטף הכל
     const base = newContent.$('דף_הבסיס'); // טיפול במצב שיש id שהמערכת משתמשת בו.
-    //  צריך לטפל גם בשאר ה-id's אבל כרגע רק זה קריטי כי כשמורידים את האתר המוכן, זה הבסיס שלו.
     if (base) {
         if (newContent.children.length === 1 && newContent.children[0] === base)
             newContent = base;
         else
-            base.id = 'דף_הבסיס(1)'
+            hasProblemId = true;
     }
     const newStyles = doc.querySelectorAll('style');
+
+    // המעבר על תגיות ה-style שנמצאו בקובץ. 
+    // מתבצע לפני המרת האינליין כדי שלא יווצרו 2 חוקים באותו סלקטור וגם האינליין יהיה יותר חלש
+    const cssText = Array.from(newStyles).map(st => st.innerHTML).join('/n');
+    Style.insertIntoTag(cssText);
 
     // 3. המרת ה-DOM החדש: מעבר מ-Inline ל-Internal
     // אנחנו עוברים על הילדים של התוכן החדש ומעבדים אותם
@@ -115,12 +125,7 @@ function processImportedHTML(htmlString) {
             convertInlineToInternalRecursively(importedNode);
         }
     });
-
-    // המעבר על תגיות ה-style שנמצאו בקובץ
-    // newStyles.forEach(st => importCSSRulesFromText(st.textContent));
-    // עדיף לאסוף הכול ואז להכניס לתגית. בנוסף, לבדוק איך לבצע בצורה בטיחותית
-    newStyles.forEach(st => editorDoc.$('user_styles').innerHTML += st.innerHTML);
-    Style.refreshSheet(); // רענון הרפרנס כך שיקלוט גם את הסטיילים החדשים
+    if (hasProblemId) editor.$('דף_הבסיס').id = 'דף_הבסיס(1)';
 
     // 4. סיום: רענון העץ והמאזינים
     tree.build.tree();
@@ -141,9 +146,8 @@ function convertInlineToInternalRecursively(element) {
     if (element.getAttribute('style')) {
 
         // יצירת הסלקטור
-        const selector = '#' + id;
         /** @type {CSSStyleRule} */
-        const rule = Style.ensureRule(selector);
+        const rule = Style.ensureRule('#' + id);
 
         // מעבר על כל התכונות ב-style
         for (let i = 0; i < element.style.length; i++) {
@@ -156,7 +160,7 @@ function convertInlineToInternalRecursively(element) {
             rule.style[camelProp] = value;
         }
 
-        // ג. ניקוי הסטייל האינליין (כדי שלא יתנגש ושיהיה "נקי")
+        // ג. ניקוי הסטייל האינליין
         element.removeAttribute('style');
     }
 
@@ -166,41 +170,4 @@ function convertInlineToInternalRecursively(element) {
             convertInlineToInternalRecursively(child);
         });
     }
-}
-
-
-/**
- * פונקציה שמקבלת טקסט של CSS, מפרקת אותו לחוקים,
- * ומכניסה אותם למערכת ה-Style.
- */
-function importCSSRulesFromText(cssText) {
-    // טריק: יצירת אלמנט style זמני כדי שהדפדפן יפרסר את ה-CSS עבורנו
-    const iframe = document.createElement('iframe');
-    iframe.addClass('hide');
-    document.body.appendChild(iframe);
-
-    const doc = iframe.contentDocument;
-    const style = doc.createElement('style');
-    style.textContent = cssText;
-    doc.head.appendChild(style);
-
-    // עכשיו יש לנו גישה ל-rules המפורסרים
-    const rules = doc.styleSheets[0].cssRules;
-
-    for (let i = 0; i < rules.length; i++) {
-        const rule = rules[i];
-
-        // אנחנו מטפלים כרגע רק בחוקי סגנון רגילים (type 1)
-        if (rule.type === 1) { // CSSStyleRule
-            const selector = rule.selectorText;
-
-            // יצירת החוק
-            const newSystemRule = Style.ensureRule(selector);
-            newSystemRule.cssText = rule.cssText
-
-        }
-    }
-
-    // ניקוי
-    document.body.removeChild(iframe);
 }

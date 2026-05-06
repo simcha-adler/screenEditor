@@ -13,6 +13,7 @@ const defaultData = {
 };
 
 let data = {};
+let intervalSave;
 
 function init() {
     // טעינה מ-LocalStorage
@@ -65,6 +66,12 @@ function apply() {
         editor.addClass('show-outlines');
     } else {
         editor.removeClass('show-outlines');
+    }
+
+    if (data.autoSave) {
+        intervalSave = setInterval(saveDocInLocalStorage, 300000);
+    } else {
+        clearInterval(internalSave);
     }
 };
 

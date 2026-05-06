@@ -11,6 +11,7 @@
     position: relative;
     width: 279px;
     /* כדי שהתוכן לא "יימעך" בזמן האנימציה */
+    direction: ltr;
 }
 
 .panel-header {
@@ -106,6 +107,7 @@
     gap: 25px;
     padding-bottom: 20px;
     border-bottom: 1px solid var(--ui-15);
+    direction: rtl;
 }
 
 input,

@@ -28,3 +28,15 @@ body {
 *::before {
     box-sizing: border-box;
 }
+
+*::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 6px;
+    height: 6px;
+}
+
+*::-webkit-scrollbar-thumb {
+    -webkit-appearance: none;
+    background: #ccc;
+    border-radius: 3px;
+}
