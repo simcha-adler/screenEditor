@@ -100,6 +100,7 @@
  * @typedef {Object} objInputText
  * @property {string} prop
  * @property {string} [placeholder]
+ * @property {string} [placeValue]
  * @property {Function} [oninput]
  * @property {Details} [details]
 */

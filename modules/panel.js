@@ -38,10 +38,6 @@ function restartPanel(panel) {
         case 'panel-settings':
             break;
 
-        case 'panel-classes':
-            refreshClassesView();
-            break;
-
         default:
             fillValues.panel(panel);
             break;

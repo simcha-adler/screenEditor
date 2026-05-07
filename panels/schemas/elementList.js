@@ -17,7 +17,7 @@ export const elementsList = {
     'h1': {
         label: '🇹 כותרת ראשית (H1)',
         fields: [
-            new UI.inputRow({ label: 'תוכן', input: new UI.input.text({ prop: 'text', placeholder: 'כותרת גדולה' }) }),
+            new UI.inputRow({ label: 'תוכן', input: new UI.input.text({ prop: 'text', placeValue: 'כותרת גדולה' }) }),
             new UI.inputRow({ label: 'צבע', input: new UI.input.color({ prop: 'color', defaultValue: '#222222', hasGradient: false }) })
         ],
         html: (d) => `<h1 id="${d.id}">${d.text}</h1>`,
@@ -26,7 +26,7 @@ export const elementsList = {
     'h2': {
         label: '🇹 כותרת משנית (H2)',
         fields: [
-            new UI.inputRow({ label: 'תוכן', input: new UI.input.text({ prop: 'text', placeholder: 'כותרת משנה' }) }),
+            new UI.inputRow({ label: 'תוכן', input: new UI.input.text({ prop: 'text', placeValue: 'כותרת משנה' }) }),
             new UI.inputRow({ label: 'צבע', input: new UI.input.color({ prop: 'color', defaultValue: '#444444', hasGradient: false }) })
         ],
         html: (d) => `<h2 id="${d.id}">${d.text}</h2>`,
@@ -36,7 +36,7 @@ export const elementsList = {
     'video': {
         label: '🎬 וידאו (Video)',
         fields: [
-            new UI.inputRow({ label: 'כתובת וידאו (URL)', input: new UI.input.text({ prop: 'src', placeholder: 'https://www.w3schools.com/html/mov_bbb.mp4' }) }),
+            new UI.inputRow({ label: 'כתובת וידאו (URL)', input: new UI.input.text({ prop: 'src', placeValue: 'https://www.w3schools.com/html/mov_bbb.mp4' }) }),
             new UI.inputRow({ label: 'הצג פקדים', input: new UI.input.toggle({ prop: 'controls', v: true, x: false }) }),
             new UI.inputRow({ label: 'ניגון אוטומטי', input: new UI.input.toggle({ prop: 'autoplay', v: true, x: false }) })
         ],
@@ -47,8 +47,8 @@ export const elementsList = {
     'link': {
         label: '🔗 קישור (Link)',
         fields: [
-            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 'text', placeholder: 'לחץ כאן למעבר' }) }),
-            new UI.inputRow({ label: 'כתובת (URL)', input: new UI.input.text({ prop: 'href', placeholder: 'https://google.com' }) }),
+            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 'text', placeValue: 'לחץ כאן למעבר' }) }),
+            new UI.inputRow({ label: 'כתובת (URL)', input: new UI.input.text({ prop: 'href', placeValue: 'https://google.com' }) }),
             new UI.inputRow({ label: 'צבע', input: new UI.input.color({ prop: 'color', defaultValue: '#0078d4', hasGradient: false }) })
         ],
         html: (d) => `<a id="${d.id}" href="${d.href}" target="_blank">${d.text}</a>`,
@@ -80,9 +80,9 @@ export const elementsList = {
         label: '🔻 אקורדיון (Details)',
         fields: [
             new UI.inputRow({
-                label: 'כותרת גלויה', input: new UI.input.text({ prop: 'summary', placeholder: 'לחצו לפתיחת פרטים' })
+                label: 'כותרת גלויה', input: new UI.input.text({ prop: 'summary', placeValue: 'לחצו לפתיחת פרטים' })
             }),
-            new UI.inputRow({ label: 'תוכן מוסתר', input: new UI.input.text({ prop: 'content', placeholder: 'כאן מופיע המידע המפורט שנחשף בלחיצה...' }) })
+            new UI.inputRow({ label: 'תוכן מוסתר', input: new UI.input.text({ prop: 'content', placeValue: 'כאן מופיע המידע המפורט שנחשף בלחיצה...' }) })
         ],
         html: (d) => `
             <details id="${d.id}">
@@ -105,7 +105,7 @@ export const elementsList = {
     'text_block': {
         label: '📝 פסקה מעוצבת',
         fields: [
-            new UI.inputRow({ label: 'תוכן', input: new UI.input.text({ prop: 'content', placeholder: 'כתבו כאן את הטקסט שלכם...' }) }),
+            new UI.inputRow({ label: 'תוכן', input: new UI.input.text({ prop: 'content', placeValue: 'כתבו כאן את הטקסט שלכם...' }) }),
             new UI.inputRow({ label: 'גודל פונט', input: new UI.input.number({ prop: 'size', defaultValue: 16, unit: 'px' }) }),
             new UI.inputRow({ label: 'צבע', input: new UI.input.color({ prop: 'color', defaultValue: '#333333', hasGradient: false }) })
         ],
@@ -116,7 +116,7 @@ export const elementsList = {
     'button': {
         label: '🔘 כפתור',
         fields: [
-            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 'text', placeholder: 'לחצו כאן' }) }),
+            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 'text', placeValue: 'לחצו כאן' }) }),
             new UI.inputRow({ label: 'צבע רקע', input: new UI.input.color({ prop: 'bg', defaultValue: '#0078d4', hasGradient: true }) }),
             new UI.inputRow({ label: 'עיגול פינות', input: new UI.input.number({ prop: 'radius', defaultValue: 8, unit: 'px' }) })
         ],
@@ -140,7 +140,7 @@ export const elementsList = {
         label: '🖼️ תמונה עם מסגרת',
         fields: [
             new UI.inputRow({
-                label: 'URL', input: new UI.input.text({ prop: 'url', placeholder: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600' })
+                label: 'URL', input: new UI.input.text({ prop: 'url', placeValue: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600' })
             }),
             new UI.inputRow({ label: 'עיגול', input: new UI.input.number({ prop: 'radius', defaultValue: 12, unit: 'px' }) }),
             new UI.inputRow({ label: 'צל', input: new UI.input.toggle({ prop: 'shadow', v: '0 10px 20px rgba(0,0,0,0.1)', x: 'none' }) })
@@ -153,8 +153,8 @@ export const elementsList = {
     'hero': {
         label: '🚀 אזור פתיחה (Hero)',
         fields: [
-            new UI.inputRow({ label: 'כותרת', input: new UI.input.text({ prop: 'h1', placeholder: 'העתיד מתחיל כאן' }) }),
-            new UI.inputRow({ label: 'תת כותרת', input: new UI.input.text({ prop: 'h2', placeholder: 'בנו אתר מדהים בתוך דקות' }) }),
+            new UI.inputRow({ label: 'כותרת', input: new UI.input.text({ prop: 'h1', placeValue: 'העתיד מתחיל כאן' }) }),
+            new UI.inputRow({ label: 'תת כותרת', input: new UI.input.text({ prop: 'h2', placeValue: 'בנו אתר מדהים בתוך דקות' }) }),
             new UI.inputRow({ label: 'צבע טקסט', input: new UI.input.color({ prop: 'color', defaultValue: '#ffffff', hasGradient: false }) }),
             new UI.inputRow({ label: 'רקע', input: new UI.input.color({ prop: 'bg', defaultValue: '#1a1a1a', hasGradient: true }) })
         ],
@@ -182,9 +182,9 @@ export const elementsList = {
     'card': {
         label: '🃏 כרטיס שירות',
         fields: [
-            new UI.inputRow({ label: 'כותרת', input: new UI.input.text({ prop: 'title', placeholder: 'עיצוב גרפי' }) }),
-            new UI.inputRow({ label: 'תיאור', input: new UI.input.text({ prop: 'desc', placeholder: 'שירותי עיצוב ברמה הגבוהה ביותר' }) }),
-            new UI.inputRow({ label: 'אייקון (Emoji)', input: new UI.input.text({ prop: 'icon', placeholder: '🎨' }) })
+            new UI.inputRow({ label: 'כותרת', input: new UI.input.text({ prop: 'title', placeValue: 'עיצוב גרפי' }) }),
+            new UI.inputRow({ label: 'תיאור', input: new UI.input.text({ prop: 'desc', placeValue: 'שירותי עיצוב ברמה הגבוהה ביותר' }) }),
+            new UI.inputRow({ label: 'אייקון (Emoji)', input: new UI.input.text({ prop: 'icon', placeValue: '🎨' }) })
         ],
         html: (d) => `
             <div id="${d.id}" class="ui-card">
@@ -214,15 +214,15 @@ export const elementsList = {
         label: '📧 טופס יצירת קשר',
         fields: [
             new UI.inputRow({
-                label: 'כותרת', input: new UI.input.text({ prop: 'title', placeholder: 'צרו איתנו קשר' })
+                label: 'כותרת', input: new UI.input.text({ prop: 'title', placeValue: 'צרו איתנו קשר' })
             }),
             new UI.inputRow({ label: 'צבע כפתור', input: new UI.input.color({ prop: 'btnBg', defaultValue: '#2ecc71', hasGradient: true }) })
         ],
         html: (d) => `
             <div id="${d.id}">
                 <h2 id="${d.id}_h2">${d.title}</h2>
-                <input type="text" placeholder="שם מלא" style="width:100%; margin-bottom:10px; padding:10px; border:1px solid #ddd; border-radius:4px;">
-                <input type="email" placeholder="אימייל" style="width:100%; margin-bottom:10px; padding:10px; border:1px solid #ddd; border-radius:4px;">
+                <input type="text" placeValue="שם מלא" style="width:100%; margin-bottom:10px; padding:10px; border:1px solid #ddd; border-radius:4px;">
+                <input type="email" placeValue="אימייל" style="width:100%; margin-bottom:10px; padding:10px; border:1px solid #ddd; border-radius:4px;">
                 <button id="${d.id}_btn" style="width:100%; padding:12px; background:${d.btnBg}; color:white; border:none; border-radius:4px; cursor:pointer;">שלח הודעה</button>
             </div>
         `,
@@ -235,7 +235,7 @@ export const elementsList = {
     'navbar': {
         label: '📂 תפריט ניווט (Navbar)',
         fields: [
-            new UI.inputRow({ label: 'שם הלוגו', input: new UI.input.text({ prop: 'logo', placeholder: 'MySite' }) }),
+            new UI.inputRow({ label: 'שם הלוגו', input: new UI.input.text({ prop: 'logo', placeValue: 'MySite' }) }),
             new UI.inputRow({ label: 'צבע רקע', input: new UI.input.color({ prop: 'bg', defaultValue: '#ffffff', hasGradient: true }) })
         ],
         html: (d) => `
@@ -266,7 +266,7 @@ export const elementsList = {
     'section_title': {
         label: '🏷️ כותרת עם קו תחתי',
         fields: [
-            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 'text', placeholder: 'השירותים שלנו' }) }),
+            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 'text', placeValue: 'השירותים שלנו' }) }),
             new UI.inputRow({ label: 'צבע קו', input: new UI.input.color({ prop: 'lineColor', defaultValue: '#0078d4', hasGradient: false }) })
         ],
         html: (d) => `<div id="${d.id}" class="s-title"><h2>${d.text}</h2><div class="line"></div></div>`,
@@ -275,8 +275,8 @@ export const elementsList = {
     'blockquote': {
         label: '❞ ציטוט מעוצב',
         fields: [
-            new UI.inputRow({ label: 'ציטוט', input: new UI.input.text({ prop: 'text', placeholder: 'אל תחכה להזדמנות, צור אותה.' }) }),
-            new UI.inputRow({ label: 'מקור', input: new UI.input.text({ prop: 'author', placeholder: 'אלמוני' }) })
+            new UI.inputRow({ label: 'ציטוט', input: new UI.input.text({ prop: 'text', placeValue: 'אל תחכה להזדמנות, צור אותה.' }) }),
+            new UI.inputRow({ label: 'מקור', input: new UI.input.text({ prop: 'author', placeValue: 'אלמוני' }) })
         ],
         html: (d) => `<blockquote id="${d.id}"><p>"${d.text}"</p><cite>- ${d.author}</cite></blockquote>`,
         css: (d) => `#${d.id} { border-right: 5px solid #0078d4; padding: 20px; background: #f0f7ff; font-style: italic; } #${d.id} cite { display: block; margin-top: 10px; font-weight: bold; }`
@@ -286,7 +286,7 @@ export const elementsList = {
     'outline_button': {
         label: '🔲 כפתור מסגרת',
         fields: [
-            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 'text', placeholder: 'קרא עוד' }) }),
+            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 'text', placeValue: 'קרא עוד' }) }),
             new UI.inputRow({ label: 'צבע', input: new UI.input.color({ prop: 'color', defaultValue: '#333', hasGradient: false }) })
         ],
         html: (d) => `<button id="${d.id}">${d.text}</button>`,
@@ -305,9 +305,9 @@ export const elementsList = {
     'feature_icon': {
         label: '✨ תכונה (אייקון + טקסט)',
         fields: [
-            new UI.inputRow({ label: 'אייקון', input: new UI.input.text({ prop: 'icon', placeholder: '🚀' }) }),
-            new UI.inputRow({ label: 'כותרת', input: new UI.input.text({ prop: 'title', placeholder: 'מהירות שיא' }) }),
-            new UI.inputRow({ label: 'תיאור', input: new UI.input.text({ prop: 'desc', placeholder: 'המערכת הכי מהירה בשוק' }) })
+            new UI.inputRow({ label: 'אייקון', input: new UI.input.text({ prop: 'icon', placeValue: '🚀' }) }),
+            new UI.inputRow({ label: 'כותרת', input: new UI.input.text({ prop: 'title', placeValue: 'מהירות שיא' }) }),
+            new UI.inputRow({ label: 'תיאור', input: new UI.input.text({ prop: 'desc', placeValue: 'המערכת הכי מהירה בשוק' }) })
         ],
         html: (d) => `<div id="${d.id}" class="feature"><i>${d.icon}</i><h3>${d.title}</h3><p>${d.desc}</p></div>`,
         css: (d) => `#${d.id} { text-align: center; padding: 20px; } #${d.id} i { font-size: 40px; } #${d.id} h3 { margin: 10px 0; }`
@@ -324,7 +324,7 @@ export const elementsList = {
     'video_embed': {
         label: '📺 וידאו יוטיוב',
         fields: [
-            new UI.inputRow({ label: 'קוד וידאו (ID)', input: new UI.input.text({ prop: 'vid', placeholder: 'dQw4w9WgXcQ' }) })
+            new UI.inputRow({ label: 'קוד וידאו (ID)', input: new UI.input.text({ prop: 'vid', placeValue: 'dQw4w9WgXcQ' }) })
         ],
         html: (d) => `<div id="${d.id}"><iframe width="100%" height="315" src="https://www.youtube.com/embed/${d.vid}" frameborder="0" allowfullscreen></iframe></div>`,
         css: (d) => `#${d.id} { border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }`
@@ -334,9 +334,9 @@ export const elementsList = {
     'testimonial_card': {
         label: '👤 המלצת לקוח',
         fields: [
-            new UI.inputRow({ label: 'שם הלקוח', input: new UI.input.text({ prop: 'name', placeholder: 'ישראל ישראלי' }) }),
-            new UI.inputRow({ label: 'תפקיד', input: new UI.input.text({ prop: 'job', placeholder: 'מנכ"ל' }) }),
-            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 'txt', placeholder: 'שירות פשוט מעולה!' }) })
+            new UI.inputRow({ label: 'שם הלקוח', input: new UI.input.text({ prop: 'name', placeValue: 'ישראל ישראלי' }) }),
+            new UI.inputRow({ label: 'תפקיד', input: new UI.input.text({ prop: 'job', placeValue: 'מנכ"ל' }) }),
+            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 'txt', placeValue: 'שירות פשוט מעולה!' }) })
         ],
         html: (d) => `<div id="${d.id}" class="testimonial"><p>"${d.txt}"</p><strong>${d.name}</strong><span>${d.job}</span></div>`,
         css: (d) => `#${d.id} { background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; } #${d.id} span { display: block; font-size: 12px; color: #777; }`
@@ -344,8 +344,8 @@ export const elementsList = {
     'pricing_badge': {
         label: '🏷️ תג מחיר',
         fields: [
-            new UI.inputRow({ label: 'מחיר', input: new UI.input.text({ prop: 'p', placeholder: '₪99' }) }),
-            new UI.inputRow({ label: 'תקופה', input: new UI.input.text({ prop: 't', placeholder: '/ לחודש' }) })
+            new UI.inputRow({ label: 'מחיר', input: new UI.input.text({ prop: 'p', placeValue: '₪99' }) }),
+            new UI.inputRow({ label: 'תקופה', input: new UI.input.text({ prop: 't', placeValue: '/ לחודש' }) })
         ],
         html: (d) => `<div id="${d.id}"><strong>${d.p}</strong><small>${d.t}</small></div>`,
         css: (d) => `#${d.id} { display: inline-block; padding: 10px 20px; background: #222; color: #fff; border-radius: 50px; }`
@@ -363,7 +363,7 @@ export const elementsList = {
     'full_width_banner': {
         label: '🏁 באנר רחב',
         fields: [
-            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 'text', placeholder: 'מבצע מיוחד לזמן מוגבל!' }) }),
+            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 'text', placeValue: 'מבצע מיוחד לזמן מוגבל!' }) }),
             new UI.inputRow({ label: 'צבע רקע', input: new UI.input.color({ prop: 'bg', defaultValue: '#ff4757', hasGradient: true }) })
         ],
         html: (d) => `<div id="${d.id}">${d.text}</div>`,
@@ -380,8 +380,8 @@ export const elementsList = {
     'image_caption': {
         label: '🖼️ תמונה עם כיתוב',
         fields: [
-            new UI.inputRow({ label: 'URL', input: new UI.input.text({ prop: 'src', placeholder: 'https://via.placeholder.com/300x200' }) }),
-            new UI.inputRow({ label: 'כיתוב', input: new UI.input.text({ prop: 'cap', placeholder: 'תיאור התמונה' }) })
+            new UI.inputRow({ label: 'URL', input: new UI.input.text({ prop: 'src', placeValue: 'https://via.placeValue.com/300x200' }) }),
+            new UI.inputRow({ label: 'כיתוב', input: new UI.input.text({ prop: 'cap', placeValue: 'תיאור התמונה' }) })
         ],
         html: (d) => `<figure id="${d.id}"><img src="${d.src}"><figcaption>${d.cap}</figcaption></figure>`,
         css: (d) => `#${d.id} { margin: 0; width: 100%; } #${d.id} img { width: 100%; border-radius: 8px; } #${d.id} figcaption { text-align: center; font-size: 14px; color: #666; margin-top: 8px; }`
@@ -389,8 +389,8 @@ export const elementsList = {
     'faq_item': {
         label: '❓ פריט שאלות ותשובות',
         fields: [
-            new UI.inputRow({ label: 'שאלה', input: new UI.input.text({ prop: 'q', placeholder: 'איך זה עובד?' }) }),
-            new UI.inputRow({ label: 'תשובה', input: new UI.input.text({ prop: 'a', placeholder: 'פשוט מאוד, נרשמים ומתחילים.' }) })
+            new UI.inputRow({ label: 'שאלה', input: new UI.input.text({ prop: 'q', placeValue: 'איך זה עובד?' }) }),
+            new UI.inputRow({ label: 'תשובה', input: new UI.input.text({ prop: 'a', placeValue: 'פשוט מאוד, נרשמים ומתחילים.' }) })
         ],
         html: (d) => `<div id="${d.id}"><h4>${d.q}</h4><p>${d.a}</p></div>`,
         css: (d) => `#${d.id} { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; } #${d.id} h4 { margin-bottom: 5px; color: #0078d4; }`
@@ -398,7 +398,7 @@ export const elementsList = {
     'footer_simple': {
         label: '┸ פוטר פשוט',
         fields: [
-            new UI.inputRow({ label: 'קרדיט', input: new UI.input.text({ prop: 't', placeholder: '© 2024 כל הזכויות שמורות' }) })
+            new UI.inputRow({ label: 'קרדיט', input: new UI.input.text({ prop: 't', placeValue: '© 2024 כל הזכויות שמורות' }) })
         ],
         html: (d) => `<footer id="${d.id}">${d.t}</footer>`,
         css: (d) => `#${d.id} { padding: 20px; text-align: center; border-top: 1px solid #eee; font-size: 13px; color: #888; }`
@@ -415,7 +415,7 @@ export const elementsList = {
     'tag_pill': {
         label: '💊 תגית (Pill)',
         fields: [
-            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 't', placeholder: 'עיצוב' }) }),
+            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 't', placeValue: 'עיצוב' }) }),
             new UI.inputRow({ label: 'צבע', input: new UI.input.color({ prop: 'bg', defaultValue: '#dfe4ea', hasGradient: false }) })
         ],
         html: (d) => `<span id="${d.id}">${d.t}</span>`,
@@ -424,8 +424,8 @@ export const elementsList = {
     'contact_info': {
         label: '📞 פרטי התקשרות',
         fields: [
-            new UI.inputRow({ label: 'טלפון', input: new UI.input.text({ prop: 'p', placeholder: '050-0000000' }) }),
-            new UI.inputRow({ label: 'אימייל', input: new UI.input.text({ prop: 'e', placeholder: 'test@mail.com' }) })
+            new UI.inputRow({ label: 'טלפון', input: new UI.input.text({ prop: 'p', placeValue: '050-0000000' }) }),
+            new UI.inputRow({ label: 'אימייל', input: new UI.input.text({ prop: 'e', placeValue: 'test@mail.com' }) })
         ],
         html: (d) => `<div id="${d.id}"><div>📞 ${d.p}</div><div>✉ ${d.e}</div></div>`,
         css: (d) => `#${d.id} { font-size: 14px; line-height: 1.8; }`
@@ -433,7 +433,7 @@ export const elementsList = {
     'avatar_box': {
         label: '👤 תמונת פרופיל עיגול',
         fields: [
-            new UI.inputRow({ label: 'URL', input: new UI.input.text({ prop: 'src', placeholder: 'https://via.placeholder.com/100' }) }),
+            new UI.inputRow({ label: 'URL', input: new UI.input.text({ prop: 'src', placeValue: 'https://via.placeValue.com/100' }) }),
             new UI.inputRow({ label: 'גודל', input: new UI.input.number({ prop: 's', defaultValue: 80, unit: 'px' }) })
         ],
         html: (d) => `<img id="${d.id}" src="${d.src}">`,
@@ -442,9 +442,9 @@ export const elementsList = {
     'newsletter_mini': {
         label: '📧 הרשמה לניוזלטר (מיני)',
         fields: [
-            new UI.inputRow({ label: 'כותרת', input: new UI.input.text({ prop: 't', placeholder: 'הצטרפו לעדכונים' }) })
+            new UI.inputRow({ label: 'כותרת', input: new UI.input.text({ prop: 't', placeValue: 'הצטרפו לעדכונים' }) })
         ],
-        html: (d) => `<div id="${d.id}"><h4>${d.t}</h4><input type="email" placeholder="המייל שלך"><button>שלח</button></div>`,
+        html: (d) => `<div id="${d.id}"><h4>${d.t}</h4><input type="email" placeValue="המייל שלך"><button>שלח</button></div>`,
         css: (d) => `#${d.id} { padding: 15px; background: #f9f9f9; border-radius: 8px; text-align: center; } #${d.id} input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 5px; width: 100%; }`
     },
 
@@ -463,7 +463,7 @@ export const elementsList = {
     'gradient_text': {
         label: '🌈 כותרת גרדיאנט',
         fields: [
-            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 't', placeholder: 'כותרת נוצצת' }) }),
+            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 't', placeValue: 'כותרת נוצצת' }) }),
             new UI.inputRow({ label: 'צבע 1', input: new UI.input.color({ prop: 'c1', defaultValue: '#ff00cc', hasGradient: false }) }),
             new UI.inputRow({ label: 'צבע 2', input: new UI.input.color({ prop: 'c2', defaultValue: '#3333ff', hasGradient: false }) })
         ],
@@ -478,16 +478,16 @@ export const elementsList = {
             new UI.inputRow({ label: 'מספר עמודות', input: new UI.input.number({ prop: 'cols', defaultValue: 3 }) }),
             new UI.inputRow({ label: 'מרווח', input: new UI.input.number({ prop: 'gap', defaultValue: 10, unit: 'px' }) })
         ],
-        html: (d) => `<div id="${d.id}">${Array(6).fill('<div class="img-placeholder"></div>').join('')}</div>`,
-        css: (d) => `#${d.id} { display: grid; grid-template-columns: repeat(${d.cols}, 1fr); gap: ${d.gap}; } .img-placeholder { background: #ddd; aspect-ratio: 1; border-radius: 4px; }`
+        html: (d) => `<div id="${d.id}">${Array(6).fill('<div class="img-placeValue"></div>').join('')}</div>`,
+        css: (d) => `#${d.id} { display: grid; grid-template-columns: repeat(${d.cols}, 1fr); gap: ${d.gap}; } .img-placeValue { background: #ddd; aspect-ratio: 1; border-radius: 4px; }`
     },
 
     // --- 4. כרטיס מחיר ---
     'price_card': {
         label: '💰 כרטיס חבילה',
         fields: [
-            new UI.inputRow({ label: 'שם חבילה', input: new UI.input.text({ prop: 'name', placeholder: 'Premium' }) }),
-            new UI.inputRow({ label: 'מחיר', input: new UI.input.text({ prop: 'price', placeholder: '99' }) }),
+            new UI.inputRow({ label: 'שם חבילה', input: new UI.input.text({ prop: 'name', placeValue: 'Premium' }) }),
+            new UI.inputRow({ label: 'מחיר', input: new UI.input.text({ prop: 'price', placeValue: '99' }) }),
             new UI.inputRow({ label: 'צבע דומיננטי', input: new UI.input.color({ prop: 'clr', defaultValue: '#e67e22', hasGradient: false }) })
         ],
         html: (d) => `<div id="${d.id}"><h3>${d.name}</h3><div class="p">₪${d.price}</div><button>בחר חבילה</button></div>`,
@@ -498,7 +498,7 @@ export const elementsList = {
     'alert_box': {
         label: '⚠️ תיבת התראה',
         fields: [
-            new UI.inputRow({ label: 'הודעה', input: new UI.input.text({ prop: 'm', placeholder: 'פעולה בוצעה בהצלחה' }) }),
+            new UI.inputRow({ label: 'הודעה', input: new UI.input.text({ prop: 'm', placeValue: 'פעולה בוצעה בהצלחה' }) }),
             new UI.inputRow({ label: 'סוג', input: new UI.input.select({ prop: 'type', options: [{ value: '#d4edda', text: 'הצלחה' }, { value: '#f8d7da', text: 'שגיאה' }] }) })
         ],
         html: (d) => `<div id="${d.id}">${d.m}</div>`,
@@ -509,7 +509,7 @@ export const elementsList = {
     'fab_button': {
         label: '🔘 כפתור צף (WhatsApp)',
         fields: [
-            new UI.inputRow({ label: 'אייקון/טקסט', input: new UI.input.text({ prop: 't', placeholder: '💬' }) }),
+            new UI.inputRow({ label: 'אייקון/טקסט', input: new UI.input.text({ prop: 't', placeValue: '💬' }) }),
             new UI.inputRow({ label: 'צבע', input: new UI.input.color({ prop: 'bg', defaultValue: '#25d366', hasGradient: true }) })
         ],
         html: (d) => `<div id="${d.id}">${d.t}</div>`,
@@ -520,7 +520,7 @@ export const elementsList = {
     'tooltip_box': {
         label: '💬 תיבת מידע (Tooltip)',
         fields: [
-            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 't', placeholder: 'מידע נוסף כאן' }) })
+            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 't', placeValue: 'מידע נוסף כאן' }) })
         ],
         html: (d) => `<div id="${d.id}">${d.t}</div>`,
         css: (d) => `#${d.id} { position: relative; display: inline-block; padding: 5px 12px; background: #333; color: white; border-radius: 4px; font-size: 12px; } #${d.id}::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: #333 transparent transparent transparent; }`
@@ -541,8 +541,8 @@ export const elementsList = {
     'profile_card': {
         label: '👤 כרטיס איש צוות',
         fields: [
-            new UI.inputRow({ label: 'שם', input: new UI.input.text({ prop: 'n', placeholder: 'יוסי כהן' }) }),
-            new UI.inputRow({ label: 'תפקיד', input: new UI.input.text({ prop: 'j', placeholder: 'מעצב' }) })
+            new UI.inputRow({ label: 'שם', input: new UI.input.text({ prop: 'n', placeValue: 'יוסי כהן' }) }),
+            new UI.inputRow({ label: 'תפקיד', input: new UI.input.text({ prop: 'j', placeValue: 'מעצב' }) })
         ],
         html: (d) => `<div id="${d.id}"><div class="avatar"></div><h4>${d.n}</h4><p>${d.j}</p></div>`,
         css: (d) => `#${d.id} { text-align: center; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); } #${d.id} .avatar { width: 80px; height: 80px; background: #eee; border-radius: 50%; margin: 0 auto 10px; }`
@@ -552,9 +552,9 @@ export const elementsList = {
     'search_bar': {
         label: '🔍 שורת חיפוש',
         fields: [
-            new UI.inputRow({ label: 'טקסט פלייסהולדר', input: new UI.input.text({ prop: 'p', placeholder: 'חפש באתר...' }) })
+            new UI.inputRow({ label: 'טקסט פלייסהולדר', input: new UI.input.text({ prop: 'p', placeValue: 'חפש באתר...' }) })
         ],
-        html: (d) => `<div id="${d.id}"><input type="text" placeholder="${d.p}"><button>🔍</button></div>`,
+        html: (d) => `<div id="${d.id}"><input type="text" placeValue="${d.p}"><button>🔍</button></div>`,
         css: (d) => `#${d.id} { display: flex; border: 1px solid #ddd; border-radius: 25px; overflow: hidden; background: white; } #${d.id} input { border: none; padding: 10px 20px; flex: 1; outline: none; } #${d.id} button { border: none; background: none; padding: 0 15px; cursor: pointer; }`
     },
 
@@ -562,8 +562,8 @@ export const elementsList = {
     'stats_counter': {
         label: '📊 מונה מספרים',
         fields: [
-            new UI.inputRow({ label: 'מספר', input: new UI.input.text({ prop: 'num', placeholder: '1,500' }) }),
-            new UI.inputRow({ label: 'תווית', input: new UI.input.text({ prop: 'lbl', placeholder: 'לקוחות מרוצים' }) })
+            new UI.inputRow({ label: 'מספר', input: new UI.input.text({ prop: 'num', placeValue: '1,500' }) }),
+            new UI.inputRow({ label: 'תווית', input: new UI.input.text({ prop: 'lbl', placeValue: 'לקוחות מרוצים' }) })
         ],
         html: (d) => `<div id="${d.id}"><strong>${d.num}</strong><span>${d.lbl}</span></div>`,
         css: (d) => `#${d.id} { text-align: center; } #${d.id} strong { display: block; font-size: 32px; color: #0078d4; } #${d.id} span { color: #666; font-size: 14px; }`
@@ -585,11 +585,11 @@ export const elementsList = {
         fields: [
             new UI.inputRow({ label: 'צבע כפתור', input: new UI.input.color({ prop: 'btn', defaultValue: '#3498db', hasGradient: true }) })
         ],
-        html: (d) => `<div id="${d.id}"><input type="email" placeholder="אימייל"><input type="password" placeholder="סיסמה"><button>התחבר</button></div>`,
+        html: (d) => `<div id="${d.id}"><input type="email" placeValue="אימייל"><input type="password" placeValue="סיסמה"><button>התחבר</button></div>`,
         css: (d) => `#${d.id} { display: flex; flex-direction: column; gap: 10px; max-width: 300px; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); } #${d.id} input { padding: 10px; border: 1px solid #ddd; border-radius: 4px; } #${d.id} button { background: ${d.btn}; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; }`
     },
 
-    // --- 14. מפת גוגל (Placeholder) ---
+    // --- 14. מפת גוגל (placeValue) ---
     'google_map': {
         label: '📍 מפה (מקום שמור)',
         fields: [
@@ -603,8 +603,8 @@ export const elementsList = {
     'product_card': {
         label: '🛒 כרטיס מוצר',
         fields: [
-            new UI.inputRow({ label: 'שם מוצר', input: new UI.input.text({ prop: 'n', placeholder: 'נעלי ריצה' }) }),
-            new UI.inputRow({ label: 'מחיר', input: new UI.input.text({ prop: 'p', placeholder: '299' }) })
+            new UI.inputRow({ label: 'שם מוצר', input: new UI.input.text({ prop: 'n', placeValue: 'נעלי ריצה' }) }),
+            new UI.inputRow({ label: 'מחיר', input: new UI.input.text({ prop: 'p', placeValue: '299' }) })
         ],
         html: (d) => `<div id="${d.id}"><div class="img"></div><h4>${d.n}</h4><div class="price">₪${d.p}</div><button>הוסף לסל</button></div>`,
         css: (d) => `#${d.id} { width: 200px; padding: 15px; border: 1px solid #eee; border-radius: 8px; text-align: center; } #${d.id} .img { height: 150px; background: #f9f9f9; margin-bottom: 10px; } #${d.id} button { width: 100%; padding: 8px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; }`
@@ -644,7 +644,7 @@ export const elementsList = {
     'coupon_banner': {
         label: '✂️ קופון הנחה',
         fields: [
-            new UI.inputRow({ label: 'קוד', input: new UI.input.text({ prop: 'code', placeholder: 'SALE20' }) }),
+            new UI.inputRow({ label: 'קוד', input: new UI.input.text({ prop: 'code', placeValue: 'SALE20' }) }),
             new UI.inputRow({ label: 'צבע', input: new UI.input.color({ prop: 'c', defaultValue: '#f1c40f', hasGradient: false }) })
         ],
         html: (d) => `<div id="${d.id}">קוד קופון: <span>${d.code}</span></div>`,
@@ -655,7 +655,7 @@ export const elementsList = {
     'chat_bubble': {
         label: '💬 בועת צ\'אט',
         fields: [
-            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 't', placeholder: 'היי, איך אפשר לעזור?' }) })
+            new UI.inputRow({ label: 'טקסט', input: new UI.input.text({ prop: 't', placeValue: 'היי, איך אפשר לעזור?' }) })
         ],
         html: (d) => `<div id="${d.id}">${d.t}</div>`,
         css: (d) => `#${d.id} { background: #0078d4; color: white; padding: 10px 15px; border-radius: 15px 15px 0 15px; max-width: 200px; font-size: 14px; position: relative; }`

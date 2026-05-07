@@ -3,10 +3,11 @@
 ========================*/
 
 :root {
-    --h: 240;
     /* גוון */
-    --c: 20;
+    --h: 240;
     /* רמת גוון (קו אופקי בפיקר): 0 = שחור - לבן, 100 = שחור - גוון */
+    /* במצב צבעוני - רמת גוון (קו אנכי בפיקר): 0 = שחור - שחור, 100 = לבן - גוון */
+    --c: 100;
     --d: calc(var(--c) * 1%);
     /* עבור אקצנט ליצור משתנה גוון, ובהובר להבהיר / להכהות */
 
@@ -28,24 +29,24 @@
 
 body.editor-dark-mode {
     --ui-base: hwb(var(--h) 5% 95%);
-    --ui-5: hwb(var(--h) calc(10% - var(--d)) 90%);
-    --ui-10: hwb(var(--h) calc(15% - var(--d)) 85%);
-    --ui-15: hwb(var(--h) calc(20% - var(--d)) 80%);
-    --ui-20: hwb(var(--h) calc(25% - var(--d)) 75%);
-    --ui-25: hwb(var(--h) calc(30% - var(--d)) 70%);
-    --ui-45: hwb(var(--h) calc(50% - var(--d)) 50%);
-    --ui-80: hwb(var(--h) calc(85% - var(--d)) 15%);
+    --ui-5: hwb(var(--h) calc(13% - var(--d)) 87%);
+    --ui-10: hwb(var(--h) calc(20% - var(--d)) 80%);
+    --ui-15: hwb(var(--h) calc(27% - var(--d)) 73%);
+    --ui-20: hwb(var(--h) calc(35% - var(--d)) 65%);
+    --ui-25: hwb(var(--h) calc(42% - var(--d)) 58%);
+    --ui-45: hwb(var(--h) calc(65% - var(--d)) 35%);
+    --ui-80: hwb(var(--h) calc(95% - var(--d)) 5%);
 }
 
 body.editor-dark-mode.color {
     --ui-base: hwb(var(--h) 5% var(--d));
-    --ui-5: hwb(var(--h) 10% var(--d));
-    --ui-10: hwb(var(--h) 15% var(--d));
-    --ui-15: hwb(var(--h) 20% var(--d));
-    --ui-20: hwb(var(--h) 25% var(--d));
-    --ui-25: hwb(var(--h) 30% var(--d));
-    --ui-45: hwb(var(--h) 50% var(--d));
-    --ui-80: hwb(var(--h) 85% var(--d));
+    --ui-5: hwb(var(--h) 13% var(--d));
+    --ui-10: hwb(var(--h) 20% var(--d));
+    --ui-15: hwb(var(--h) 27% var(--d));
+    --ui-20: hwb(var(--h) 35% var(--d));
+    --ui-25: hwb(var(--h) 42% var(--d));
+    --ui-45: hwb(var(--h) 65% var(--d));
+    --ui-80: hwb(var(--h) 95% var(--d));
 }
 
 body.color {

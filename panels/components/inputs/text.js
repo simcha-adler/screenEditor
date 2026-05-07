@@ -10,6 +10,10 @@ export class UITextInput extends UIComponent {
         /** @type {HTMLInputElement} */
         const el = createElement('input', { type: 'text', class: 'ui-input', 'data-property': this.config.prop });
         if (this.config.placeholder) el.placeholder = this.config.placeholder;
+        if (this.config.value) {
+            el.placeholder = this.config.value;
+            el.when('keypress', (/**@type {KeyboardEvent} */ e) => { if (e.key === 'Enter') el.value = el.placeholder })
+        }
         if (this.config.details) this.applyBaseAttributes(el);
         return el;
     }

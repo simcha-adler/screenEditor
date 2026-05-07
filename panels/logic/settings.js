@@ -59,7 +59,8 @@ function apply() {
     document.documentElement.style.setProperty('--h', data.huePrimary);
     document.documentElement.style.setProperty('--c', data.saturationPrimary);
     document.documentElement.style.setProperty('--ui-accent', data.accent);
-    // canvasDoc.documentElement.style.setProperty('--ui-accent', data.accent);
+    document.documentElement.style.setProperty('--ui-accent-focus', data.accent);
+    editorDoc.documentElement.style.setProperty('--ui-accent', data.accent);
     // --- יישום גבולות עזר ---
     // מוסיף קלאס לקונטיינר של העורך
     if (data.showOutlines) {
