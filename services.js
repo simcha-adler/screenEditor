@@ -184,8 +184,8 @@ const Color = {
  */
 const fillValues = {
     panel: (panel) => {
+        if (!panel) return;
         const panelId = panel.id;
-        if (!panel || !Edit.getStyles()) return;
         switch (panelId) {
             case 'panel-settings':
                 return settings.fillValues();
@@ -201,8 +201,8 @@ const fillValues = {
 
             default:
                 const inputs = panel.$$('[data-property]');
-                const styles = Edit.getStyles();
-                if (!styles) return;
+                let styles = Edit.getStyles();
+                if (!styles) styles = {};
 
                 inputs.forEach(element => {
                     const prop = element.dataset.property;

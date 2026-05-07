@@ -1,21 +1,20 @@
 //@ts-check
 
-import { Edit } from "./edit.js";
-import { SelectorLock } from "./lock.js";
-import { Selector } from "./selector.js";
-import { Style } from "./styles.js";
-
-
 /** @type {number} - אינדקס המצב הנוכחי ברשימת המצבים */
 let correctMode = 0;
-const modes = ['element', 'class', 'tag'];
+const modes = ['element', 'class', 'tag', 'empty'];
 const dict = {
     element: toElementMode,
     class: toClassMode,
-    tag: toTagMode
+    tag: toTagMode,
+    empty: toEmptyMode
 }
-
-
+const visual = $('visual-type-selected');
+/**@type {any} */
+const wrapper = $1('.segmented-control');
+const idMode = wrapper.$('id-mode');
+const classMode = wrapper.$('class-mode');
+const tagMode = wrapper.$('tag-mode');
 
 /** @returns {string} - שם המצב הנוכחי */
 const getState = () => modes[correctMode];
@@ -26,27 +25,31 @@ const getState = () => modes[correctMode];
  *  @returns {boolean} - אישור עדכון
  */
 function updateState(nameState) {
-    if (nameState === getState()) return true;
     const index = modes.indexOf(nameState);
     if (index === -1) return false;
     correctMode = index;
-    dict[getState()](); // הפעלת פונקציה לפי המוד החדש בשליפה מתוך המילון
+    dict[nameState](); // הפעלת פונקציה לפי המוד החדש בשליפה מתוך המילון
     return true;
 };
 
 function toElementMode() {
-    Edit.elementSelected(Edit.getElement());
+    idMode.checked = true;
+    visual.style.background = 'magenta';
 }
 
 function toClassMode() {
-    const className = Style.getElementClasses(Edit.getElement())[0];
-    if (className) { Edit.classSelected(className); return; }
-    $('theElement').placeholder = 'אין עדיין קלאסים לאלמנט זה';
-    Selector.update('')
+    classMode.checked = true;
+    visual.style.background = 'aqua';
 }
 
 function toTagMode() {
-    Edit.tagSelected(Edit.getElement().tagName);
+    tagMode.checked = true;
+    visual.style.background = 'darkgreen';
+}
+
+function toEmptyMode() {
+    classMode.checked = true; // כרגע זו האפשרות היחידה לסלקטור ריק, ובנוסף, אצטרך לשמור מצב קודם
+    visual.style.background = '#bbb';
 }
 
 export const Mode = {

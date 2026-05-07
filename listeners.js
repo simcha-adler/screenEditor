@@ -62,7 +62,7 @@ function loadDocumentListeners() {
     });
 
     // שינוי סוג הסלקטור הנערך
-    $1('.segmented-control').when('change', (e) => { Mode.update(e.target.value) });
+    $1('.segmented-control').when('change', (e) => { Edit.changeMode(e.target.value) });
 }
 
 const designListeners = (e) => {

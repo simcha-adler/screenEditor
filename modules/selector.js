@@ -7,13 +7,27 @@ function getSelector() { return correctSelector };
 
 /** @param {string} selector; @returns {boolean} - אישור עדכון */
 function updateSelector(selector) {
-    // לוגיקת בדיקת תקינות כאן
+    if (!selector) emptySelector();
+    else if (!correctSelector) unemptySelector(); // הסלקטור הקודם היה ריק ולכן הכל מוקפא
     correctSelector = selector;
-    // שינויים בעקבות שינוי הסלקטור כאן
+    if (selector.startsWith('.') || selector.startsWith('#')) selector = selector.substring(1);
     $('theElement').value = selector.replaceAll('_', ' ');
     return true;
 };
 
+function emptySelector() {
+    $$('.inertable').forEach(
+        /**@param {HTMLElement} panel */
+        panel => panel.inert = true
+    );
+}
+
+function unemptySelector() {
+    $$('.inertable').forEach(
+        /**@param {HTMLElement} panel */
+        panel => panel.inert = false
+    );
+}
 
 export const Selector = {
     get: getSelector,

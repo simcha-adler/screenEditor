@@ -20,7 +20,13 @@ function initIframe() {
         <html dir="rtl">
         <head>
             <style id="user_styles"></style>
-            <link rel="stylesheet" href="./styles/orderCss/editor.css">
+            <style id="selected_element">
+                #דף_הבסיס {
+                    outline: 1px dashed var(--ui-accent);
+                    outline-offset: -1px;
+                }
+            </style>
+            <link rel="stylesheet" href="./styles/orderCss/editorFrame.css">
             <link rel="stylesheet" href="./styles/orderCss/animation.css">
             <script src="./lib/short.js"></script>
         </head>

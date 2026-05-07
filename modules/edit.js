@@ -7,82 +7,110 @@ import { Mode } from "./mode.js";
 import { Panel } from "./panel.js";
 
 let theElement = null;
-let theStyles = null
+let theStyles = null;
+// @ts-ignore
+let selectedRule;
+/**@type {any} */
+const state = $('dropdown-states');
 
-// משימה! ליצור עוד תגית סטייל בפריים של הנערך לצורך סטיילי עזר.
-// אחר כך, במקום להוסיף קלאס של הסלקטד, פשוט ליצור חוק עם העיצוב ולשנות לו את הסלקטור
-// כך זה יחסוך את המעבר על כל האלמנטים הקודמים עם הקלאס
+/**
+ * משנה את הסלקטור של חוק סימון האלמנט הנבחר
+ */
+function _changeSelectorRule(selector) {
+    if (!selectedRule)
+        // @ts-ignore
+        selectedRule = Array.from(editorDoc.styleSheets).find(sheet => sheet.ownerNode.id === 'selected_element').cssRules[0];
+    selectedRule.selectorText = selector; // אם נהרסה ההפניה - היא תתוקן בגישה הבאה לחוק
+}
 
 function elementSelected(newElement = editor) {
-    if (SelectorLock.getState() || // אם נעול או נבחר אלמנט שגוי (במקרה תקלה! לא אמור להיות)
-        (newElement !== editor && !editor.contains(newElement))) return;
-    Mode.update('element');
-    // if (theElement === newElement ) return; // אם האלמנט לא השתנה
+    if (!_isLocked()) {
+        Mode.update('element');
+        const selector = '#' + ensureElementId(newElement) + state.value || '';
+        theElement = newElement;
 
-    const selector = '#' + ensureElementId(newElement) + $('dropdown-states').value || '';
-    theElement = newElement;
-
-    _changeSelected(selector);
-    // סמן את האלמנט הנבחר
-    theElement.addClass('selected-element');
-    return newElement;
+        theStyles = getComputedStyle(theElement)
+        _changeSelectorRule('#' + newElement.id)
+        _changeSelected(selector);
+    }
 }
 
 function classSelected(className) {
-    if (SelectorLock.getState()) return;
-    const selector = '.' + className + $('dropdown-states').value || '';
-    Mode.update('class');
+    if (!_isLocked()) {
+        const selector = '.' + className + state.value || '';
+        Mode.update('class');
 
-    _changeSelected(selector);
-    editorDoc.body.$$('.' + className).addClass('selected-element');
+        theStyles = Style.getRuleBySelector(selector).style;
+        _changeSelectorRule('.' + className);
+        _changeSelected(selector);
+    }
+}
+
+function _emptySelected() {
+    if (!_isLocked()) {
+        Mode.update('empty');
+        theStyles = {};
+        _changeSelectorRule('srak123srak456srak789');
+        _changeSelected('');
+    }
 }
 
 function tagSelected(tagName) {
-    if (SelectorLock.getState()) return;
-    const selector = tagName + $('dropdown-states').value || '';
-    Mode.update('tag');
-    _changeSelected(selector);
-    editorDoc.body.$$(tagName).addClass('selected-element');
+    if (!_isLocked()) {
+        const selector = tagName + state.value || '';
+        Mode.update('tag');
+        theStyles = Style.getRuleBySelector(selector).style;
+        _changeSelectorRule(tagName);
+        _changeSelected(selector);
+    }
 }
 
+function _isLocked() {
+    const locked = SelectorLock.getState();
+    if (locked) Mode.update(Mode.get()); // אם נעול, החזר את הסימון למצב הקודם כי הוא לא השתנה
+    return locked;
+}
+
+/**@param {string} selector */
 function _changeSelected(selector) {
-    editorDoc.body.$$('.selected-element').removeClass('selected-element');
     Selector.update(selector);
-    _updateStyles();
     if (Panel.get()) Panel.restart(Panel.get());
 }
 
-function _updateStyles() {
-    switch (Mode.get()) {
-        case 'element':
-            theStyles = getComputedStyle(theElement)
-            break;
+state.when('change', () => {
+    dict[Mode.get()]();
+})
 
-        case 'class':
-        case 'tag':
-            theStyles = Style.getRuleBySelector(Selector.get()).style;
-            break;
-    }
+const dict = {
+    element: () => elementSelected($(Selector.get())),
+    class: () => classSelected(Selector.get()),
+    tag: () => tagSelected(Selector.get())
 }
 
-
-$('dropdown-states').when('change', () => {
-    const mode = Mode.get();
-    switch (mode) {
-        case 'element':
-            elementSelected($(Selector.get()));
-            break;
-        case 'class':
-            classSelected(Selector.get());
-            break;
-        case 'element':
-            tagSelected(Selector.get());
-            break;
-
-        default:
-            break;
+/**
+ * @param {string} mode 
+ */
+function changeMode(mode) {
+    if (!_isLocked()) {
+        switch (mode) {
+            case 'element':
+                elementSelected(Edit.getElement());
+                break;
+            case 'class':
+                const className = Style.getElementClasses(Edit.getElement())[0];
+                if (!className) {
+                    _emptySelected();
+                    $('theElement').placeholder = 'אין עדיין קלאסים לאלמנט זה';
+                } else {
+                    classSelected(className);
+                }
+                break;
+            case 'tag':
+                tagSelected(Edit.getElement().tagName);
+                break;
+        }
     }
-})
+}
 
 export const Edit = {
     /**@returns {HTMLElement} */
@@ -90,7 +118,8 @@ export const Edit = {
     getStyles: () => theStyles,
     elementSelected,
     classSelected,
-    tagSelected
+    tagSelected,
+    changeMode
 }
 
 //@ts-ignore
