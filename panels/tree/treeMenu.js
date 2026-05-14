@@ -53,7 +53,7 @@ function handleMenuAction(action) {
                 theElement.id = id;
                 tree.actionTree.dataset.editorId = id;
                 let displayName = tree.build.nodeName(id, theElement);
-                tree.actionTree.$1('.tree-node-content').innerText = displayName;
+                tree.actionTree.$1('.tree-node-content').innerHTML = displayName;
                 const rules = Array.from(Style.getRulesById(old));
                 rules.forEach(rule => Style.replaceSelector(rule, '#' + id));
                 Style.refreshSheet();

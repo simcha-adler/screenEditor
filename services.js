@@ -8,12 +8,7 @@
  * @returns {string}
  */
 function rgbToHex(rgb) {
-    if (!rgb || rgb.startsWith('#')) return rgb;
-    // טיפול בערך ברירת מחדל 'transparent' או 'rgba(0, 0, 0, 0)'
-    if (rgb.includes('0, 0, 0, 0') || rgb === 'transparent') {
-        // עבור input[type=color], שקוף אינו ערך חוקי. נחזיר שחור או לבן.
-        return '#000000';
-    }
+    if (!rgb || rgb.startsWith('#') || rgb === 'transparent') return rgb;
 
     let match = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
     if (!match) return '#000000';
@@ -212,7 +207,7 @@ const fillValues = {
                 break;
         }
     },
-    design: (element, value) => {
+    design: (/**@type {HTMLElement}*/element, value) => {
         // נרמול בסיסי: הסרת מרכאות ורווחים
         const cleanValue = value ? value.replace(/"/g, '').trim() : '';
 
@@ -238,8 +233,8 @@ const fillValues = {
         }
 
         // 4. צבעים
-        else if (element.classList.contains('ui-smart-color-group')) {
-            colorPicker.fill(element, value);
+        else if (element.classList.contains('color-demo-input')) {
+            colorPicker.fill(element.closest('.ui-smart-color-group'), value);
         }
 
         // 5. מספרים (Range / Number)
@@ -330,16 +325,36 @@ const ShadowParser = {
 };
 
 /**
- * 
- * @param {HTMLElement} popap 
+ *  לוגיקה חכמה למיקום הפופאפ 
+ * @param {HTMLElement} popup
  * @param {number} x 
  * @param {number} y 
+ * @param {boolean} toLeft
  */
-function popoverPosition(popap, x, y) {
-    const computed = getComputedStyle(popap);
-    const width = computed['width'];
-    const height = computed['height'];
-    popap.removeClass('hide');
-    popap.style.left = (x - parseInt(width)) + 'px';
-    popap.style.top = y + 'px';
-}
+function popoverPosition(popup, x, y, toLeft = false) {
+
+    const popupHeight = popup.offsetHeight;
+    const popupWidth = popup.offsetWidth;
+    const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
+
+    // מרווח מהאלמנט שלחצו עליו
+    const margin = 8;
+
+    // 1. מיקום אנכי (למעלה או למטה)
+    // בודק אם יש מספיק מקום למטה, ואם אין - בודק אם יש מקום למעלה
+    if (y + popupHeight + margin > viewportHeight && y - popupHeight - margin > 0) {
+        // פתח למעלה
+        popup.style.top = `${y - popupHeight - margin}px`;
+    } else {
+        // פתח למטה (ברירת מחדל)
+        popup.style.top = `${y + margin}px`;
+    }
+
+    // 2. מיקום אופקי (ימינה ושמאלה)
+    if (toLeft)
+        popup.style.left = `${Math.max(0, x - popupWidth - margin)}px`;
+    else
+        popup.style.left = `${Math.min(viewportWidth - popupWidth, x + margin)}px`;
+
+};

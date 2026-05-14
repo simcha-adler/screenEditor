@@ -9,7 +9,7 @@ function loadDocumentListeners() {
         let selected = e.target;
         if (selected === Edit.getElement())
             selected = selected.parentNode;
-        Edit.elementSelected(selected);
+        tree.dual.select(treePanel.$1(`.tree-node[data-editor-id=${selected.id}]`));
     });
 
     $('selectedElement').when('input', (e) => { Edit.elementSelected($(e.target.value)) });// בחירת אלמנט מתיבת הקלט. לא ממומש כרגע
@@ -24,12 +24,13 @@ function loadDocumentListeners() {
     $('elementTypeSelect').when('input', () => renderDynamicFields($('elementTypeSelect').value));;
 
     // מחיקת, העלמת וגלילת תפריטים בעת לחיצה
-    document.whenClick((e) => {
-        tree.menu.hide();
+    document.whenClick(closer);
+    editorDoc.whenClick(closer);
+    function closer(e) {
         $$('.popup').forEach(el => { if (!el.contains(e.target)) el.remove() });
-        $$('.hidable').forEach(el => { if (!el.contains(e.target)) el.addClass('d-none') });
+        $$('.hidable').forEach(el => { if (!el.contains(e.target)) el.addClass('hide') });
         $$('.collapsedable').forEach(el => { if (!el.contains(e.target)) el.addClass('collapsed') });
-    });
+    };
 
     // בשינוי ערכי צל, תופס את האירוע ובונה את כל הערכים הנדרשים לצל מתוך השדות
     $('shadow').when('input', (e) => {

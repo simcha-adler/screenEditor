@@ -26,6 +26,7 @@ const colorPicker = {
         // 1. הסמליל (Trigger) - הכפתור שפותח את הכלים
         const trigger = createElement('button', { class: 'ui-button ui-color-trigger' });
         const circle = createElement('div', { class: 'color-preview-circle' });
+        /**@type {HTMLInputElement} */
         const hiddenPicker = createElement('input', { type: 'color', class: 'hidden-picker' });
         const gradientButton = createElement('i', { class: "ri-magic-line d-none", style: "font-size:16px" });
 
@@ -45,12 +46,32 @@ const colorPicker = {
 
         // --- רישום מאזינים פנימיים ---
 
+        function openPicker(e) {
+            const mode = sourceSelect.value;
+
+            if (mode === 'free') {
+                const stl = Edit.getStyles()
+                const val = stl[prop];
+                niceColorPicker.open(e, trigger, val, (color) => { demoInput.sendInput(color) });
+                // hiddenPicker.click(); // אם לא אספיק לסדר - לפחות להחזיר לבסיסי
+            } else if (mode.startsWith('theme_')) {
+                const themeId = mode.replace('theme_', '');
+                const theme = themeDefinitions.find(t => t.id === themeId);
+                colorPicker.range.open(trigger, theme, group);
+            } else if (mode === 'gradient') {
+                colorPicker.gradient.open(prop, group);
+            }
+        }
+
         // שינוי מקור (סלקט)
-        sourceSelect.oninput = () => {
+        sourceSelect.oninput = (e) => {
+            e.stopPropagation();
             if (sourceSelect.value === 'free') {
                 colorPicker.removeThemeLink(prop);
             }
             colorPicker.refreshUI(group);
+            const rect = trigger.getBoundingClientRect();
+            openPicker(new MouseEvent('click', { clientX: rect.x, clientY: rect.y }))
         };
 
         // בחירת צבע חופשי (אינפוט color נסתר)
@@ -63,17 +84,7 @@ const colorPicker = {
         // לחיצה על הכפתור הראשי
         trigger.onclick = (e) => {
             e.stopPropagation();
-            const mode = sourceSelect.value;
-
-            if (mode === 'free') {
-                hiddenPicker.click();
-            } else if (mode.startsWith('theme_')) {
-                const themeId = mode.replace('theme_', '');
-                const theme = themeDefinitions.find(t => t.id === themeId);
-                colorPicker.range.open(trigger, theme, group);
-            } else if (mode === 'gradient') {
-                colorPicker.gradient.open(prop, group);
-            }
+            openPicker(e);
         };
 
         // אתחול ראשוני של האופציות
@@ -89,7 +100,7 @@ const colorPicker = {
         const circle = group.$1('.color-preview-circle');
         const magic = group.$1('.ri-magic-line');
         const mode = group.$1('select').value;
-        const prop = group.dataset.prop;
+        const prop = group.$1('.color-demo-input').dataset.property;
 
         if (mode === 'gradient') {
             circle.addClass('d-none');
@@ -99,8 +110,13 @@ const colorPicker = {
             magic.addClass('d-none');
 
             if (mode === 'free') {
-                const currentVal = Edit.getStyles() ? Edit.getStyles()[prop] : group.dataset.defaultValue;
-                circle.style.background = rgbToHex(currentVal);
+                const currentVal = Edit.getStyles() ? Edit.getStyles()[prop] : group.dataset.defaultvalue;
+                if (currentVal) {
+                    let parts = currentVal.split(')');
+                    let rgb = parts.find(part => part.includes('rgb')) + ')';
+                    rgb = rgb.slice(rgb.lastIndexOf('r'));
+                    circle.style.background = rgbToHex(rgb);
+                } else { circle.style.background = 'rgb(0, 0, 0)' }
             }
             else if (mode.startsWith('theme_')) {
                 const themeId = mode.replace('theme_', '');
@@ -116,7 +132,7 @@ const colorPicker = {
      * מילוי ערכים - מסנכרן את הפיקר עם האלמנט הנבחר
      */
     fill: (group, value) => {
-        const prop = group.dataset.prop;
+        const prop = group.$1('.color-demo-input').dataset.property;
         const sourceSelect = group.$1('select');
 
         // 1. בדיקה האם קיים קשר לטווח (Theme Link)
@@ -133,8 +149,14 @@ const colorPicker = {
         // 3. צבע חופשי
         else {
             sourceSelect.value = 'free';
-            const hex = rgbToHex(value);
-            group.$1('.hidden-picker').value = hex;
+            if (value && (value.includes('rgb'))) {
+                /**@type {string[]} */
+                let parts = value.split(')');
+                let rgb = parts.find(part => part.includes('rgb')) + ')';
+                rgb = rgb.slice(rgb.lastIndexOf('r'));
+                const hex = rgbToHex(rgb);
+                group.$1('.hidden-picker').value = hex;
+            }
         }
 
         colorPicker.refreshUI(group);
@@ -162,7 +184,7 @@ const colorPicker = {
      */
     range: {
         open: (anchor, theme, group) => {
-            const prop = group.dataset.prop;
+            const prop = group.$1('.color-demo-input').dataset.property;
             const selector = Selector.get();
 
             // מציאת ערך קיים אם יש
@@ -173,7 +195,7 @@ const colorPicker = {
             const slider = createElement('input', {
                 type: 'range', min: 0, max: 100, value: initialVal,
                 class: 'popover-slider',
-                style: `background: linear-gradient(to right, ${theme.anchors.join(', ')})`
+                style: `background: linear-gradient(to left, ${theme.anchors.join(', ')})`
             });
 
             slider.oninput = (e) => {
@@ -286,9 +308,6 @@ const colorPicker = {
 /**
  * פונקציות גלובליות שנקראות משאר חלקי המערכת
  */
-function createSmartColorPicker(item) {
-    return colorPicker.create(item);
-}
 
 // נקרא מ-sidebar.js או manager.js בעת שינוי טווחים
 const refreshThemes = () => {

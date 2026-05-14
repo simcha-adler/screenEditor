@@ -2,14 +2,6 @@
 
 import { UI } from "../components/base.js";
 
-const unitsOptions = [
-    { value: 'px', text: 'px' },
-    { value: '%', text: '%' },
-    { value: 'vw', text: 'vw' },
-    { value: 'vh', text: 'vh' },
-    { value: 'auto', text: 'auto' }
-];
-
 export const positionSchema = [
     new UI.title({ label: 'מיקום (Position)' }),
 
@@ -33,18 +25,18 @@ export const positionSchema = [
     new UI.smallTitle({ label: 'היסט (Offsets)' }),
     new UI.grid({
         children: [
-            new UI.wrapInput({ label: 'Top', input: new UI.input.number({ prop: 'top', unit: 'px' }) }),
-            new UI.wrapInput({ label: 'Right', input: new UI.input.number({ prop: 'right', unit: 'px' }) }),
-            new UI.wrapInput({ label: 'Bottom', input: new UI.input.number({ prop: 'bottom', unit: 'px' }) }),
-            new UI.wrapInput({ label: 'Left', input: new UI.input.number({ prop: 'left', unit: 'px' }) })
+            new UI.wrapInput({ label: 'Top', input: new UI.input.combinated({ prop: 'top', selectToCombinated: UI.unitsOptions }) }),
+            new UI.wrapInput({ label: 'Right', input: new UI.input.combinated({ prop: 'right', selectToCombinated: UI.unitsOptions }) }),
+            new UI.wrapInput({ label: 'Bottom', input: new UI.input.combinated({ prop: 'bottom', selectToCombinated: UI.unitsOptions }) }),
+            new UI.wrapInput({ label: 'Left', input: new UI.input.combinated({ prop: 'left', selectToCombinated: UI.unitsOptions }) })
         ]
     }),
 
     new UI.title({ label: 'גודל (Size)' }),
     new UI.grid({
         children: [
-            new UI.wrapInput({ label: 'רוחב', input: new UI.input.combinated({ prop: 'width', selectToCombinated: unitsOptions }) }),
-            new UI.wrapInput({ label: 'גובה', input: new UI.input.combinated({ prop: 'height', selectToCombinated: unitsOptions }) })
+            new UI.wrapInput({ label: 'רוחב', input: new UI.input.combinated({ prop: 'width', selectToCombinated: UI.unitsOptions }) }),
+            new UI.wrapInput({ label: 'גובה', input: new UI.input.combinated({ prop: 'height', selectToCombinated: UI.unitsOptions }) })
         ]
     }),
 
@@ -53,10 +45,10 @@ export const positionSchema = [
         children: [
             new UI.grid({
                 children: [
-                    new UI.wrapInput({ label: 'Min W', input: new UI.input.combinated({ prop: 'minWidth', unit: 'px', selectToCombinated: unitsOptions }) }),
-                    new UI.wrapInput({ label: 'Max W', input: new UI.input.combinated({ prop: 'maxWidth', unit: 'px', selectToCombinated: unitsOptions }) }),
-                    new UI.wrapInput({ label: 'Min H', input: new UI.input.combinated({ prop: 'minHeight', unit: 'px', selectToCombinated: unitsOptions }) }),
-                    new UI.wrapInput({ label: 'Max H', input: new UI.input.combinated({ prop: 'maxHeight', unit: 'px', selectToCombinated: unitsOptions }) })
+                    new UI.wrapInput({ label: 'Min W', input: new UI.input.combinated({ prop: 'minWidth', unit: 'px', selectToCombinated: UI.unitsOptions }) }),
+                    new UI.wrapInput({ label: 'Max W', input: new UI.input.combinated({ prop: 'maxWidth', unit: 'px', selectToCombinated: UI.unitsOptions }) }),
+                    new UI.wrapInput({ label: 'Min H', input: new UI.input.combinated({ prop: 'minHeight', unit: 'px', selectToCombinated: UI.unitsOptions }) }),
+                    new UI.wrapInput({ label: 'Max H', input: new UI.input.combinated({ prop: 'maxHeight', unit: 'px', selectToCombinated: UI.unitsOptions }) })
                 ]
             })
         ]

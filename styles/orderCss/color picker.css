@@ -195,3 +195,349 @@
     border: 1px solid #000;
     border-radius: 3px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*================================================
+            הקולור פיקר החדש והמעוצב
+==================================================*/
+
+input[type=color] {
+    appearance: none;
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+.transparent {
+    background-color: #fff;
+    background-image:
+        linear-gradient(45deg, #ccc 25%, transparent 25%),
+        linear-gradient(-45deg, #ccc 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #ccc 75%),
+        linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-size: 10px 10px;
+    background-position: 0 0, 0 5px, 5px -5px, -5px 0px;
+}
+
+.color-picker-card {
+    & {
+        width: 250px;
+        background: var(--ui-20);
+        padding: 15px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        user-select: none;
+        direction: ltr;
+        position: fixed;
+        overflow: hidden;
+        z-index: 9999;
+    }
+
+    input[type=range] {
+        position: absolute;
+        width: 150px;
+        height: 14px;
+        top: 150px;
+        left: 0;
+        transform-origin: top left;
+        transform: rotate(-90deg);
+        margin: 0;
+        appearance: none;
+        background: transparent;
+        outline: none;
+        cursor: pointer;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        background: #fff;
+        border: 2px solid #333;
+        border-radius: 50%;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    }
+}
+
+.top-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.slider-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: #aaa;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.slider-track {
+    position: relative;
+    width: 14px;
+    height: 150px;
+    border-radius: 7px;
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.5);
+    border: 1px solid #444;
+    overflow: hidden;
+}
+
+#alpha-track {
+    background-color: white;
+}
+
+.wheel-container {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    cursor: crosshair;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.wheel-hue-sat {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle closest-side, #fff, transparent),
+        conic-gradient(from 90deg, red, yellow, lime, aqua, blue, magenta, red);
+}
+
+.wheel-value-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: black;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.picker-knob {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.8), inset 0 0 2px rgba(0, 0, 0, 0.5);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+    overflow: hidden;
+}
+
+#knob-bg {
+    height: 100%;
+    width: 100%;
+}
+
+/* פס תחתון - הרקע מוגדר כמשבצות ועליו יונח הצבע הישן */
+.bottom-section {
+    display: flex;
+    align-items: stretch;
+    gap: 6px;
+    height: 60px;
+    border-radius: 8px;
+    padding: 6px;
+    border: 1px solid #444;
+    position: relative;
+}
+
+/* שכבת הצבע הישן על כל הפס התחתון */
+.old-color-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: 7px;
+    z-index: 0;
+}
+
+.side-btn {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    /* מעל רקע הצבע הישן */
+}
+
+.side-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/* אזור הצבע החדש במרכז */
+.new-color-wrapper {
+    flex-grow: 1;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.color-box-fill {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.inputs-wrapper {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.format-toggle {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.inputs-row {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+}
+
+.color-input {
+    width: 28px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    text-align: center;
+    font-size: 11px;
+    border-radius: 4px;
+    padding: 3px 0;
+    font-family: monospace;
+}
+
+.color-input:focus {
+    outline: none;
+    border-color: #fff;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.color-input.hex-input {
+    width: 70px;
+}
+
+/* פופאפ פלטת הצבעים */
+.palette-popup {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #2b2b2b;
+    z-index: 100;
+    transition: top 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.palette-popup.open {
+    top: 0;
+}
+
+.palette-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: 12px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.close-palette {
+    background: none;
+    border: none;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.close-palette:hover {
+    color: white;
+}
+
+.palette-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 1px;
+    overflow-y: auto;
+    flex-grow: 1;
+    padding-right: 2px;
+}
+
+/* התאמת פס הגלילה */
+.palette-grid::-webkit-scrollbar {
+    width: 4px;
+}
+
+.palette-grid::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 2px;
+}
+
+.palette-item {
+    width: 100%;
+    aspect-ratio: 1;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: transform 0.1s;
+}
+
+.palette-item:hover {
+    transform: scale(1.1);
+    z-index: 2;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}

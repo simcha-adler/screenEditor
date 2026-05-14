@@ -24,7 +24,7 @@ export const designSchema = [
                     ]
                 })
             }),
-            new UI.inputRow({ label: 'גודל', input: new UI.input.number({ prop: 'fontSize', unit: 'px' }) }),
+            new UI.inputRow({ label: 'גודל', input: new UI.input.combinated({ prop: 'fontSize', selectToCombinated: UI.unitsOptions }) }),
             new UI.inputRow({
                 label: 'משקל',
                 input: new UI.input.select({

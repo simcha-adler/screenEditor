@@ -63,7 +63,7 @@ function initTreeListeners() {
         const menuBtn = e.upTo('.tree-node-menu-btn');
         if (menuBtn) {
             e.preventDefault();
-            e.stopPropagation();
+            // e.stopPropagation();
             const node = menuBtn.closest('.tree-node');
             // עדכון משתני הפעולה הגלובליים
             if (node !== tree.actionTree && SelectorLock.getState()) return;
@@ -73,7 +73,9 @@ function initTreeListeners() {
                 hideItemsNotForEditor();
             else
                 showItemsNotForEditor();
-            popoverPosition($('tree-menu'), e.pageX, e.pageY);
+            const menu = $('tree-menu');
+            popoverPosition(menu, e.pageX, e.pageY, true);
+            menu.removeClass('hide');
         }
     });
 

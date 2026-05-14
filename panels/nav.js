@@ -110,7 +110,7 @@ function processImportedHTML(htmlString) {
 
     // המעבר על תגיות ה-style שנמצאו בקובץ. 
     // מתבצע לפני המרת האינליין כדי שלא יווצרו 2 חוקים באותו סלקטור וגם האינליין יהיה יותר חלש
-    const cssText = Array.from(newStyles).map(st => st.innerHTML).join('/n');
+    const cssText = Array.from(newStyles).map(st => st.innerHTML).join(' ');
     Style.insertIntoTag(cssText);
 
     // 3. המרת ה-DOM החדש: מעבר מ-Inline ל-Internal

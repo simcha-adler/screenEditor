@@ -41,6 +41,14 @@ const build = {
     }
 }
 
+const unitsOptions = [
+    { value: 'px', text: 'px' },
+    { value: '%', text: '%' },
+    { value: 'vw', text: 'vw' },
+    { value: 'vh', text: 'vh' },
+    { value: 'auto', text: 'auto' }
+];
+
 export const UI = {
     component: UIComponent,
     button: UIButton,
@@ -62,7 +70,8 @@ export const UI = {
         color: UIColorInput
     },
     buildPanel: build.panel,
-    fillChildren: build.fillChildren
+    fillChildren: build.fillChildren,
+    unitsOptions
 }
 
 // @ts-ignore

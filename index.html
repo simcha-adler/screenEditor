@@ -212,7 +212,8 @@
 
     <!-- פריטי אבסולוט -->
 
-    <div id="tree-menu" class="hide">
+    <!-- תפריט העץ -->
+    <div id="tree-menu" class="hide hidable">
         <div class="tree-menu-item not-for-editor" data-action='rename'><span>💫</span> החלף מזהה לאלמנט </div>
         <div class="tree-menu-item" data-action='diagnostic'><span>🚨</span> אבחן תקלות </div>
         <div class="tree-menu-item not-for-editor" data-action='duplicate'><span>📑</span> שכפל אלמנט</div>
@@ -226,12 +227,67 @@
         <div class="tree-menu-item" data-action='empty' style="color: red;"><span>🪫</span> רוקן תוכן</div>
     </div>
 
+    <!-- קולור פיקר -->
+    <div id="color-picker-card" class="color-picker-card hide hidable">
+        <div class="top-section">
+            <div class="slider-col">
+                <span>A</span>
+                <div class="slider-track transparent" id="alpha-track">
+                    <input type="range" id="alpha-slider" min="0" max="1" step="0.01" value="1">
+                </div>
+            </div>
+
+            <div class="wheel-container" id="wheel-area">
+                <div class="wheel-hue-sat"></div>
+                <div class="wheel-value-overlay" id="wheel-darkness"></div>
+                <div class="picker-knob transparent" id="knob">
+                    <div id="knob-bg"></div>
+                </div>
+            </div>
+
+            <div class="slider-col">
+                <span>W</span>
+                <div class="slider-track">
+                    <input type="range" id="value-slider" min="0" max="100" step="1" value="100">
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-section transparent" id="bottom-strip">
+            <div class="old-color-bg" id="new-color-fill"></div>
+
+            <button class="side-btn" id="btn-palette" title="פלטת צבעים מוכנים">🎨</button>
+
+            <div class="new-color-wrapper transparent">
+                <div class="color-box-fill" id="old-color-bg"></div>
+                <div class="inputs-wrapper">
+                    <div class="format-toggle" id="toggle-btn">
+                        <span id="format-label">RGBA</span>
+                        <span style="font-size: 8px;">▼</span>
+                    </div>
+                    <div class="inputs-row" id="inputs-container"></div>
+                </div>
+            </div>
+
+            <button class="side-btn" id="btn-apply" title="החל">✓</button>
+        </div>
+
+        <div class="palette-popup" id="palette-popup">
+            <div class="palette-header">
+                <span>צבעים קבועים מראש</span>
+                <button class="close-palette" id="close-palette">✖</button>
+            </div>
+            <div class="palette-grid" id="palette-grid"></div>
+        </div>
+    </div>
+
     <script src="./first.js"></script>
     <script type="module" src="./exampels/examples.js"></script>
     <script type="module" src="./modules/styles.js"></script>
     <script type="module" src="./modules/selector.js"></script>
     <script type="module" src="./modules/edit.js"></script>
     <script type="module" src="./modules/postManager.js"></script>
+    <script type="module" src="./modules/colorPicker.js"></script>
     <script src="./services.js"></script>
     <script src="./listeners.js"></script>
     <script src="./panels/nav.js"></script>

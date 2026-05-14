@@ -8,7 +8,7 @@ export class UIColorInput extends UIComponent {
 
     /** @returns {any} */
     build() {
-        const el = createSmartColorPicker(this.config);
+        const el = colorPicker.create(this.config);
         if (this.config.details) this.applyBaseAttributes(el);
         return el;
     }

@@ -8,8 +8,8 @@ export const SelectorLock = {
         if (lock) {
             locker.style.animation = 'shake 0.5s';
             locker.style.animationIterationCount = 2;
+            setTimeout(() => locker.style.animation = 'none', 500)
         }
-        setTimeout(() => locker.style.animation = 'none', 500)
         return lock;
     }
 }

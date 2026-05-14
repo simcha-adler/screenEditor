@@ -28,6 +28,7 @@ function loadPage() {
     loadDocumentListeners();
     attachClassesListeners();
     initHamburgerListeners();
+    niceColorPicker.init();
 
     Style.refreshSheet();
     Style.connectAllRules();

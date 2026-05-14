@@ -48,15 +48,15 @@ export const bordersSchema = [
             }),
             new UI.inputRow({
                 details: { class: 'switch-body g1' }, label: 'כל הפינות',
-                input: new UI.input.number({ unit: 'px', prop: 'borderRadius' })
+                input: new UI.input.combinated({ selectToCombinated: UI.unitsOptions, prop: 'borderRadius' })
             }),
             new UI.grid({
                 details: { class: 'switch-body g2' },
                 children: [
-                    new UI.wrapInput({ label: '↖', input: new UI.input.number({ prop: 'borderTopLeftRadius', unit: 'px' }) }),
-                    new UI.wrapInput({ label: '↗', input: new UI.input.number({ prop: 'borderTopRightRadius', unit: 'px' }) }),
-                    new UI.wrapInput({ label: '↘', input: new UI.input.number({ prop: 'borderBottomRightRadius', unit: 'px' }) }),
-                    new UI.wrapInput({ label: '↙', input: new UI.input.number({ prop: 'borderBottomLeftRadius', unit: 'px' }) })
+                    new UI.wrapInput({ label: '↖', input: new UI.input.combinated({ prop: 'borderTopLeftRadius', selectToCombinated: UI.unitsOptions }) }),
+                    new UI.wrapInput({ label: '↗', input: new UI.input.combinated({ prop: 'borderTopRightRadius', selectToCombinated: UI.unitsOptions }) }),
+                    new UI.wrapInput({ label: '↘', input: new UI.input.combinated({ prop: 'borderBottomRightRadius', selectToCombinated: UI.unitsOptions }) }),
+                    new UI.wrapInput({ label: '↙', input: new UI.input.combinated({ prop: 'borderBottomLeftRadius', selectToCombinated: UI.unitsOptions }) })
                 ]
             })
         ]
@@ -74,21 +74,21 @@ export const bordersSchema = [
                 ]
             }
             ),
-            new UI.inputRow({ details: { class: 'switch-body g1' }, label: 'כל הצדדים', input: new UI.input.number({ prop: 'padding', unit: 'px' }) }),
+            new UI.inputRow({ details: { class: 'switch-body g1' }, label: 'כל הצדדים', input: new UI.input.combinated({ prop: 'padding', selectToCombinated: UI.unitsOptions }) }),
             new UI.grid({
                 details: { class: 'switch-body g2' },
                 children: [
-                    new UI.wrapInput({ label: 'אנכי (↕)', input: new UI.input.number({ prop: 'paddingBlock', unit: 'px' }) }),
-                    new UI.wrapInput({ label: 'אופקי (↔)', input: new UI.input.number({ prop: 'paddingInline', unit: 'px' }) })
+                    new UI.wrapInput({ label: 'אנכי (↕)', input: new UI.input.combinated({ prop: 'paddingBlock', selectToCombinated: UI.unitsOptions }) }),
+                    new UI.wrapInput({ label: 'אופקי (↔)', input: new UI.input.combinated({ prop: 'paddingInline', selectToCombinated: UI.unitsOptions }) })
                 ]
             }),
             new UI.grid({
                 details: { class: 'switch-body g3' },
                 children: [
-                    new UI.wrapInput({ label: 'Top', input: new UI.input.number({ prop: 'paddingTop', unit: 'px' }) }),
-                    new UI.wrapInput({ label: 'Right', input: new UI.input.number({ prop: 'paddingRight', unit: 'px' }) }),
-                    new UI.wrapInput({ label: 'Bottom', input: new UI.input.number({ prop: 'paddingBottom', unit: 'px' }) }),
-                    new UI.wrapInput({ label: 'Left', input: new UI.input.number({ prop: 'paddingLeft', unit: 'px' }) })
+                    new UI.wrapInput({ label: 'Top', input: new UI.input.combinated({ prop: 'paddingTop', selectToCombinated: UI.unitsOptions }) }),
+                    new UI.wrapInput({ label: 'Right', input: new UI.input.combinated({ prop: 'paddingRight', selectToCombinated: UI.unitsOptions }) }),
+                    new UI.wrapInput({ label: 'Bottom', input: new UI.input.combinated({ prop: 'paddingBottom', selectToCombinated: UI.unitsOptions }) }),
+                    new UI.wrapInput({ label: 'Left', input: new UI.input.combinated({ prop: 'paddingLeft', selectToCombinated: UI.unitsOptions }) })
                 ]
             })
         ]
@@ -105,21 +105,21 @@ export const bordersSchema = [
                     { label: '⛶', value: '3' }
                 ]
             }),
-            new UI.inputRow({ details: { class: 'switch-body g1' }, label: 'כל הצדדים', input: new UI.input.number({ prop: 'margin', unit: 'px' }) }),
+            new UI.inputRow({ details: { class: 'switch-body g1' }, label: 'כל הצדדים', input: new UI.input.combinated({ prop: 'margin', selectToCombinated: UI.unitsOptions }) }),
             new UI.grid({
                 details: { class: 'switch-body g2' },
                 children: [
-                    new UI.wrapInput({ label: 'אנכי (↕)', input: new UI.input.number({ prop: 'marginBlock', unit: 'px' }) }),
-                    new UI.wrapInput({ label: 'אופקי (↔)', input: new UI.input.number({ prop: 'marginInline', unit: 'px' }) })
+                    new UI.wrapInput({ label: 'אנכי (↕)', input: new UI.input.combinated({ prop: 'marginBlock', selectToCombinated: UI.unitsOptions }) }),
+                    new UI.wrapInput({ label: 'אופקי (↔)', input: new UI.input.combinated({ prop: 'marginInline', selectToCombinated: UI.unitsOptions }) })
                 ]
             }),
             new UI.grid({
                 details: { class: 'switch-body g3' },
                 children: [
-                    new UI.wrapInput({ label: 'Top', input: new UI.input.number({ prop: 'marginTop', unit: 'px' }) }),
-                    new UI.wrapInput({ label: 'Right', input: new UI.input.number({ prop: 'marginRight', unit: 'px' }) }),
-                    new UI.wrapInput({ label: 'Bottom', input: new UI.input.number({ prop: 'marginBottom', unit: 'px' }) }),
-                    new UI.wrapInput({ label: 'Left', input: new UI.input.number({ prop: 'marginLeft', unit: 'px' }) })
+                    new UI.wrapInput({ label: 'Top', input: new UI.input.combinated({ prop: 'marginTop', selectToCombinated: UI.unitsOptions }) }),
+                    new UI.wrapInput({ label: 'Right', input: new UI.input.combinated({ prop: 'marginRight', selectToCombinated: UI.unitsOptions }) }),
+                    new UI.wrapInput({ label: 'Bottom', input: new UI.input.combinated({ prop: 'marginBottom', selectToCombinated: UI.unitsOptions }) }),
+                    new UI.wrapInput({ label: 'Left', input: new UI.input.combinated({ prop: 'marginLeft', selectToCombinated: UI.unitsOptions }) })
                 ]
             })
         ]
