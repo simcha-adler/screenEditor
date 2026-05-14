@@ -22,27 +22,74 @@ let currentFormatIndex = 0;
 
 // רשימת הצבעים
 // הרשימה נלקחה מ-קולור פיקר ווב קומפוננטס. לבדוק זכויות יוצרים. ויותר טוב, לבנות רשימה מתמטית
-const presetColors = [
-    "#B71C1C", "#C62828", "#D32F2F", "#E53935", "#F44336", "#EF5350", "#E57373", "#EF9A9A", "#FFCDD2", "#FFEBEE",
-    "#880E4F", "#AD1457", "#C2185B", "#D81B60", "#E91E63", "#EC407A", "#F06292", "#F48FB1", "#F8BBD0", "#FCE4EC",
-    "#4A148C", "#6A1B9A", "#7B1FA2", "#8E24AA", "#9C27B0", "#AB47BC", "#BA68C8", "#CE93D8", "#E1BEE7", "#F3E5F5",
-    "#311B92", "#4527A0", "#512DA8", "#5E35B1", "#673AB7", "#7E57C2", "#9575CD", "#B39DDB", "#D1C4E9", "#EDE7F6",
-    "#1A237E", "#283593", "#303F9F", "#3949AB", "#3F51B5", "#5C6BC0", "#7986CB", "#9FA8DA", "#C5CAE9", "#E8EAF6",
-    "#0D47A1", "#1565C0", "#1976D2", "#1E88E5", "#2196F3", "#42A5F5", "#64B5F6", "#90CAF9", "#BBDEFB", "#E3F2FD",
-    "#01579B", "#0277BD", "#0288D1", "#039BE5", "#03A9F4", "#29B6F6", "#4FC3F7", "#81D4FA", "#B3E5FC", "#E1F5FE",
-    "#006064", "#00838F", "#0097A7", "#00ACC1", "#00BCD4", "#26C6DA", "#4DD0E1", "#80DEEA", "#B2EBF2", "#E0F7FA",
-    "#004D40", "#00695C", "#00796B", "#00897B", "#009688", "#26A69A", "#4DB6AC", "#80CBC4", "#B2DFDB", "#E0F2F1",
-    "#1B5E20", "#2E7D32", "#388E3C", "#43A047", "#4CAF50", "#66BB6A", "#81C784", "#A5D6A7", "#C8E6C9", "#E8F5E9",
-    "#33691E", "#558B2F", "#689F38", "#7CB342", "#8BC34A", "#9CCC65", "#AED581", "#C5E1A5", "#DCEDC8", "#F1F8E9",
-    "#827717", "#9E9D24", "#AFB42B", "#C0CA33", "#CDDC39", "#D4E157", "#DCE775", "#E6EE9C", "#F0F4C3", "#F9FBE7",
-    "#F57F17", "#F9A825", "#FBC02D", "#FDD835", "#FFEB3B", "#FFEE58", "#FFF176", "#FFF59D", "#FFF9C4", "#FFFDE7",
-    "#FF6F00", "#FF8F00", "#FFA000", "#FFB300", "#FFC107", "#FFCA28", "#FFD54F", "#FFE082", "#FFECB3", "#FFF8E1",
-    "#E65100", "#EF6C00", "#F57C00", "#FB8C00", "#FF9800", "#FFA726", "#FFB74D", "#FFCC80", "#FFE0B2", "#FFF3E0",
-    "#BF360C", "#D84315", "#E64A19", "#F4511E", "#FF5722", "#FF7043", "#FF8A65", "#FFAB91", "#FFCCBC", "#FBE9E7",
-    "#3E2723", "#4E342E", "#5D4037", "#6D4C41", "#795548", "#8D6E63", "#A1887F", "#BCAAA4", "#D7CCC8", "#EFEBE9",
-    "#212121", "#424242", "#616161", "#757575", "#9E9E9E", "#BDBDBD", "#E0E0E0", "#EEEEEE", "#F5F5F5", "#FAFAFA",
-    "#263238", "#37474F", "#455A64", "#546E7A", "#607D8B", "#78909C", "#90A4AE", "#B0BEC5", "#CFD8DC", "#ECEFF1"
-];
+// מחליף את מערך ה-presetColors הקשיח
+function generateMathematicalPalette() {
+    const palette = [];
+
+    // בוחרים זוויות גוון (Hue) מרכזיות על גלגל הצבעים (בדילוגים של 24 מעלות כדי לקבל 15 גווני בסיס)
+    for (let h = 0; h < 360; h += 24) {
+
+        // לכל גוון, ניצור רצף של 10 וריאציות (דומה למשקלים 100-900 במטריאל דיזיין)
+        // נשחק עם ה-Saturation וה-Value כדי ליצור מעבר מצבעים בהירים/חלשים לכהים/עזים
+        const variations = [
+            { s: 10, v: 100 }, // בהיר מאוד
+            { s: 20, v: 95 },
+            { s: 40, v: 90 },
+            { s: 60, v: 85 },
+            { s: 80, v: 80 },  // צבע בסיס יציב
+            { s: 100, v: 75 },
+            { s: 100, v: 60 },
+            { s: 100, v: 45 },
+            { s: 100, v: 30 }, // כהה מאוד
+            { s: 100, v: 15 }  // כמעט שחור
+        ];
+
+        variations.forEach(v => {
+            // שימוש בפונקציות העזר שכבר קיימות אצלך להמרה מ-HSV להקס
+            const [r, g, b] = clr.hsvToRgb(h, v.s, v.v);
+            const hex = clr.rgbToHex(r, g, b, 1);
+            palette.push(hex.toUpperCase());
+        });
+    }
+
+    // נוסיף בסוף פלטה מונוכרומטית (אפורים - Saturation 0)
+    for (let v = 100; v >= 0; v -= 10) {
+        const [r, g, b] = clr.hsvToRgb(0, 0, v);
+        palette.push(clr.rgbToHex(r, g, b, 1).toUpperCase());
+    }
+
+    const professionalBrowns = [
+        "#EFEBE9", // 50 - בהיר מאוד (לרקעים עדינים)
+        "#D7CCC8", // 100
+        "#BCAAA4", // 200
+        "#A1887F", // 300
+        "#8D6E63", // 400
+        "#795548", // 500 - צבע הבסיס (חום שוקולד נעים)
+        "#6D4C41", // 600
+        "#5D4037", // 700
+        "#4E342E", // 800
+        "#3E2723"  // 900 - כהה מאוד (לטקסטים)
+    ];
+
+    const professionalBlueGreys = [
+        "#ECEFF1", // 50 - מעולה לרקעים של פאנלים
+        "#CFD8DC", // 100 - לגבולות (Borders)
+        "#B0BEC5", // 200
+        "#90A4AE", // 300
+        "#78909C", // 400
+        "#607D8B", // 500 - אפור-כחול בסיסי
+        "#546E7A", // 600
+        "#455A64", // 700
+        "#37474F", // 800 - מעולה לטקסט משני
+        "#263238"  // 900 - מושלם למצב לילה (Dark Mode background)
+    ];
+
+    const customPalettes = [...professionalBrowns, ...professionalBlueGreys];
+    return palette.concat(customPalettes);
+}
+
+// בקוד שלך, פשוט תקרא לפונקציה הזו:
+const presetColors = generateMathematicalPalette();
 
 // --- DOM Elements ---
 const pickerWrapper = $('color-picker-card'); // מעטפת הפיקר
