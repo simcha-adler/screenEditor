@@ -11,7 +11,8 @@ function post(type, details = {}) {
 
 function initListeners() {
     window.when('message', ( /**@type {MessageEvent}*/ message) => {
-        messageDict[message.data.type](message.data.details);
+        if (messageDict[message.data.type])
+            messageDict[message.data.type](message.data.details);
     })
 }
 
@@ -26,7 +27,7 @@ export const Message = {
     initListeners
 }
 
-initListeners();
+// initListeners();
 
 //@ts-ignore
 window.Message = Message;
